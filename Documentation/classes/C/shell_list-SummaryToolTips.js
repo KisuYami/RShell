@@ -1,0 +1,1 @@
+NDSummary.OnToolTipsLoaded("CClass:shell_list",{22:"<div class=\"NDToolTip TStruct LC\"><div class=\"TTSummary\">Containg the built in funcions.</div></div>"});

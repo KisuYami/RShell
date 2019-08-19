@@ -1,0 +1,1 @@
+NDFramePage.OnPageTitleLoaded("CClass:shell_list","shell_list");NDSummary.OnSummaryLoaded("CClass:shell_list",[["C/C++","C"]],[["Structs","Struct"]],[[22,0,0,"shell_list"]]);

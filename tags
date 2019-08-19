@@ -5,9 +5,299 @@
 !_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
 !_TAG_PROGRAM_URL	https://ctags.io/	/official site/
 !_TAG_PROGRAM_VERSION	0.0.0	/3fdf28bc/
+#CFrame	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	i
+#FCopyright	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	i
+#FCopyright:after	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	i
+#FGeneratedBy	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	i
+#FTimestamp	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	i
+#FTimestamp:after	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	i
+#HSubtitle	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	i
+#HSubtitle a:active	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+#HSubtitle a:hover	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+#HSubtitle a:link	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+#HSubtitle a:visited	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+#HTitle	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	i
+#HTitle a:active	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+#HTitle a:hover	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+#HTitle a:link	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+#HTitle a:visited	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+#MClassTab .MTabIcon	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+#MDatabaseTab .MTabIcon	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+#MFileTab .MTabIcon	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+#MTabBar	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	i
+#MsgCloseButton	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	i
+#NDContent	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	i
+#NDContentCover	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	i
+#NDFooter	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	i
+#NDFooter a	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+#NDHeader	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	i
+#NDJavaScriptRequiredNotice	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	i
+#NDLoadingNotice	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	i
+#NDMenu	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	i
+#NDMenu a:active	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+#NDMenu a:hover	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+#NDMenuSizer	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	i
+#NDMenuSizer.Dragging	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+#NDMenuSizer:hover	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	i
+#NDMessages	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	i
+#NDSearchField	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	i
+#NDSearchField.DefaultText	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+#NDSearchField:focus	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	i
+#NDSearchResults	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	i
+#NDSummary	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	i
+#NDSummary a:active	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+#NDSummary a:hover	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+#NDSummarySizer	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	i
+#NDSummarySizer.Dragging	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+#NDSummarySizer:hover	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	i
+#SeSelectedEntry	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	i
 $(BUILD_DIR)/$(TARGET_EXEC)	Makefile	/^$(BUILD_DIR)\/$(TARGET_EXEC): $(OBJS)$/;"	t
 $(BUILD_DIR)/%.c.o	Makefile	/^$(BUILD_DIR)\/%.c.o: %.c$/;"	t
+.CBodyNDMarkup	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.CDLEntry:hover .CDLParameterType a:active	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+.CDLEntry:hover .CDLParameterType a:hover	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+.CDLEntry:hover .CDLParameterType a:link	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+.CDLEntry:hover .CDLParameterType a:visited	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+.CDLParameterType	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.CDLParameterType a:active	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+.CDLParameterType a:hover	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+.CDLParameterType a:link	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+.CDLParameterType a:visited	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+.CHeading	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.CHeading:first-child	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.CPAdditionalChildren	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.CPEntry	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.CPEntry .CPModifiers	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.CPEntry .CPPostPrototypeLine	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.CPEntry .CPPrePrototypeLine	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.CPEntry.Child	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.CPEntry.Child .CPModifiers	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.CPEntry.Child .CPName	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.CPEntry.Parent	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.CPEntry.Parent .CPModifiers	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.CPEntry.Parent .CPName	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.CPName	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.CPName .Qualifier	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.CPName .TemplateSignature	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.CPPrePrototypeLine .SHMetadata	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.CStyle .PModifierQualifier	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.CStyle .PNamePrefix	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.CStyle .PPostPrototypeLine	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.CTitle	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.CTitle .Qualifier	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.CTopic	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.CTopic a:active	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+.CTopic a:hover	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+.CTopic a:link	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+.CTopic a:visited	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+.CTopic li	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+.CTopic li p	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+.CTopic p	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+.CTopic pre	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+.CTopic ul	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+.CTopic ul ul	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+.CTopic.first .CTitle	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.HContent	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.HCopyright	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.HFooter	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.HFooter a:active	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+.HFooter a:hover	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+.HFooter a:link	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+.HFooter a:visited	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+.HFooter div	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+.HFrame	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.HGeneratedBy	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.HSubtitle	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.HTimestamp	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.HTitle	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.IE #NDSearchField	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	i
+.IE6 #FCopyright	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	i
+.IE6 #FTimestamp	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	i
+.IE6 #MContent .Selected	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.IE6 #SeSelectedEntry	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	i
+.IE6 .CTopic .CTitle	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.IE6 .CTopic p	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+.IE6 .MFolderIcon	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.IE6 .MTab	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.IE6 .MTab.Narrow .MTabTitle	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.IE6 .MTab.Selected	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.IE6 .MTab:hover	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.IE6 .MTabIcon	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.IE6 .NDClassPrototype .CPEntry	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.IE6 .NDClassPrototype .CPEntry.Child	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.IE6 .NDClassPrototype .CPEntry.Parent	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.IE6 .NDClassPrototype .CPEntry.TInterface.Child	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.IE6 .NDClassPrototype .CPEntry.TInterface.Parent	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.IE6 .NDClassPrototype .CPName	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.IE6 .NDPrototype .PModifierQualifier	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.IE6 .NDPrototype .PType	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.IE6 .SeChildren .SeEntry	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.IE6 .SeEntry	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.IE7 #FCopyright	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	i
+.IE7 #FTimestamp	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	i
+.IE7 #NDMenu	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	i
+.IE7 .MTab	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.IE7 .MTab.Selected	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.IE7 .MTab:hover	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.IE7 .MTabIcon	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.IE7 .NDClassPrototype .CPEntry.Child	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.IE7 .NDClassPrototype .CPEntry.Parent	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.IE7 .NDClassPrototype .CPEntry.TInterface.Child	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.IE7 .NDClassPrototype .CPEntry.TInterface.Parent	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.IE8 .MTab	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.IE8 .MTab.Selected	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.IE8 .MTab:hover	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.IE8 .NDClassPrototype .CPEntry.Child	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.IE8 .NDClassPrototype .CPEntry.Parent	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.IE8 .NDClassPrototype .CPEntry.TInterface.Child	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.IE8 .NDClassPrototype .CPEntry.TInterface.Parent	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.MEntry	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.MFile.Selected	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.MFolder	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.MFolder.Child	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.MFolder.Parent	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.MFolder.Parent.Empty	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.MFolder.Selected	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.MFolderIcon	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.MLoadingNotice	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.MTab	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.MTab.Narrow .MTabTitle	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.MTab.Selected	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.MTab:hover	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.MTabAsFolder	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.MTabIcon	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.MTabTitle	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.MsgMessage	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.NDClassPrototype	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.NDClassPrototype .CPAdditionalChildrenNotice	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.NDClassPrototype .CPEntry	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.NDClassPrototype .CPEntry.Child	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.NDClassPrototype .CPEntry.Parent	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.NDClassPrototype .CPEntry.TInterface	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.NDClassPrototype.HasChildren .CPEntry.Current	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.NDClassPrototype.HasChildren .CPEntry.Parent	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.NDClassPrototype.HasParents .CPAdditionalChildrenNotice	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.NDClassPrototype.HasParents .CPEntry.Child	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.NDClassPrototype.HasParents .CPEntry.Current	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.NDHomePage p	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+.NDPrototype	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.NDPrototype a:active	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+.NDPrototype a:hover	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+.NDPrototype a:link	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+.NDPrototype a:visited	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+.NDPrototype td	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+.NDPrototype+.TTSummary	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.NDPrototype.NarrowForm td.PAfterParameters	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.NDPrototype.NarrowForm td.PBeforeParameters	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.NDPrototype.NarrowForm td.PDefaultValue	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.NDPrototype:hover a:active	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+.NDPrototype:hover a:hover	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+.NDPrototype:hover a:link	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+.NDPrototype:hover a:visited	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+.NDToolTip	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.NDToolTip .NDClassPrototype	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.NDToolTip .NDClassPrototype .CPEntry	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.NDToolTip .NDPrototype	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.NarrowForm table.PParameters td.first	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.NarrowForm table.PParameters td.last	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.NarrowForm.CStyle td.PAfterParameters	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.PDefaultValue	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.PDefaultValueSeparator	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.PNameModifier	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SHComment	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SHKeyword	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SHMetadata	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SHNumber	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SHPreprocessingDirective	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SHString	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SeChildCount	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SeChildren .SeEntry	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SeChildren .SeEntryIcon	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SeChildren .TClass .SeEntryIcon	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SeChildren .TInterface .SeEntryIcon	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SeChildren .TStruct .SeEntryIcon	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SeChildren+.SeStatus	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SeChildren.closed	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SeEntry	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SeEntry+.SeStatus	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SeEntry.MoreResults	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SeEntry.TClass	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SeEntry.TInterface	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SeEntry.TStruct	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SeEntry:hover	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SeEntryIcon	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SeParent .SeEntryIcon	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SeParent.open .SeChildCount	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SeQualifier	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SeStatus	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SeStatus.Searching	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SuEntry	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SuEntry .Qualifier	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SuEntry.TClass	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SuEntry.TClass+.SuEntry.TGroup	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SuEntry.TClass.first	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SuEntry.TDatabase	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SuEntry.TDatabase.first	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SuEntry.TDatabaseTable	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SuEntry.TDatabaseTable.first	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SuEntry.TFile.first	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SuEntry.TGroup	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SuEntry.TInterface	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SuEntry.TInterface+.SuEntry.TGroup	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SuEntry.TInterface.first	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SuEntry.TSection	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SuEntry.TSection.first	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SuEntry.TStruct	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SuEntry.TStruct.first	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SuEntry.first	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SuEntry.last	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SuEntryIcon	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.SuLoadingNotice	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.TClass .CTitle	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.TClass .SeEntryIcon	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.TConstant .NDPrototype	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.TConstant .SeEntryIcon	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.TConstant .SuEntryIcon	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.TDatabase .CTitle	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.TDatabaseField .NDPrototype	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.TDatabaseField .SeEntryIcon	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.TDatabaseField .SuEntryIcon	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.TDatabaseTable .CTitle	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.TDelegate .NDPrototype	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.TDelegate .SeEntryIcon	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.TDelegate .SuEntryIcon	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.TEnumeration .NDPrototype	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.TEnumeration .SeEntryIcon	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.TEnumeration .SuEntryIcon	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.TEvent .NDPrototype	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.TEvent .SeEntryIcon	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.TEvent .SuEntryIcon	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.TFile.first .CTitle	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.TFunction .NDPrototype	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.TFunction .SeEntryIcon	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.TFunction .SuEntryIcon	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.TGroup .CTitle	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.TInterface .CTitle	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.TInterface .SeEntryIcon	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.TOperator .NDPrototype	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.TOperator .SeEntryIcon	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.TOperator .SuEntryIcon	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.TProperty .NDPrototype	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.TProperty .SeEntryIcon	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.TProperty .SuEntryIcon	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.TSection .CTitle	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.TStruct .CTitle	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.TStruct .SeEntryIcon	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.TTSummary	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.TType .NDPrototype	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.TType .SeEntryIcon	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.TType .SuEntryIcon	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.TVariable .NDPrototype	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.TVariable .SeEntryIcon	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.TVariable .SuEntryIcon	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+.WideForm td.PAfterParameters	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
 BUILD_DIR	Makefile	/^BUILD_DIR = .\/build$/;"	m
+BUILTIN_NUMBER	src/shell.h	/^#define BUILTIN_NUMBER /;"	d
 CC	Makefile	/^CC= clang$/;"	m
 CLIBS	Makefile	/^CLIBS= -L\/usr\/local\/musl\/lib$/;"	m
 COMMAND_BUF_SIZE	src/shell.h	/^#define COMMAND_BUF_SIZE /;"	d
@@ -16,13 +306,13 @@ DECLARATION_PARSER_HEADER	TODO.d/declaraion-parser.h	/^#define DECLARATION_PARSE
 Discription	README.md	/^## Discription$/;"	s
 INC_DIRS	Makefile	/^INC_DIRS = $(shell find $(SRC_DIRS) -type d)$/;"	m
 INC_FLAGS	Makefile	/^INC_FLAGS = $(addprefix -I,$(INC_DIRS))$/;"	m
-MAX_COMMAND_LINE	src/shell.h	/^#define MAX_COMMAND_LINE /;"	d
+MAX_COMMAND_SIZE	src/shell.h	/^#define MAX_COMMAND_SIZE /;"	d
 MAX_PATH	src/shell.h	/^#define MAX_PATH /;"	d
 MAX_TOKEN	TODO.d/declaraion-parser.h	/^#define MAX_TOKEN /;"	d
 MAX_TOKEN_LENGHT	TODO.d/declaraion-parser.h	/^#define MAX_TOKEN_LENGHT /;"	d
-MKDIR_P	Makefile	/^MKDIR_P = mkdir -p$/;"	m
 OBJS	Makefile	/^OBJS = $(SRCS:%=$(BUILD_DIR)\/%.o)$/;"	m
 RShell	README.md	/^# RShell$/;"	c
+SHELL_CLEAN_VALUE	src/shell.h	/^#define SHELL_CLEAN_VALUE /;"	d
 SHELL_HEADER	src/shell.h	/^#define SHELL_HEADER$/;"	d
 SRCS	Makefile	/^SRCS = $(shell find $(SRC_DIRS) -name *.cpp -or -name *.c -or -name *.s)$/;"	m
 SRC_DIRS	Makefile	/^SRC_DIRS = .\/src$/;"	m
@@ -30,24 +320,73 @@ TARGET_EXEC	Makefile	/^TARGET_EXEC = rshell$/;"	m
 TOKEN_BUFSIZE	src/shell.h	/^#define TOKEN_BUFSIZE /;"	d
 TOKEN_DELIM	src/shell.h	/^#define TOKEN_DELIM /;"	d
 VERSION	Makefile	/^VERSION = v0.01$/;"	m
+a#MsgCloseButton:active	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	i
+a#MsgCloseButton:hover	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	i
+a.CPAdditionalChildrenNotice	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+a.CPAdditionalChildrenNotice:active	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+a.CPAdditionalChildrenNotice:hover	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+a.CPAdditionalChildrenNotice:link	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+a.CPAdditionalChildrenNotice:visited	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+a.CPEntry	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+a.CPEntry:active	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+a.CPEntry:active .CPName	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+a.CPEntry:hover	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+a.CPEntry:hover .CPName	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+a.CPEntry:link	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+a.CPEntry:visited	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+a.MEntry	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+a.MEntry:active	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+a.MEntry:hover	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+a.MFolder.Parent	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+a.MTab:active	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+a.MTab:focus	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+a.SeEntry	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+a.SeEntry:active	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+a.SeEntry:hover	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+a.SeEntry:link	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+a.SeEntry:visited	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+a.SuEntry:active	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+a.SuEntry:hover	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+a:active	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+a:hover	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+a:link	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+a:visited	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+body.NDContentPage	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+body.NDFramePage	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+body.NDHomePage	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
 clean	Makefile	/^clean:$/;"	t
+docs	Makefile	/^docs:$/;"	t
+func	src/shell.h	/^	void (*func)();$/;"	m	struct:shell_list	typeref:typename:void (*)()
+html	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
 main	TODO.d/declaraion-parser.c	/^int main(int argc, char *argv[])$/;"	f	typeref:typename:int
 main	src/main.c	/^int main(int argc, char *argv[])$/;"	f	typeref:typename:int
+option	src/shell.h	/^	char *option;$/;"	m	struct:shell_list	typeref:typename:char *
 parse_array_type	TODO.d/declaraion-parser.c	/^char *parse_array_type(char *string) {return 0;} \/\/ TODO$/;"	f	typeref:typename:char *
 parse_cast_type	TODO.d/declaraion-parser.c	/^char *parse_cast_type(char *string) {return 0;} \/\/ TODO$/;"	f	typeref:typename:char *
 parse_function_type	TODO.d/declaraion-parser.c	/^char *parse_function_type(char *string) {return 0;} \/\/ TODO$/;"	f	typeref:typename:char *
 parse_token_string	TODO.d/declaraion-parser.c	/^void parse_token_string(struct token *this, char *string, int *pos)$/;"	f	typeref:typename:void
 parse_token_type	TODO.d/declaraion-parser.c	/^char *parse_token_type(char *string)$/;"	f	typeref:typename:char *
-shell_bg	src/shell.c	/^void shell_bg(char *dst) {} \/\/ TODO$/;"	f	typeref:typename:void
-shell_cd	src/shell.c	/^void shell_cd(char *dst) {} \/\/ TODO$/;"	f	typeref:typename:void
-shell_fg	src/shell.c	/^void shell_fg(char *dst) {} \/\/ TODO$/;"	f	typeref:typename:void
-shell_fork	src/shell.c	/^void shell_fork(char **command_argv)$/;"	f	typeref:typename:void
-shell_input	src/shell.c	/^void shell_input(char *command)$/;"	f	typeref:typename:void
-shell_kill	src/shell.c	/^void shell_kill(char *dst) {} \/\/ TODO$/;"	f	typeref:typename:void
-shell_parser_token	src/shell.c	/^void shell_parser_token(char *command_string, char **argv_buf)$/;"	f	typeref:typename:void
-shell_printf	src/shell.c	/^void shell_printf(char *dst) {} \/\/ TODO$/;"	f	typeref:typename:void
-shell_pwd	src/shell.c	/^void shell_pwd(char *dst) {} \/\/ TODO$/;"	f	typeref:typename:void
-shell_user	src/shell.c	/^void shell_user() {} \/\/TODO$/;"	f	typeref:typename:void
+shell_builtin_bg	src/shell.c	/^static void shell_builtin_bg(const char **argv) {} \/\/ TODO$/;"	f	typeref:typename:void	file:
+shell_builtin_cd	src/shell.c	/^static void shell_builtin_cd(const char **argv) {$/;"	f	typeref:typename:void	file:
+shell_builtin_clean	src/shell.c	/^static void shell_builtin_clean(const char **argv) {$/;"	f	typeref:typename:void	file:
+shell_builtin_exit	src/shell.c	/^static void shell_builtin_exit(const char **argv) {$/;"	f	typeref:typename:void	file:
+shell_builtin_fg	src/shell.c	/^static void shell_builtin_fg(const char **argv) {} \/\/ TODO$/;"	f	typeref:typename:void	file:
+shell_builtin_kill	src/shell.c	/^static void shell_builtin_kill(const char **argv) {} \/\/ TODO$/;"	f	typeref:typename:void	file:
+shell_builtin_list	src/shell.c	/^struct shell_list shell_builtin_list[] = {$/;"	v	typeref:struct:shell_list[]
+shell_builtin_printf	src/shell.c	/^static void shell_builtin_printf(const char **argv) {$/;"	f	typeref:typename:void	file:
+shell_builtin_pwd	src/shell.c	/^static void shell_builtin_pwd(const char **argv) {$/;"	f	typeref:typename:void	file:
+shell_builtin_user	src/shell.c	/^static void shell_builtin_user(const char **argv) {} \/\/TODO$/;"	f	typeref:typename:void	file:
+shell_command_builtin	src/shell.c	/^int shell_command_builtin(char **command_argv) $/;"	f	typeref:typename:int
+shell_command_fork	src/shell.c	/^void shell_command_fork(char **command_argv)$/;"	f	typeref:typename:void
+shell_command_input	src/shell.c	/^void shell_command_input(char *command)$/;"	f	typeref:typename:void
+shell_command_parser	src/shell.c	/^void shell_command_parser(char *command_string, char **argv_buf)$/;"	f	typeref:typename:void
+shell_list	src/shell.h	/^struct shell_list {$/;"	s
+size	src/shell.h	/^	int size;$/;"	m	struct:shell_list	typeref:typename:int
 string	TODO.d/declaraion-parser.h	/^	char string[MAX_TOKEN_LENGHT];$/;"	m	struct:token	typeref:typename:char[]
+table	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+table.CDefinitionList	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
+td	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+td.CDLDefinition p	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+td.CDLEntry	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
 token	TODO.d/declaraion-parser.h	/^struct token {$/;"	s
 type	TODO.d/declaraion-parser.h	/^	int type;$/;"	m	struct:token	typeref:typename:int

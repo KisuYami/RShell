@@ -1,0 +1,1 @@
+NDSearch.OnPrefixDataLoaded("tok",["Macro"],[["TOKEN_BUFSIZE",,[[,,,,0,"File:shell.h:TOKEN_BUFSIZE"]]],["TOKEN_DELIM",,[[,,,,0,"File:shell.h:TOKEN_DELIM"]]]]);

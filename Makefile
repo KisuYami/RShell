@@ -20,14 +20,12 @@ $(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
 
 # c source
 $(BUILD_DIR)/%.c.o: %.c
-	$(MKDIR_P) $(dir $@)
+	mkdir -p $(dir $@)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
-.PHONY: clean
+docs:
+	mkdir -p ./Documentation
+	naturaldocs2 ./.ND-Config
 
 clean:
 	$(RM) -r $(BUILD_DIR)
-
--include $(DEPS)
-
-MKDIR_P = mkdir -p
