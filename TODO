@@ -1,0 +1,17 @@
+SHELL-BUILD-INS:
+    alias
+    bg
+    cd
+    echo
+    exit
+    export
+    fc
+    fg
+    getopts
+    hash
+    help
+    history
+    jobs
+    kill
+    printf
+    pwd

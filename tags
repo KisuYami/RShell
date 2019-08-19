@@ -1,0 +1,53 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	0.0.0	/3fdf28bc/
+$(BUILD_DIR)/$(TARGET_EXEC)	Makefile	/^$(BUILD_DIR)\/$(TARGET_EXEC): $(OBJS)$/;"	t
+$(BUILD_DIR)/%.c.o	Makefile	/^$(BUILD_DIR)\/%.c.o: %.c$/;"	t
+BUILD_DIR	Makefile	/^BUILD_DIR = .\/build$/;"	m
+CC	Makefile	/^CC= clang$/;"	m
+CLIBS	Makefile	/^CLIBS= -L\/usr\/local\/musl\/lib$/;"	m
+COMMAND_BUF_SIZE	src/shell.h	/^#define COMMAND_BUF_SIZE /;"	d
+CPPFLAGS	Makefile	/^CPPFLAGS = $(INC_FLAGS) -MMD -MP -Wall -pedantic -g$/;"	m
+DECLARATION_PARSER_HEADER	TODO.d/declaraion-parser.h	/^#define DECLARATION_PARSER_HEADER$/;"	d
+Discription	README.md	/^## Discription$/;"	s
+INC_DIRS	Makefile	/^INC_DIRS = $(shell find $(SRC_DIRS) -type d)$/;"	m
+INC_FLAGS	Makefile	/^INC_FLAGS = $(addprefix -I,$(INC_DIRS))$/;"	m
+MAX_COMMAND_LINE	src/shell.h	/^#define MAX_COMMAND_LINE /;"	d
+MAX_PATH	src/shell.h	/^#define MAX_PATH /;"	d
+MAX_TOKEN	TODO.d/declaraion-parser.h	/^#define MAX_TOKEN /;"	d
+MAX_TOKEN_LENGHT	TODO.d/declaraion-parser.h	/^#define MAX_TOKEN_LENGHT /;"	d
+MKDIR_P	Makefile	/^MKDIR_P = mkdir -p$/;"	m
+OBJS	Makefile	/^OBJS = $(SRCS:%=$(BUILD_DIR)\/%.o)$/;"	m
+RShell	README.md	/^# RShell$/;"	c
+SHELL_HEADER	src/shell.h	/^#define SHELL_HEADER$/;"	d
+SRCS	Makefile	/^SRCS = $(shell find $(SRC_DIRS) -name *.cpp -or -name *.c -or -name *.s)$/;"	m
+SRC_DIRS	Makefile	/^SRC_DIRS = .\/src$/;"	m
+TARGET_EXEC	Makefile	/^TARGET_EXEC = rshell$/;"	m
+TOKEN_BUFSIZE	src/shell.h	/^#define TOKEN_BUFSIZE /;"	d
+TOKEN_DELIM	src/shell.h	/^#define TOKEN_DELIM /;"	d
+VERSION	Makefile	/^VERSION = v0.01$/;"	m
+clean	Makefile	/^clean:$/;"	t
+main	TODO.d/declaraion-parser.c	/^int main(int argc, char *argv[])$/;"	f	typeref:typename:int
+main	src/main.c	/^int main(int argc, char *argv[])$/;"	f	typeref:typename:int
+parse_array_type	TODO.d/declaraion-parser.c	/^char *parse_array_type(char *string) {return 0;} \/\/ TODO$/;"	f	typeref:typename:char *
+parse_cast_type	TODO.d/declaraion-parser.c	/^char *parse_cast_type(char *string) {return 0;} \/\/ TODO$/;"	f	typeref:typename:char *
+parse_function_type	TODO.d/declaraion-parser.c	/^char *parse_function_type(char *string) {return 0;} \/\/ TODO$/;"	f	typeref:typename:char *
+parse_token_string	TODO.d/declaraion-parser.c	/^void parse_token_string(struct token *this, char *string, int *pos)$/;"	f	typeref:typename:void
+parse_token_type	TODO.d/declaraion-parser.c	/^char *parse_token_type(char *string)$/;"	f	typeref:typename:char *
+shell_bg	src/shell.c	/^void shell_bg(char *dst) {} \/\/ TODO$/;"	f	typeref:typename:void
+shell_cd	src/shell.c	/^void shell_cd(char *dst) {} \/\/ TODO$/;"	f	typeref:typename:void
+shell_fg	src/shell.c	/^void shell_fg(char *dst) {} \/\/ TODO$/;"	f	typeref:typename:void
+shell_fork	src/shell.c	/^void shell_fork(char **command_argv)$/;"	f	typeref:typename:void
+shell_input	src/shell.c	/^void shell_input(char *command)$/;"	f	typeref:typename:void
+shell_kill	src/shell.c	/^void shell_kill(char *dst) {} \/\/ TODO$/;"	f	typeref:typename:void
+shell_parser_token	src/shell.c	/^void shell_parser_token(char *command_string, char **argv_buf)$/;"	f	typeref:typename:void
+shell_printf	src/shell.c	/^void shell_printf(char *dst) {} \/\/ TODO$/;"	f	typeref:typename:void
+shell_pwd	src/shell.c	/^void shell_pwd(char *dst) {} \/\/ TODO$/;"	f	typeref:typename:void
+shell_user	src/shell.c	/^void shell_user() {} \/\/TODO$/;"	f	typeref:typename:void
+string	TODO.d/declaraion-parser.h	/^	char string[MAX_TOKEN_LENGHT];$/;"	m	struct:token	typeref:typename:char[]
+token	TODO.d/declaraion-parser.h	/^struct token {$/;"	s
+type	TODO.d/declaraion-parser.h	/^	int type;$/;"	m	struct:token	typeref:typename:int
