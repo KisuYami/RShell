@@ -298,15 +298,18 @@ $(BUILD_DIR)/%.c.o	Makefile	/^$(BUILD_DIR)\/%.c.o: %.c$/;"	t
 .WideForm td.PAfterParameters	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	c
 BUILD_DIR	Makefile	/^BUILD_DIR = .\/build$/;"	m
 BUILTIN_NUMBER	src/shell.h	/^#define BUILTIN_NUMBER /;"	d
+BUILTIN_NUMBER_SCAPE	src/shell.h	/^#define BUILTIN_NUMBER_SCAPE /;"	d
 CC	Makefile	/^CC= clang$/;"	m
+CHILD_MAX_NUMBER	src/jobs.h	/^#define CHILD_MAX_NUMBER /;"	d
 CLIBS	Makefile	/^CLIBS= -L\/usr\/local\/musl\/lib$/;"	m
 COMMAND_BUF_SIZE	src/shell.h	/^#define COMMAND_BUF_SIZE /;"	d
 CPPFLAGS	Makefile	/^CPPFLAGS = $(INC_FLAGS) -MMD -MP -Wall -pedantic -g$/;"	m
+DEBUG	src/shell.h	/^#define DEBUG$/;"	d
 DECLARATION_PARSER_HEADER	TODO.d/declaraion-parser.h	/^#define DECLARATION_PARSER_HEADER$/;"	d
 Discription	README.md	/^## Discription$/;"	s
 INC_DIRS	Makefile	/^INC_DIRS = $(shell find $(SRC_DIRS) -type d)$/;"	m
 INC_FLAGS	Makefile	/^INC_FLAGS = $(addprefix -I,$(INC_DIRS))$/;"	m
-MAX_COMMAND_SIZE	src/shell.h	/^#define MAX_COMMAND_SIZE /;"	d
+JOBS_HEADER	src/jobs.h	/^#define JOBS_HEADER$/;"	d
 MAX_PATH	src/shell.h	/^#define MAX_PATH /;"	d
 MAX_TOKEN	TODO.d/declaraion-parser.h	/^#define MAX_TOKEN /;"	d
 MAX_TOKEN_LENGHT	TODO.d/declaraion-parser.h	/^#define MAX_TOKEN_LENGHT /;"	d
@@ -316,6 +319,7 @@ SHELL_CLEAN_VALUE	src/shell.h	/^#define SHELL_CLEAN_VALUE /;"	d
 SHELL_HEADER	src/shell.h	/^#define SHELL_HEADER$/;"	d
 SRCS	Makefile	/^SRCS = $(shell find $(SRC_DIRS) -name *.cpp -or -name *.c -or -name *.s)$/;"	m
 SRC_DIRS	Makefile	/^SRC_DIRS = .\/src$/;"	m
+START_COMMAND_SIZE	src/shell.h	/^#define START_COMMAND_SIZE /;"	d
 TARGET_EXEC	Makefile	/^TARGET_EXEC = rshell$/;"	m
 TOKEN_BUFSIZE	src/shell.h	/^#define TOKEN_BUFSIZE /;"	d
 TOKEN_DELIM	src/shell.h	/^#define TOKEN_DELIM /;"	d
@@ -357,30 +361,47 @@ body.NDHomePage	Documentation/styles/Default/Default.css	/^html{height:100%;font
 clean	Makefile	/^clean:$/;"	t
 docs	Makefile	/^docs:$/;"	t
 func	src/shell.h	/^	void (*func)();$/;"	m	struct:shell_list	typeref:typename:void (*)()
+func	src/shell.h	/^	void (*func)();$/;"	m	struct:shell_list_ctrl	typeref:typename:void (*)()
 html	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s
+install	Makefile	/^install: $(BUILD_DIR)\/$(TARGET_EXEC)$/;"	t
 main	TODO.d/declaraion-parser.c	/^int main(int argc, char *argv[])$/;"	f	typeref:typename:int
 main	src/main.c	/^int main(int argc, char *argv[])$/;"	f	typeref:typename:int
+name	src/jobs.h	/^	char *name;$/;"	m	struct:process_child_list	typeref:typename:char *
+number	src/jobs.h	/^	int number;$/;"	m	struct:process_child_list	typeref:typename:int
 option	src/shell.h	/^	char *option;$/;"	m	struct:shell_list	typeref:typename:char *
+option	src/shell.h	/^	int option;$/;"	m	struct:shell_list_ctrl	typeref:typename:int
 parse_array_type	TODO.d/declaraion-parser.c	/^char *parse_array_type(char *string) {return 0;} \/\/ TODO$/;"	f	typeref:typename:char *
 parse_cast_type	TODO.d/declaraion-parser.c	/^char *parse_cast_type(char *string) {return 0;} \/\/ TODO$/;"	f	typeref:typename:char *
 parse_function_type	TODO.d/declaraion-parser.c	/^char *parse_function_type(char *string) {return 0;} \/\/ TODO$/;"	f	typeref:typename:char *
 parse_token_string	TODO.d/declaraion-parser.c	/^void parse_token_string(struct token *this, char *string, int *pos)$/;"	f	typeref:typename:void
 parse_token_type	TODO.d/declaraion-parser.c	/^char *parse_token_type(char *string)$/;"	f	typeref:typename:char *
-shell_builtin_bg	src/shell.c	/^static void shell_builtin_bg(const char **argv) {} \/\/ TODO$/;"	f	typeref:typename:void	file:
-shell_builtin_cd	src/shell.c	/^static void shell_builtin_cd(const char **argv) {$/;"	f	typeref:typename:void	file:
-shell_builtin_clean	src/shell.c	/^static void shell_builtin_clean(const char **argv) {$/;"	f	typeref:typename:void	file:
-shell_builtin_exit	src/shell.c	/^static void shell_builtin_exit(const char **argv) {$/;"	f	typeref:typename:void	file:
-shell_builtin_fg	src/shell.c	/^static void shell_builtin_fg(const char **argv) {} \/\/ TODO$/;"	f	typeref:typename:void	file:
-shell_builtin_kill	src/shell.c	/^static void shell_builtin_kill(const char **argv) {} \/\/ TODO$/;"	f	typeref:typename:void	file:
+pid	src/jobs.h	/^	pid_t pid;$/;"	m	struct:process_child_list	typeref:typename:pid_t
+process_child_last	src/jobs.h	/^static int process_child_last;$/;"	v	typeref:typename:int
+process_child_list	src/jobs.h	/^struct process_child_list {$/;"	s
+process_child_list	src/jobs.h	/^} process_child_list[CHILD_MAX_NUMBER];$/;"	v	typeref:struct:process_child_list[]
+process_child_numb	src/jobs.h	/^static int process_child_numb;$/;"	v	typeref:typename:int
+process_child_register	src/jobs.c	/^void process_child_register(char *child_name)$/;"	f	typeref:typename:void
+process_child_set_fg	src/jobs.c	/^void process_child_set_fg()$/;"	f	typeref:typename:void
+shell_builtin_bg	src/shell.c	/^void shell_builtin_bg(const char **argv) {$/;"	f	typeref:typename:void
+shell_builtin_cd	src/shell.c	/^void shell_builtin_cd(const char **argv) {$/;"	f	typeref:typename:void
+shell_builtin_clean	src/shell.c	/^void shell_builtin_clean(const char **argv) {$/;"	f	typeref:typename:void
+shell_builtin_exit	src/shell.c	/^void shell_builtin_exit(const char **argv) {$/;"	f	typeref:typename:void
+shell_builtin_fg	src/shell.c	/^void shell_builtin_fg(const char **argv) {$/;"	f	typeref:typename:void
 shell_builtin_list	src/shell.c	/^struct shell_list shell_builtin_list[] = {$/;"	v	typeref:struct:shell_list[]
-shell_builtin_printf	src/shell.c	/^static void shell_builtin_printf(const char **argv) {$/;"	f	typeref:typename:void	file:
-shell_builtin_pwd	src/shell.c	/^static void shell_builtin_pwd(const char **argv) {$/;"	f	typeref:typename:void	file:
-shell_builtin_user	src/shell.c	/^static void shell_builtin_user(const char **argv) {} \/\/TODO$/;"	f	typeref:typename:void	file:
-shell_command_builtin	src/shell.c	/^int shell_command_builtin(char **command_argv) $/;"	f	typeref:typename:int
-shell_command_fork	src/shell.c	/^void shell_command_fork(char **command_argv)$/;"	f	typeref:typename:void
+shell_builtin_printf	src/shell.c	/^void shell_builtin_printf(const char **argv) {$/;"	f	typeref:typename:void
+shell_builtin_pwd	src/shell.c	/^void shell_builtin_pwd(const char **argv) {$/;"	f	typeref:typename:void
+shell_command_builtin	src/shell.c	/^void shell_command_builtin(char **command_argv, int *flag)$/;"	f	typeref:typename:void
+shell_command_fork	src/shell.c	/^void shell_command_fork(char **command_argv, int *flag)$/;"	f	typeref:typename:void
 shell_command_input	src/shell.c	/^void shell_command_input(char *command)$/;"	f	typeref:typename:void
+shell_command_loop	src/shell.c	/^void shell_command_loop() $/;"	f	typeref:typename:void
 shell_command_parser	src/shell.c	/^void shell_command_parser(char *command_string, char **argv_buf)$/;"	f	typeref:typename:void
+shell_command_prompt	src/shell.c	/^void shell_command_prompt()$/;"	f	typeref:typename:void
 shell_list	src/shell.h	/^struct shell_list {$/;"	s
+shell_list_ctrl	src/shell.h	/^struct shell_list_ctrl {$/;"	s
+signal_sigcont	src/jobs.c	/^void signal_sigcont() {}$/;"	f	typeref:typename:void
+signal_sigintr	src/jobs.c	/^void signal_sigintr() {}$/;"	f	typeref:typename:void
+signal_sigkill	src/jobs.c	/^void signal_sigkill() {}$/;"	f	typeref:typename:void
+signal_sigstop	src/jobs.c	/^void signal_sigstop() {}$/;"	f	typeref:typename:void
 size	src/shell.h	/^	int size;$/;"	m	struct:shell_list	typeref:typename:int
 string	TODO.d/declaraion-parser.h	/^	char string[MAX_TOKEN_LENGHT];$/;"	m	struct:token	typeref:typename:char[]
 table	Documentation/styles/Default/Default.css	/^html{height:100%;font:10pt "Trebuchet MS",Tahoma,Geneva,sans-serif}body.NDFramePage{background-c/;"	s

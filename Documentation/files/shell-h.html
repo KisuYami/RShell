@@ -8,124 +8,118 @@
 
 <body onload="NDLoader.OnLoad('Content');" class="NDPage NDContentPage">
 
-<a name="MAX_PATH"></a><a name="Topic1"></a><div class="CTopic TMacro LC first">
+<a name="MAX_PATH"></a><a name="Topic19"></a><div class="CTopic TMacro LC first">
  <div class="CTitle">MAX_PATH</div>
- <div class="CBody"><p>Posix std of max path chars.</p></div>
+ <div class="CBody"><p>Description: Posix std of max path chars.</p></div>
 </div>
 
-<a name="MAX_COMMAND_SIZE"></a><a name="Topic2"></a><div class="CTopic TMacro LC">
+<a name="MAX_COMMAND_SIZE"></a><a name="Topic27"></a><div class="CTopic TMacro LC">
  <div class="CTitle">MAX_COMMAND_SIZE</div>
- <div class="CBody"><p>Max command size, this will be used in malloc.</p></div>
+ <div class="CBody"><p>Decripion: Max command size, this will be used in malloc.</p></div>
 </div>
 
-<a name="COMMAND_BUF_SIZE"></a><a name="Topic3"></a><div class="CTopic TMacro LC">
+<a name="COMMAND_BUF_SIZE"></a><a name="Topic28"></a><div class="CTopic TMacro LC">
  <div class="CTitle">COMMAND_BUF_SIZE</div>
- <div class="CBody"><p>Starting buf size, this will be used in malloc and the buf should be resized on demand.</p></div>
+ <div class="CBody"><p>Decripion: Starting buf size, this will be used in malloc and the buf should be resized on demand.</p></div>
 </div>
 
-<a name="TOKEN_BUFSIZE"></a><a name="Topic4"></a><div class="CTopic TMacro LC">
+<a name="TOKEN_BUFSIZE"></a><a name="Topic29"></a><div class="CTopic TMacro LC">
  <div class="CTitle">TOKEN_BUFSIZE</div>
- <div class="CBody"><p>Max ammount of parsed arguments.</p><div class="CHeading">Se Also</div><p><a href="../index.html#File:shell.h:shell_command_parser" target="_top" onmouseover="NDContentPage.OnLinkMouseOver(event,10);" onmouseout="NDContentPage.OnLinkMouseOut(event);" >shell_command_parser</a></p></div>
+ <div class="CBody"><p>Decripion: Max ammount of parsed arguments.</p><div class="CHeading">Se Also</div><p><a href="../index.html#File:shell.h:shell_command_parser" target="_top" onmouseover="NDContentPage.OnLinkMouseOver(event,34);" onmouseout="NDContentPage.OnLinkMouseOut(event);" >shell_command_parser</a></p></div>
 </div>
 
-<a name="TOKEN_DELIM"></a><a name="Topic5"></a><div class="CTopic TMacro LC">
+<a name="TOKEN_DELIM"></a><a name="Topic30"></a><div class="CTopic TMacro LC">
  <div class="CTitle">TOKEN_DELIM</div>
- <div class="CBody"><p>What is considered a delimiter between arguments.</p><div class="CHeading">Se Also</div><p><a href="../index.html#File:shell.h:shell_command_parser" target="_top" onmouseover="NDContentPage.OnLinkMouseOver(event,10);" onmouseout="NDContentPage.OnLinkMouseOut(event);" >shell_command_parser</a></p></div>
+ <div class="CBody"><p>Decripion: What is considered a delimiter between arguments.</p><div class="CHeading">Se Also</div><p><a href="../index.html#File:shell.h:shell_command_parser" target="_top" onmouseover="NDContentPage.OnLinkMouseOver(event,34);" onmouseout="NDContentPage.OnLinkMouseOut(event);" >shell_command_parser</a></p></div>
 </div>
 
-<a name="SHELL_CLEAN_VALUE"></a><a name="Topic6"></a><div class="CTopic TMacro LC">
+<a name="SHELL_CLEAN_VALUE"></a><a name="Topic31"></a><div class="CTopic TMacro LC">
  <div class="CTitle">SHELL_CLEAN_VALUE</div>
- <div class="CBody"><p>The ammount of newlines when using clean builtin.</p><div class="CHeading">See Also</div><p><a href="../index.html#File:shell.h:shell_builtin_clean" target="_top" onmouseover="NDContentPage.OnLinkMouseOver(event,20);" onmouseout="NDContentPage.OnLinkMouseOut(event);" >shell_builtin_clean</a></p></div>
+ <div class="CBody"><p>Decripion: The ammount of newlines when using clean builtin.</p><div class="CHeading">See Also</div><p><a href="../index.html#File:shell.h:shell_builtin_clean" target="_top" onmouseover="NDContentPage.OnLinkMouseOver(event,6);" onmouseout="NDContentPage.OnLinkMouseOut(event);" >shell_builtin_clean</a></p></div>
 </div>
 
 <a name="Shell_Routines"></a><a name="Topic7"></a><div class="CTopic TGroup LC">
  <div class="CTitle">Shell Routines</div>
 </div>
 
-<a name="shell_command_input"></a><a name="Topic8"></a><div class="CTopic TFunction LC">
+<a name="shell_command_input"></a><a name="Topic32"></a><div class="CTopic TFunction LC">
  <div class="CTitle">shell_command_input</div>
- <div id="NDPrototype8" class="NDPrototype WideForm CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> shell_command_input(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">char</span>&nbsp;</td><td class="PNamePrefix">*</td><td class="PName last">command</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div>
- <div class="CBody"><p>Print prompt and get input from user.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">command<div class="CDLParameterType"><span class="SHKeyword">char</span>*</div></td><td class="CDLDefinition"><p>Return the user input value via pointer</p></td></tr></table><div class="CHeading">User Input is Read</div><pre><span class="SHKeyword">while</span>((command[count++] = getchar()) != <span class="SHString">'\n'</span>) {<br />    <span class="SHKeyword">if</span>(count &gt; MAX_COMMAND_LINE) <span class="SHKeyword">break</span>;<br />}</pre></div>
+ <div id="NDPrototype32" class="NDPrototype WideForm CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> shell_command_input(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">char</span>&nbsp;</td><td class="PNamePrefix">*</td><td class="PName last">command</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div>
+ <div class="CBody"><p>Decripion: Print prompt and get input from user.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">command<div class="CDLParameterType"><span class="SHKeyword">char</span>*</div></td><td class="CDLDefinition"><p>Return the user input value via pointer</p></td></tr></table><div class="CHeading">User Input is Read</div><pre><span class="SHKeyword">while</span>((command[count++] = getchar()) != <span class="SHString">'\n'</span>) {<br />    <span class="SHKeyword">if</span>(count &gt; MAX_COMMAND_LINE) <span class="SHKeyword">break</span>;<br />}</pre></div>
 </div>
 
-<a name="shell_command_fork"></a><a name="Topic9"></a><div class="CTopic TFunction LC">
+<a name="shell_command_fork"></a><a name="Topic33"></a><div class="CTopic TFunction LC">
  <div class="CTitle">shell_command_fork</div>
- <div id="NDPrototype9" class="NDPrototype WideForm CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> shell_command_fork(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">char</span>&nbsp;</td><td class="PNamePrefix">**</td><td class="PName last">command_argv</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div>
- <div class="CBody"><p>Fork shell and wait return from child.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">command_argv<div class="CDLParameterType"><span class="SHKeyword">char</span>**</div></td><td class="CDLDefinition"><p>Parsed user input</p></td></tr></table><div class="CHeading">See Also</div><p><a href="../index.html#File:shell.h:shell_command_parser" target="_top" onmouseover="NDContentPage.OnLinkMouseOver(event,10);" onmouseout="NDContentPage.OnLinkMouseOut(event);" >shell_command_parser</a></p></div>
+ <div id="NDPrototype33" class="NDPrototype WideForm CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> shell_command_fork(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">char</span>&nbsp;</td><td class="PNamePrefix">**</td><td class="PName last">command_argv</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div>
+ <div class="CBody"><p>Decripion: Fork shell and wait return from child.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">command_argv<div class="CDLParameterType"><span class="SHKeyword">char</span>**</div></td><td class="CDLDefinition"><p>Parsed user input</p></td></tr></table><div class="CHeading">See Also</div><p><a href="../index.html#File:shell.h:shell_command_parser" target="_top" onmouseover="NDContentPage.OnLinkMouseOver(event,34);" onmouseout="NDContentPage.OnLinkMouseOut(event);" >shell_command_parser</a></p></div>
 </div>
 
-<a name="shell_command_parser"></a><a name="Topic10"></a><div class="CTopic TFunction LC">
+<a name="shell_command_parser"></a><a name="Topic34"></a><div class="CTopic TFunction LC">
  <div class="CTitle">shell_command_parser</div>
- <div id="NDPrototype10" class="NDPrototype WideForm CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> shell_command_parser(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">char</span>&nbsp;</td><td class="PNamePrefix">*</td><td class="PName last">command_string,</td></tr><tr><td class="PType first"><span class="SHKeyword">char</span>&nbsp;</td><td class="PNamePrefix">**</td><td class="PName last">argv_buf</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div>
- <div class="CBody"><p>Parser user input in to null termined array of pointers.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">command_string<div class="CDLParameterType"><span class="SHKeyword">char</span>*</div></td><td class="CDLDefinition"><p>Unparsed string</p></td></tr><tr><td class="CDLEntry">argv_buf<div class="CDLParameterType"><span class="SHKeyword">char</span>**</div></td><td class="CDLDefinition"><p>Parsed array</p></td></tr></table><div class="CHeading">See Also</div><p><a href="../index.html#File:shell.h:shell_command_input" target="_top" onmouseover="NDContentPage.OnLinkMouseOver(event,8);" onmouseout="NDContentPage.OnLinkMouseOut(event);" >shell_command_input</a></p></div>
+ <div id="NDPrototype34" class="NDPrototype WideForm CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> shell_command_parser(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">char</span>&nbsp;</td><td class="PNamePrefix">*</td><td class="PName last">command_string,</td></tr><tr><td class="PType first"><span class="SHKeyword">char</span>&nbsp;</td><td class="PNamePrefix">**</td><td class="PName last">argv_buf</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div>
+ <div class="CBody"><p>Decripion: Parser user input in to null termined array of pointers.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">command_string<div class="CDLParameterType"><span class="SHKeyword">char</span>*</div></td><td class="CDLDefinition"><p>Unparsed string</p></td></tr><tr><td class="CDLEntry">argv_buf<div class="CDLParameterType"><span class="SHKeyword">char</span>**</div></td><td class="CDLDefinition"><p>Parsed array</p></td></tr></table><div class="CHeading">See Also</div><p><a href="../index.html#File:shell.h:shell_command_input" target="_top" onmouseover="NDContentPage.OnLinkMouseOver(event,32);" onmouseout="NDContentPage.OnLinkMouseOut(event);" >shell_command_input</a></p></div>
 </div>
 
-<a name="shell_command_builtin"></a><a name="Topic11"></a><div class="CTopic TFunction LC">
+<a name="shell_command_builtin"></a><a name="Topic35"></a><div class="CTopic TFunction LC">
  <div class="CTitle">shell_command_builtin</div>
- <div id="NDPrototype11" class="NDPrototype WideForm CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">int</span> shell_command_builtin(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">char</span>&nbsp;</td><td class="PNamePrefix">**</td><td class="PName last">command_argv</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div>
- <div class="CBody"><p>Check for built-in commands in user input.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">command_argv<div class="CDLParameterType"><span class="SHKeyword">char</span>**</div></td><td class="CDLDefinition"><p>Parsed user input</p></td></tr></table></div>
+ <div id="NDPrototype35" class="NDPrototype WideForm CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">int</span> shell_command_builtin(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PType first"><span class="SHKeyword">char</span>&nbsp;</td><td class="PNamePrefix">**</td><td class="PName last">command_argv</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div>
+ <div class="CBody"><p>Decripion: Check for built-in commands in user input.</p><div class="CHeading">Parameters</div><table class="CDefinitionList"><tr><td class="CDLEntry">command_argv<div class="CDLParameterType"><span class="SHKeyword">char</span>**</div></td><td class="CDLDefinition"><p>Parsed user input</p></td></tr></table></div>
 </div>
 
 <a name="Shell_Built-in_Commands"></a><a name="Topic12"></a><div class="CTopic TGroup LC">
  <div class="CTitle">Shell Built-in Commands</div>
 </div>
 
-<a name="BUILTIN_NUMBER"></a><a name="Topic13"></a><div class="CTopic TMacro LC">
+<a name="BUILTIN_NUMBER"></a><a name="Topic36"></a><div class="CTopic TMacro LC">
  <div class="CTitle">BUILTIN_NUMBER</div>
- <div class="CBody"><p>Size of shell_builtin_list</p></div>
+ <div class="CBody"><p>Decripion: Size of shell_builtin_list</p></div>
 </div>
 
-<a name="shell_builtin_cd"></a><a name="Topic14"></a><div class="CTopic TFunction LC">
+<a name="shell_builtin_cd"></a><a name="Topic1"></a><div class="CTopic TFunction LC">
  <div class="CTitle">shell_builtin_cd</div>
- <div id="NDPrototype14" class="NDPrototype WideForm CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">static</span> <span class="SHKeyword">void</span> shell_builtin_cd(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">char</span>&nbsp;</td><td class="PNamePrefix">**</td><td class="PName last">argv</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div>
- <div class="CBody"><p>Change working dir.</p></div>
+ <div id="NDPrototype1" class="NDPrototype WideForm CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> shell_builtin_cd(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">char</span>&nbsp;</td><td class="PNamePrefix">**</td><td class="PName last">argv</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div>
+ <div class="CBody"><p>Decripion: Change working dir.</p></div>
 </div>
 
-<a name="shell_builtin_bg"></a><a name="Topic15"></a><div class="CTopic TFunction LC">
+<a name="shell_builtin_bg"></a><a name="Topic2"></a><div class="CTopic TFunction LC">
  <div class="CTitle">shell_builtin_bg</div>
- <div id="NDPrototype15" class="NDPrototype WideForm CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">static</span> <span class="SHKeyword">void</span> shell_builtin_bg(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">char</span>&nbsp;</td><td class="PNamePrefix">**</td><td class="PName last">argv</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div>
- <div class="CBody"><p>Show background process.</p></div>
+ <div id="NDPrototype2" class="NDPrototype WideForm CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> shell_builtin_bg(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">char</span>&nbsp;</td><td class="PNamePrefix">**</td><td class="PName last">argv</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div>
+ <div class="CBody"><p>Decripion: Show background process.</p></div>
 </div>
 
-<a name="shell_builtin_fg"></a><a name="Topic16"></a><div class="CTopic TFunction LC">
+<a name="shell_builtin_fg"></a><a name="Topic3"></a><div class="CTopic TFunction LC">
  <div class="CTitle">shell_builtin_fg</div>
- <div id="NDPrototype16" class="NDPrototype WideForm CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">static</span> <span class="SHKeyword">void</span> shell_builtin_fg(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">char</span>&nbsp;</td><td class="PNamePrefix">**</td><td class="PName last">argv</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div>
- <div class="CBody"><p>Return to last process.</p></div>
+ <div id="NDPrototype3" class="NDPrototype WideForm CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> shell_builtin_fg(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">char</span>&nbsp;</td><td class="PNamePrefix">**</td><td class="PName last">argv</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div>
+ <div class="CBody"><p>Decripion: Return to last process.</p></div>
 </div>
 
-<a name="shell_builtin_pwd"></a><a name="Topic17"></a><div class="CTopic TFunction LC">
+<a name="shell_builtin_pwd"></a><a name="Topic4"></a><div class="CTopic TFunction LC">
  <div class="CTitle">shell_builtin_pwd</div>
- <div id="NDPrototype17" class="NDPrototype WideForm CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">static</span> <span class="SHKeyword">void</span> shell_builtin_pwd(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">char</span>&nbsp;</td><td class="PNamePrefix">**</td><td class="PName last">argv</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div>
- <div class="CBody"><p>Print the working path.</p></div>
+ <div id="NDPrototype4" class="NDPrototype WideForm CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> shell_builtin_pwd(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">char</span>&nbsp;</td><td class="PNamePrefix">**</td><td class="PName last">argv</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div>
+ <div class="CBody"><p>Decripion: Print the working path.</p></div>
 </div>
 
-<a name="shell_builtin_exit"></a><a name="Topic18"></a><div class="CTopic TFunction LC">
+<a name="shell_builtin_exit"></a><a name="Topic5"></a><div class="CTopic TFunction LC">
  <div class="CTitle">shell_builtin_exit</div>
- <div id="NDPrototype18" class="NDPrototype WideForm CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">static</span> <span class="SHKeyword">void</span> shell_builtin_exit(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">char</span>&nbsp;</td><td class="PNamePrefix">**</td><td class="PName last">argv</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div>
- <div class="CBody"><p>Exit shell.</p></div>
+ <div id="NDPrototype5" class="NDPrototype WideForm CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> shell_builtin_exit(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">char</span>&nbsp;</td><td class="PNamePrefix">**</td><td class="PName last">argv</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div>
+ <div class="CBody"><p>Decripion: Exit shell.</p></div>
 </div>
 
-<a name="shell_builtin_kill"></a><a name="Topic19"></a><div class="CTopic TFunction LC">
- <div class="CTitle">shell_builtin_kill</div>
- <div id="NDPrototype19" class="NDPrototype WideForm CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">static</span> <span class="SHKeyword">void</span> shell_builtin_kill(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">char</span>&nbsp;</td><td class="PNamePrefix">**</td><td class="PName last">argv</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div>
- <div class="CBody"><p>Kill a process.</p></div>
-</div>
-
-<a name="shell_builtin_clean"></a><a name="Topic20"></a><div class="CTopic TFunction LC">
+<a name="shell_builtin_clean"></a><a name="Topic6"></a><div class="CTopic TFunction LC">
  <div class="CTitle">shell_builtin_clean</div>
- <div id="NDPrototype20" class="NDPrototype WideForm CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">static</span> <span class="SHKeyword">void</span> shell_builtin_clean(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">char</span>&nbsp;</td><td class="PNamePrefix">**</td><td class="PName last">argv</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div>
- <div class="CBody"><p>Clean terminal screen.</p></div>
+ <div id="NDPrototype6" class="NDPrototype WideForm CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> shell_builtin_clean(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">char</span>&nbsp;</td><td class="PNamePrefix">**</td><td class="PName last">argv</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div>
+ <div class="CBody"><p>Decripion: Clean terminal screen.</p></div>
 </div>
 
-<a name="shell_builtin_printf"></a><a name="Topic21"></a><div class="CTopic TFunction LC">
+<a name="shell_builtin_printf"></a><a name="Topic8"></a><div class="CTopic TFunction LC">
  <div class="CTitle">shell_builtin_printf</div>
- <div id="NDPrototype21" class="NDPrototype WideForm CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">static</span> <span class="SHKeyword">void</span> shell_builtin_printf(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">char</span>&nbsp;</td><td class="PNamePrefix">**</td><td class="PName last">argv</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div>
- <div class="CBody"><p>Print organized string.</p></div>
+ <div id="NDPrototype8" class="NDPrototype WideForm CStyle"><table><tr><td class="PBeforeParameters"><span class="SHKeyword">void</span> shell_builtin_printf(</td><td class="PParametersParentCell"><table class="PParameters"><tr><td class="PModifierQualifier first"><span class="SHKeyword">const</span>&nbsp;</td><td class="PType"><span class="SHKeyword">char</span>&nbsp;</td><td class="PNamePrefix">**</td><td class="PName last">argv</td></tr></table></td><td class="PAfterParameters">)</td></tr></table></div>
+ <div class="CBody"><p>Decripion: Print organized string.</p></div>
 </div>
 
-<a name="shell_list"></a><a name="Topic22"></a><div class="CTopic TStruct LC last">
+<a name="shell_list"></a><a name="Topic44"></a><div class="CTopic TStruct LC last">
  <div class="CTitle">shell_list</div>
- <div class="CBody"><p>Containg the built in funcions.</p><div class="CHeading">Members</div><table class="CDefinitionList"><tr><td class="CDLEntry">size</td><td class="CDLDefinition"><p>Size of the option</p></td></tr><tr><td class="CDLEntry">option</td><td class="CDLDefinition"><p>String cotaining compared text</p></td></tr><tr><td class="CDLEntry">func</td><td class="CDLDefinition"><p>Function executed when option matches</p></td></tr></table></div>
+ <div class="CBody"><p>Decripion: Containg the built in funcions.</p><div class="CHeading">Members</div><table class="CDefinitionList"><tr><td class="CDLEntry">size</td><td class="CDLDefinition"><p>Size of the option</p></td></tr><tr><td class="CDLEntry">option</td><td class="CDLDefinition"><p>String cotaining compared text</p></td></tr><tr><td class="CDLEntry">func</td><td class="CDLDefinition"><p>Function executed when option matches</p></td></tr></table></div>
 </div>
 
 </body></html>

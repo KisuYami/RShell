@@ -18,10 +18,12 @@ CPPFLAGS = $(INC_FLAGS) -MMD -MP -Wall -pedantic -g
 $(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
 	$(CC) $(OBJS) -o $@ $(LDFLAGS) $(CLIBS)
 
-# c source
 $(BUILD_DIR)/%.c.o: %.c
 	mkdir -p $(dir $@)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
+
+install: $(BUILD_DIR)/$(TARGET_EXEC)
+	cp $(BUILD_DIR)/$(TARGET_EXEC) /usr/local/bin/
 
 docs:
 	mkdir -p ./Documentation
