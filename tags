@@ -308,6 +308,7 @@ DECLARATION_PARSER_HEADER	TODO.d/declaraion-parser.h	/^#define DECLARATION_PARSE
 Discription	README.md	/^## Discription$/;"	s
 INC_DIRS	Makefile	/^INC_DIRS = $(shell find $(SRC_DIRS) -type d)$/;"	m
 INC_FLAGS	Makefile	/^INC_FLAGS = $(addprefix -I,$(INC_DIRS))$/;"	m
+Install	README.md	/^## Install$/;"	s
 JOBS_HEADER	src/jobs.h	/^#define JOBS_HEADER$/;"	d
 MAX_PATH	src/shell.h	/^#define MAX_PATH /;"	d
 MAX_TOKEN	TODO.d/declaraion-parser.h	/^#define MAX_TOKEN /;"	d
