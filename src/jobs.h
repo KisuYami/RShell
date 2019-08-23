@@ -25,6 +25,10 @@ struct process_child_list {
 *****************************************************************************/
 void process_child_register(char *child_name);
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
 /******************************************************************************
 * define: signal_sigintr
 * Description: Handle signal interrupt. The shell make sure to only kill the 
