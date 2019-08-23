@@ -1,1 +1,1 @@
-NDMenu.OnSectionLoaded("files.js",[[1,"shell.h"]]);
+NDMenu.OnSectionLoaded("files.js",[[1,"jobs.h"],[1,"shell.h"]]);

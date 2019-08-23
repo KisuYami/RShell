@@ -2,17 +2,17 @@
 #include <string.h>
 #include <signal.h>
 #include <unistd.h>
+#include <signal.h>
+#include <errno.h>
 #include "jobs.h"
 #include "shell.h"
 
 void process_child_register(char *child_name)
 {
-	process_child_list[process_child_numb].number = process_child_last;
-	process_child_list[process_child_numb].pid = getpid();
-	//strncpy(process_child_list[process_child_numb].name, child_name, sizeof(*child_name)); /* XXX */
+	process_child_list.number = process_child_last;
+	process_child_list.pid = getpgrp();
+	strncpy(process_child_list.name, child_name, strlen(child_name));
 
-	process_child_last = process_child_numb;
-	process_child_numb++;
 #ifdef DEBUG
 	printf("RShell Debug: child number %d\n", process_child_last);
 	printf("RShell Debug: child name   %s\n", child_name);
@@ -20,12 +20,22 @@ void process_child_register(char *child_name)
 #endif
 }
 
-void process_child_set_fg()
-{
-	//pid_t foreground_pgid;
+void signal_sigstop(pid_t child_pgid) {
+	if(kill(process_child_list.pid, 0) != ESRCH)  {
+		kill(child_pgid, SIGSTOP);
+#ifdef DEBUG
+		printf("RShell: signal_sigstop called\n");
+		printf("RShell: stoppped pgid %d\n", child_pgid);
+		printf("RShell: continued pgid %d\n", process_parent.pid);
+#endif
+	}
+	tcsetpgrp(STDERR_FILENO, process_parent.pid);
 }
 
-void signal_sigstop() {}
-void signal_sigcont() {}
-void signal_sigintr() {}
-void signal_sigkill() {}
+void signal_sigintr() {
+	if(kill(process_child_list.pid, 0) != ESRCH)
+		kill(process_child_list.pid, SIGINT);
+#ifdef DEBUG
+	printf("RShell Debug: child killed by SIGINT\n");
+#endif
+}

@@ -1,0 +1,1 @@
+NDContentPage.OnToolTipsLoaded({13:"<div class=\"NDToolTip TMacro LC\"><div class=\"TTSummary\">Description: Max number of childs</div></div>"});
