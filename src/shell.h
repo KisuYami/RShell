@@ -1,8 +1,6 @@
 #ifndef SHELL_HEADER
 #define SHELL_HEADER
 
-#define DEBUG
-
 /******************************************************************************
 * define: MAX_PATH
 * Description: Posix std of max path chars.

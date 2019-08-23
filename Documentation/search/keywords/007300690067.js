@@ -1,0 +1,1 @@
+NDSearch.OnPrefixDataLoaded("sig",["Macro"],[["signal_sigintr",,[[,,,,0,"File:jobs.h:signal_sigintr"]]]]);

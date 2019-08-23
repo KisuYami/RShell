@@ -1,8 +1,9 @@
 #include <stdio.h>
+#include <errno.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
-#include <errno.h>
+#include <termios.h>
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <sys/ioctl.h>
@@ -27,7 +28,14 @@ void shell_command_loop()
 
 	command = malloc(sizeof(char) * START_COMMAND_SIZE);
 	command_argv = malloc(sizeof(char *) * COMMAND_BUF_SIZE);
-	setpgrp();
+
+	setpgrp(); // Set group ID
+
+	strncpy(process_parent.name, "RShell", 6);
+	process_parent.number = 0;
+	process_parent.pid = getpgrp();
+
+	signal(SIGINT, SIG_IGN);
 
 	if(command_argv == NULL || command == NULL) {
 		perror("RShell: Memory Allocation Failed\n");
@@ -35,7 +43,10 @@ void shell_command_loop()
 	}
 #ifdef DEBUG
 	printf("RShell Debug: Entering main loop.\n");
+	printf("RShell Debug: father gpid is %d\n", process_parent.pid);
 #endif
+
+
 	while(1) { // Main loop
 
 		shell_command_input(command);
@@ -71,7 +82,7 @@ void shell_command_input(char *command)
 	command_size = START_COMMAND_SIZE;
 
 	while(1) {
-		switch(read(STDIN_FILENO, &c, 1)) {
+		switch(read(STDIN_FILENO, &c, 1)) { /* XXX */
 			case 0:
 				command[count] = '\0';
 				break;
@@ -165,14 +176,14 @@ void shell_command_fork(char **command_argv, int *flag)
 
 	if(pid == 0) { // Child process
 
-		process_child_register(command_argv[0]);
-
 		foreground = tcgetpgrp(STDIN_FILENO);
 		setpgid(pid, foreground);
 		tcsetpgrp(STDIN_FILENO, foreground);
 
+		process_child_register(command_argv[0]);
+
 		if(execvp(command_argv[0], command_argv) == -1) {
-			printf("RShell: Not Such Command\n");
+			printf("RShell: I can't hear you!\n");
 		}
 
 		exit(EXIT_FAILURE);
@@ -187,19 +198,18 @@ void shell_command_fork(char **command_argv, int *flag)
 			if(WIFEXITED(status)) {
 #ifdef DEBUG
 				printf("RShell Debug: normal exit\n");
-				printf("RShell Debug: child pid was %d\n", pid);
-				printf("RShell Debug: father gpid is %d\n", getpid());
 #endif
 				break;
 			}
-			if(WIFSTOPPED(status)) {
+			else if(WIFSTOPPED(status)) {
 #ifdef DEBUG
 				printf("RShell Debug: child received sigstop\n");
 #endif
+				signal_sigstop(pid);
 				break;
 			}
 
-		} while (!WIFSIGNALED(status));
+		} while (1);
 	}
 }
 
@@ -225,37 +235,48 @@ void shell_builtin_pwd(const char **argv) {
 }
 
 void shell_builtin_clean(const char **argv) {
-
-	int i;
-	struct winsize ws; 
 #ifdef DEBUG
 	printf("RShell Debug: shell_builtin_clean called\n");
 #endif
-    if (ioctl(0, TIOCGWINSZ, &ws) == 0) {
-		for (i = 0; i < ws.ws_row; ++i)
-			write(STDIN_FILENO, "\n", 1);
-
-		printf("\033[%dA", ws.ws_row);
-	} else {
-		for (i = 0; i < SHELL_CLEAN_VALUE; ++i)
-			write(STDIN_FILENO, "\n", 1);
-
-		printf("\033[%dA", SHELL_CLEAN_VALUE);
-	}
+	write(STDIN_FILENO, "\033[1J", 5); // Got to go fast
+	write(STDIN_FILENO, "\033[1H", 5);
 }
 
 void shell_builtin_bg(const char **argv) {
-	int i;
-	for (i = 0; i < process_child_numb; ++i) {
-		printf("%d - %s - %d\n", process_child_list[i].number,
-				process_child_list[i].name, process_child_list[i].pid);
-	}
+	printf("%d - %s - %d\n", process_child_list.number,
+			process_child_list.name, process_child_list.pid);
 }
 
-void shell_builtin_fg(const char **argv) {
+void shell_builtin_fg() {
 
-	//kill(jobs_child_list.pid[atoi(argv[1])], SIGCONT);
-	printf("RShell: NOT IMPLEMENTED!\n");
+	int status;
+	if(kill(process_child_list.pid, 0) != ESRCH) {
+		kill(process_child_list.pid, SIGCONT);
+
+		tcsetpgrp(STDIN_FILENO, process_child_list.pid);
+
+		do {
+			waitpid(process_child_list.pid, &status, WUNTRACED);
+#ifdef DEBUG
+			if(WIFEXITED(status)) {
+				printf("RShell Debug: normal exit\n");
+				break;
+			}
+#endif
+			if(WIFSTOPPED(status)) {
+#ifdef DEBUG
+				printf("RShell Debug: child received sigstop\n");
+#endif
+				signal_sigstop(process_child_list.pid);
+				break;
+			}
+
+		} while (!WIFSIGNALED(status));
+#ifdef DEBUG
+		printf("RShell Debug: shell_builtin_fg called on pid %d\n", 
+			process_child_list.pid);
+#endif
+	}
 }
 
 void shell_builtin_exit(const char **argv) {

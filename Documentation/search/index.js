@@ -1,1 +1,1 @@
-NDSearch.OnPrefixIndexLoaded(["bui","com","max","she","tok"]);
+NDSearch.OnPrefixIndexLoaded(["bui","chi","com","max","pro","she","sig","tok"]);
