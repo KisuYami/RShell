@@ -1,0 +1,62 @@
+.\" Manpage para RShell
+.\" Me contate em 6reberti6@gmail.com para corrigir erros
+.\" Feito com a ajuda de 初音ミク(Hatsune Mikku)
+.TH man 1 "26 Sep 2019" "1.2" "rshell man page"
+.SH NOME
+.B rshell
+- um shell minimalista
+.SH SYNOPSE
+.B rshell
+[-cdvh]
+.SH DESCRIÇÃO
+RShell é um shell minimalista, não espere scripts ou algo avançado, rshell é apenas um shell e nada mais.
+.SH OPÇÕES
+.TP
+.B -c --command <frase>
+use uma
+.I frase
+no lugar de ler o input do usuário
+.TP
+.B -d --dir <dir_inicial>
+muda para
+.I dir_inicial
+antes de mostrar o prompt
+.TP
+.B -h --help
+mostra uma mensagen de ajuda inútil
+.TP
+.B -v --version
+mostra a versão do programa
+.SH BUILT-IN
+.TP
+.B q
+sair do shell
+.TP
+.B cd
+mudar o diretório
+.TP
+.B bg
+mostrar processos em background
+.TP
+.B fg [pid]
+continuar o processo
+.I pid
+, caso nenhum processo seja especificado, continuar com a primeira child encontrada
+.TP
+.B pwd
+mostrar o caminho para o diretório atual
+.TP
+.B set <variável> <valor>
+mudar ou criar uma 
+.I variável 
+ambiental usando
+.I valor
+.TP
+.B show <nome>
+mostrar o valor de
+.I nome
+.TP
+.B calc <formula>
+mostrar resultado da
+.I formula
+usando lua como interpretador

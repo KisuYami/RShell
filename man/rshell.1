@@ -1,0 +1,64 @@
+.\" Manpage for RShell
+.\" Contact 6reberti6@gmail.com to correct typos and errors
+.TH man 1 "26 Sep 2019" "1.2" "rshell man page"
+.SH NAME
+.B rshell
+- a minimal shell
+.SH SYNOPSIS
+.B rshell
+[-cdvh]
+.SH DESCRIPTION
+RShell is a minimal shell program, do not expect scripting or something fancy, rshell is only a shell and nothing more.
+.SH OPTIONS
+.TP
+.B -c --command <string>
+use a 
+.I string
+instead of user input to execute a command
+.TP
+.B -d --dir <starting_dir>
+change to
+.I starting_dir
+before showing prompt
+.TP
+.B -h --help
+show a useless help mensage
+.TP
+.B -v --version
+show the version
+.SH BUILT-IN
+.TP
+.B q
+exit shell
+.TP
+.B cd
+change dir
+.TP
+.B bg
+show background process
+.TP
+.B fg [pid]
+send 
+.B sigcont 
+to process 
+.I pid
+, if none specified send to the first child found
+.TP
+.B pwd
+show current working path
+.TP
+.B set <name> <value>
+set or overwrite the value of the enviroment
+.I name 
+with 
+.I value
+.TP
+.B show <name>
+print the value of 
+.I name
+enviroment
+.TP
+.B calc <formula>
+evaluates
+.I formula
+, using lua, and prints the result
