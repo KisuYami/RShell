@@ -1,0 +1,10 @@
+Package: RShell
+Version: 1.5
+Section: custom
+Priority: optional
+Depends: libncurses (>=6), libreadline (>=8)
+Architecture: all
+Essential: no
+Installed-Size: 36
+Maintainer: Reberti Carvalho Soares
+Description: RShell  is  a  minimal shell program, do not expect scripting or some thing fancy, rshell is only a shell and nothing more.

@@ -18,7 +18,6 @@ void child_add(struct child *list_head, struct TOKEN *head)
 	child_ptr = list_head;
 
 	while(1) {
-
 		if(child_ptr->pid == 0) {
 
 			if(child_ptr->name != NULL)
@@ -85,6 +84,8 @@ void child_chk()
 				printf("[ Continued: %s - %d ]\n", child_ptr->name,
 						child_ptr->pid);
 
+				tcsetpgrp(STDIN_FILENO, child_ptr->pid);
+
 				running_child = *child_ptr;
 				waitpid(child_ptr->pid, &status, WUNTRACED);
 
@@ -110,7 +111,7 @@ void child_chk()
 					.next = NULL
 				};
 
-				tcsetpgrp(STDIN_FILENO, getpgid(getpid()));
+				tcsetpgrp(STDIN_FILENO, getpgrp());
 				break;
 
 			}
@@ -119,9 +120,12 @@ void child_chk()
 	}
 }
 
-void signal_sigint(int sig) // TODO
+void signal_sigint(int sig)
 {
 	char *prompt = NULL;
+
+	if(running_child.pid > 0)
+		kill(running_child.pid, 9);
 
 	prompt = print_prompt();
 	printf("\n%s", prompt);

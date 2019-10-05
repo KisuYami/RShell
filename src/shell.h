@@ -10,7 +10,8 @@
 
 #define MAX_INPUT_SIZE 50
 #define MAX_TOKEN_NUMBER 10
-#define INPUT_TOKEN_DELIMITER " \t\r\t\b"
+#define INPUT_TOKEN_DELIMITER " \t\r\t\b\0"
+#include <stddef.h>
 
 enum TOKEN_FLAGS {
 	PIPE = 1,
@@ -26,9 +27,9 @@ enum TOKEN_FLAGS {
 struct TOKEN {
 	pid_t pid;
 	int flags;
-	unsigned int size;
 
-	char **command;
+	size_t size;
+	char *command[50];
 	struct TOKEN *next;
 };
 

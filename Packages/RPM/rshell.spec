@@ -1,8 +1,8 @@
 Name:           RShell
-Version:        1.3
+Version:        1.5
 Release:        1%{?dist}
 Summary:        Minimal shell
-License:        BSD4
+License:        BSD3
 Packager: 	    Reberti Carvalho Soares
 URL:            https://github.com/KisuYami/RShell
 Source0:        RShell-%{version}.tar.gz

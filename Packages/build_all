@@ -1,0 +1,28 @@
+#!/bin/bash
+mkdir build
+
+# Rpm build
+cd RPM/
+make
+cp $(find RPMS/ -name "*.rpm") ../build/
+make clear
+cd ..
+
+# Deb build
+cd DEB/
+make
+cp *.deb ../build/
+make clear
+cd ..
+
+# Universal Build
+cd ../
+make
+cp build/rshell ./Packages/build/
+make clear
+cd Packages/build
+tar cfv RShell$VERSION.tar rshell
+tar czfv RShell$VERSION.tar.gz rshell
+zip RShell$VERSION.zip rshell
+rm rshell
+cd ..

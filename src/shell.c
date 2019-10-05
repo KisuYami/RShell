@@ -55,30 +55,20 @@ struct TOKEN *parse_input(char *command_string)
 
 	unsigned int i = 0, position = 0;
 	char string_literal;
-	size_t size_count = 0;
 	size_t tmp_size_token;
+	size_t count = 0;
 
 	char *token = NULL, *tmp_string = NULL;
 	struct TOKEN *list_head, *list_ptr;
 
 	wordexp_t parsed_expression;
 
-	list_head = init_TOKEN_list();
-
-	size_count = MAX_TOKEN_NUMBER;
-	list_ptr   = list_head;
+	list_head	= init_TOKEN_list();
+	list_ptr	= list_head;
 
 	token = strtok(command_string, INPUT_TOKEN_DELIMITER);
 
 	while(token) {
-
-		if(position >= size_count) { // Allocating more memory for command
-
-			size_count += MAX_TOKEN_NUMBER;
-			list_ptr->command = (char **)realloc_string(*list_ptr->command,
-					size_count * sizeof(char));
-
-		}
 
 		switch(*token) {
 			case '|':
@@ -122,11 +112,17 @@ struct TOKEN *parse_input(char *command_string)
 				token = strtok(NULL, INPUT_TOKEN_DELIMITER);
 				break;
 
+			case '&':
+
+				list_ptr->flags |= CHILD_BACKGROUND;
+				token = strtok(NULL, INPUT_TOKEN_DELIMITER);
+				break;
+
 			case '\'':
 			case '\"':
 				string_literal = *token;
 
-				tmp_size_token = sizeof(char) * 50;
+				tmp_size_token = sizeof(char) * strlen(token) * 2;
 				tmp_string = malloc(tmp_size_token);
 				memset(tmp_string, 0, tmp_size_token);
 
@@ -136,14 +132,15 @@ struct TOKEN *parse_input(char *command_string)
 				}
 
 				while(1) {
+					count += strlen(token) + 1;
 
-					if(strlen(tmp_string) >= tmp_size_token) {
-						tmp_size_token += 50;
+					if(count >= tmp_size_token) {
+						tmp_size_token += strlen(token) + 5;
 						tmp_string = realloc_string(tmp_string,
 								tmp_size_token * sizeof(char));
 					}
 
-					if(token == NULL) {
+					if(!token) {
 						printf("RShell: missing ending %c\n", string_literal);
 						break;
 					}
@@ -152,8 +149,8 @@ struct TOKEN *parse_input(char *command_string)
 
 						if(*token == string_literal) token++;
 
-						token[strlen(token) - 1] = '\0';
 						strcat(tmp_string, token);
+						tmp_string[strlen(tmp_string) - 1] = '\0';
 
 						break;
 					}
@@ -178,7 +175,7 @@ struct TOKEN *parse_input(char *command_string)
 				for (i = 0; i < parsed_expression.we_wordc; ++i) {
 
 					tmp_size_token = strlen(parsed_expression.we_wordv[i]) + 1;
-					tmp_string = malloc(tmp_size_token);
+					tmp_string = malloc(sizeof(char) * tmp_size_token);
 
 					if(tmp_string == NULL) {
 						printf("RShell: Failed to allocate memory\n");
@@ -203,13 +200,13 @@ struct TOKEN *parse_input(char *command_string)
 
 void exec_command(struct TOKEN *command, int i, int fd[2])
 {
-	int status = 0;
+	int status = 0, output_fd = 0;
 	pid_t pid = 0;
 
 	if(!command) { // Cleaning stuff
 
-		close(fd[1]);
 		close(fd[0]);
+		close(fd[1]);
 
 		for(; i >= 0; --i)
 			wait(NULL);
@@ -221,6 +218,11 @@ void exec_command(struct TOKEN *command, int i, int fd[2])
 		pipe(fd);
 	}
 
+	if(i > 1) {
+		wait(NULL);
+		i--;
+	}
+
 	switch(pid = fork()) {
 		case -1:
 			printf("RShell: Failed to create child process\n");
@@ -230,36 +232,57 @@ void exec_command(struct TOKEN *command, int i, int fd[2])
 
 			// When a "normal" command is called
 			if(0 == i && !command->next) {
+
+				if(command->flags & CHILD_BACKGROUND) {
+
+					output_fd = open("/dev/null", O_WRONLY);
+					dup2(output_fd, STDOUT_FILENO);
+
+					close(output_fd);
+
+				}
+
+				setpgid(getpid(), 0);
+				tcsetpgrp(STDIN_FILENO, getpgrp());
+
 				if(execvp(command->command[0], command->command) != 0)
 					printf("RShell: Can't hear you!\n");
+
 				exit(1);
 
 			}
 
-			// When commands uses redirect to/from file
+			// When command uses redirect to/from file
 			else if(command->flags & REDIRECTION) {
+
 				if(command->flags & APPEND || command->flags & CREAT) {
+
 					close(fd[1]);
 					dup2(fd[0], STDIN_FILENO);
 					close(fd[0]);
+
 				}
 
 				exec_command_redirection(command);
 				exit(0);
 			}
 
-			// When commands uses PIPE and it's the last element
-			else if(!command->next) {
-				close(fd[1]);
-				dup2(fd[0], STDIN_FILENO);
-				close(fd[0]);
-			}
+			// First command when using PIPEs
+			else if(0 == i) {
 
-			// When commands uses PIPE
-			else {
 				close(fd[0]);
 				dup2(fd[1], STDOUT_FILENO);
 				close(fd[1]);
+
+			}
+
+			// Command uses PIPEs
+			else {
+
+				close(fd[1]);
+				dup2(fd[0], STDIN_FILENO);
+				close(fd[0]);
+
 			}
 
 			if(execvp(command->command[0], command->command) != 0)
@@ -267,12 +290,11 @@ void exec_command(struct TOKEN *command, int i, int fd[2])
 
 			exit(1);
 		default: /* Father */
+			command->pid = pid;
+			running_child.pid = pid;
 
 			// When a "normal" command is called
 			if(0 == i && !command->next) {
-
-				command->pid = pid;
-				running_child.pid = pid;
 
 				while(!WIFSIGNALED(status)) {
 
@@ -290,7 +312,10 @@ void exec_command(struct TOKEN *command, int i, int fd[2])
 			}
 			break;
 	}
-	i++;
+
+	if(!(command->flags & CHILD_BACKGROUND))
+		i++;
+
 	exec_command(command->next, i, fd);
 
 }

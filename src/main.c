@@ -37,6 +37,8 @@ int main(int argc, char *argv[])
 	using_history();
 	stifle_history(1000);
 
+	setpgid(getpid(), tcgetpgrp(STDIN_FILENO));
+
 	signal(SIGINT,	SIG_IGN);
 	signal(SIGTTOU, SIG_IGN);
 	signal(SIGTSTP, signal_sigtstp);
@@ -72,6 +74,9 @@ PROMPT: command_string = readline(prompt);
 
 		if(list_head->flags	& CHILD_SIG_STOP)
 			child_add(&list_child, list_head);
+
+		tcsetpgrp(STDIN_FILENO, getpgrp());
+		setpgid(getpid(), tcgetpgrp(STDIN_FILENO));
 
 		clean_TOKEN_list(list_head);
 		free(command_string);

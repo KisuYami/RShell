@@ -20,30 +20,22 @@ struct TOKEN *init_TOKEN_list()
 		.next  = NULL,
 		.size  = 0,
 		.flags = 0,
-		.command = malloc(sizeof(char) * MAX_INPUT_SIZE * MAX_TOKEN_NUMBER)
 	};
-
-	if(!list->command) {
-		printf("RShell: Failed to allocate memory\n");
-		longjmp(prompt_jmp, 0);
-	}
-
-	memset(list->command, 0, MAX_INPUT_SIZE * MAX_TOKEN_NUMBER);
 
 	return list;
 }
 
 
-char *realloc_string(char *old_ptr, size_t new_size)
+void *realloc_string(void *old_ptr, size_t new_size)
 {
-	char *new_ptr = NULL;
+	void *new_ptr = NULL;
 
 	new_ptr = realloc(old_ptr, new_size);
 
 	if(new_ptr == NULL) {
 		printf("RShell: Failed to allocate memory\n");
 		free(old_ptr);
-		longjmp(prompt_jmp, 1);
+		return NULL;
 	}
 
 	return new_ptr;
@@ -58,14 +50,11 @@ void clean_TOKEN_list(struct TOKEN *list_head) {
 
 	while(list_ptr != NULL) {
 
-		for(i = 0; i < list_ptr->size; ++i)
+		for(i = 0; i <= list_ptr->size; ++i)
 				free(list_ptr->command[i]);
 
 		list_tmp = list_ptr->next;
-
-		free(list_ptr->command);
 		free(list_ptr);
-
 		list_ptr = list_tmp;
 
 	}
