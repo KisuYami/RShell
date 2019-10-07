@@ -1,6 +1,6 @@
 .\" Manpage for RShell
 .\" Contact 6reberti6@gmail.com to correct typos and errors
-.TH man 1 "26 Sep 2019" "1.2" "rshell man page"
+.TH man 1 "8 out 2019" "1.5" "rshell man page"
 .SH NAME
 .B rshell
 - a minimal shell
@@ -12,7 +12,7 @@ RShell is a minimal shell program, do not expect scripting or something fancy, r
 .SH OPTIONS
 .TP
 .B -c --command <string>
-use a 
+use a
 .I string
 instead of user input to execute a command
 .TP
@@ -38,23 +38,28 @@ change dir
 show background process
 .TP
 .B fg [pid]
-send 
-.B sigcont 
-to process 
+send
+.B sigcont
+to process
 .I pid
 , if none specified send to the first child found
 .TP
 .B pwd
 show current working path
 .TP
-.B set <name> <value>
+.B set [-a] <name> <value>
 set or overwrite the value of the enviroment
-.I name 
-with 
+.I name
+with
 .I value
+
+.B -a
+to append to the
+.I name
+variable
 .TP
 .B show <name>
-print the value of 
+print the value of
 .I name
 enviroment
 .TP
@@ -62,3 +67,9 @@ enviroment
 evaluates
 .I formula
 , using lua, and prints the result
+.TP
+.B rand <from> <to>
+generate random number between
+.I from
+and
+.I to

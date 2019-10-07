@@ -1,7 +1,7 @@
 .\" Manpage para RShell
 .\" Me contate em 6reberti6@gmail.com para corrigir erros
 .\" Feito com a ajuda de 初音ミク(Hatsune Mikku)
-.TH man 1 "26 Sep 2019" "1.2" "rshell man page"
+.TH man 1 "8 Out 2019" "1.5" "rshell man page"
 .SH NOME
 .B rshell
 - um shell minimalista
@@ -46,11 +46,17 @@ continuar o processo
 .B pwd
 mostrar o caminho para o diretório atual
 .TP
-.B set <variável> <valor>
-mudar ou criar uma 
-.I variável 
+.B set [-a] <variável> <valor>
+mudar ou criar uma
+.I variável
 ambiental usando
 .I valor
+
+.B -a
+para por o
+.I valor
+no final da
+.I variável
 .TP
 .B show <nome>
 mostrar o valor de
@@ -60,3 +66,9 @@ mostrar o valor de
 mostrar resultado da
 .I formula
 usando lua como interpretador
+.TP
+.B rand <minimo> <máximo>
+gera um número aleatório começando em
+.I minimo
+e no
+.I máximo

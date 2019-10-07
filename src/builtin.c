@@ -3,11 +3,14 @@
 #include <signal.h>
 #include <unistd.h>
 #include <string.h>
+#include <time.h>
 #include <sys/stat.h>
 #include <readline/history.h>
 #include "builtin.h"
 #include "shell.h"
 #include "mem.h"
+
+
 
 struct bi_list {
 	size_t size;
@@ -24,6 +27,7 @@ struct bi_list builtin_list[] = {
 	{3, "pwd",   builtin_pwd		},
 	{4, "show",  builtin_show_env	},
 	{4, "calc",  builtin_calc		},
+	{4, "rand",  builtin_rand		},
 	{5, "clear", builtin_clean		},
 	{0,  NULL,	 NULL}
 };
@@ -46,6 +50,7 @@ int exec_builtin(struct TOKEN *head)
 			return i;
 		}
 	}
+
 	return -1;
 }
 
@@ -148,6 +153,30 @@ void builtin_calc(struct TOKEN *head) // XXX
 
 }
 
+void builtin_rand(struct TOKEN *head)
+{
+	int i, p, x = 0;
+	srand(time(NULL));
+
+	if(head->size <= 2) {
+		printf("RShell: Missing arguments\n");
+		return;
+	}
+
+	i = atoi(head->command[1]);
+	p = atoi(head->command[2]);
+
+	while(1) {
+		x = rand();
+		if(x >= i) {
+			if(x <= p)
+				break;
+		}
+	}
+
+	printf("%d <--> %d: %d\n", i, p, x);
+}
+
 void builtin_clean(struct TOKEN *head)
 {
 	write(STDIN_FILENO, "\033[1J", 5);
@@ -156,13 +185,33 @@ void builtin_clean(struct TOKEN *head)
 
 void builtin_set_env(struct TOKEN *head)
 {
+	char c, *env;
 
 	if(head->size <= 2) {
 		printf("RShell: Missing arguments\n");
 		return;
 	}
 
-	setenv(head->command[1], head->command[2], 1);
+	c = getopt(head->size, head->command, "a:");
+
+	switch(c) {
+		case 'a':
+
+			if(head->size != 4) {
+				printf("usage: set -a <ENV> <VALUE>\n");
+				return;
+			}
+
+			env = getenv(head->command[2]);
+			strncat(env, ":", 2);
+			strcat(env, head->command[3]);
+
+			setenv(head->command[1], env, 1);
+			break;
+		default:
+			setenv(head->command[1], head->command[2], 1);
+	}
+
 }
 
 void builtin_show_env(struct TOKEN *head)

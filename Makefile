@@ -23,12 +23,13 @@ $(BUILD_DIR)/%.c.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 # For source testing
-check_all: $(BUILD_DIR)/check_all
+check: $(BUILD_DIR)/check_all
+	./build/check_all
 
 $(BUILD_DIR)/check_all: $(CHECK_OBJS) $(CHECK_DEPENS)
 	$(CC) $(CHECK_DEPENS) $(CHECK_OBJS) -o $@ $(LDFLAGS) $(CLIBS) -lcriterion
 
-$(BUILD_DIR)/%.c.o: %.c
+$(BUILD_DIR)/test/%.c.o: %.c
 	mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -lcriterion -c $< -o $@
 

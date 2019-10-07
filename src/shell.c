@@ -214,14 +214,15 @@ void exec_command(struct TOKEN *command, int i, int fd[2])
 		return;
 	}
 
-	if(0 == i && command->next) {
+	if(0 == i && command->next)
 		pipe(fd);
-	}
 
+#if 0
 	if(i > 1) {
 		wait(NULL);
 		i--;
 	}
+#endif
 
 	switch(pid = fork()) {
 		case -1:
@@ -276,11 +277,17 @@ void exec_command(struct TOKEN *command, int i, int fd[2])
 
 			}
 
-			// Command uses PIPEs
+			// Rest of the command
 			else {
 
 				close(fd[1]);
+
 				dup2(fd[0], STDIN_FILENO);
+
+				if(command->next != NULL)
+					dup2(fd[1], STDOUT_FILENO);
+
+				close(fd[1]);
 				close(fd[0]);
 
 			}
@@ -289,6 +296,7 @@ void exec_command(struct TOKEN *command, int i, int fd[2])
 				printf("RShell: Can't hear you!\n");
 
 			exit(1);
+
 		default: /* Father */
 			command->pid = pid;
 			running_child.pid = pid;

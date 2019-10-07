@@ -6,6 +6,14 @@ TAGS
 tags
 .tags
 !tags/
+.tar
+!.tar
+.tar.gz
+!.tar.gz
+.rpm
+!.rpm
+.deb
+!.deb
 gtags.files
 GTAGS
 GRTAGS

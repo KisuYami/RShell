@@ -22,6 +22,7 @@ void builtin_cd(struct TOKEN *head);
 void builtin_ls(struct TOKEN *head);
 void builtin_pwd(struct TOKEN *head);
 void builtin_calc(struct TOKEN *head);
+void builtin_rand(struct TOKEN *head);
 void builtin_clean(struct TOKEN *head);
 void builtin_set_env(struct TOKEN *head);
 void builtin_show_env(struct TOKEN *head);
