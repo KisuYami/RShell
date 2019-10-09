@@ -8,6 +8,7 @@
 #include <readline/history.h>
 #include "builtin.h"
 #include "shell.h"
+#include "jobs.h"
 #include "mem.h"
 
 
@@ -56,6 +57,17 @@ int exec_builtin(struct TOKEN *head)
 
 void builtin_exit(struct TOKEN *head)
 {
+	struct child *child_ptr = NULL;
+	for(child_ptr = &list_child; child_ptr != NULL;
+			child_ptr = child_ptr->next) {
+
+		if(child_ptr->pid > 0) {
+			printf("RShell: child process still running...\n");
+			builtin_bg(head);
+			longjmp(prompt_jmp, 0);
+		}
+
+	}
 	printf(".·´¯`(>▂<)´¯`·.\n");
 }
 

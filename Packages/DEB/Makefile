@@ -26,6 +26,6 @@ ${NAME}-${VERSION}.deb:
 	mv rshell.deb ${NAME}-${VERSION}.x86_64.deb
 
 clear:
-	rm *.deb
-	rm -rd rshell/
-	rm -rd ${NAME}-${VERSION}
+	rm -f *.deb
+	rm -rdf rshell/
+	rm -rdf ${NAME}-${VERSION}

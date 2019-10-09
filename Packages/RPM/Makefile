@@ -22,7 +22,8 @@ x64: RPMS
 	rpm --addsign *.x86_64.rpm
 
 clear:
-	rm -rd ${NAME}-${VERSION}/
-	rm -rd ${HOME}/rpmbuild
-	rm -rd RPMS
-	rm *.tar*
+	rm -rdf ${NAME}-${VERSION}/
+	rm -rdf ${HOME}/rpmbuild
+	rm -rdf RPMS
+	rm -f *.tar*
+	rm -f *.rpm
