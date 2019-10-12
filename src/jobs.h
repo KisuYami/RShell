@@ -18,10 +18,11 @@
 
 jmp_buf prompt_jmp;
 
-struct child {
-	char *name;
-	pid_t pid;
-	struct child *next;
+struct child
+{
+    char *name;
+    pid_t pid;
+    struct child *next;
 } list_child, running_child;
 
 void child_add(struct child *list_head, struct TOKEN *head);

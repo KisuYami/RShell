@@ -13,24 +13,26 @@
 
 
 
-struct bi_list {
-	size_t size;
-	char *command;
-	void (*func)(struct TOKEN *head);
+struct bi_list
+{
+    size_t size;
+    char *command;
+    void (*func)(struct TOKEN *head);
 };
 
-struct bi_list builtin_list[] = {
-	{1, "q",     builtin_exit		},
-	{2, "cd",    builtin_cd			},
-	{2, "bg",    builtin_bg			},
-	{2, "fg",    builtin_fg			},
-	{3, "set",   builtin_set_env	},
-	{3, "pwd",   builtin_pwd		},
-	{4, "show",  builtin_show_env	},
-	{4, "calc",  builtin_calc		},
-	{4, "rand",  builtin_rand		},
-	{5, "clear", builtin_clean		},
-	{0,  NULL,	 NULL}
+struct bi_list builtin_list[] =
+{
+    {1, "q",     builtin_exit		},
+    {2, "cd",    builtin_cd			},
+    {2, "bg",    builtin_bg			},
+    {2, "fg",    builtin_fg			},
+    {3, "set",   builtin_set_env	},
+    {3, "pwd",   builtin_pwd		},
+    {4, "show",  builtin_show_env	},
+    {4, "calc",  builtin_calc		},
+    {4, "rand",  builtin_rand		},
+    {5, "clear", builtin_clean		},
+    {0,  NULL,	 NULL}
 };
 
 int is_file(char *path)
@@ -42,204 +44,225 @@ int is_file(char *path)
 
 int exec_builtin(struct TOKEN *head)
 {
-	int i;
-	for(i = 0; builtin_list[i].size != 0; ++i) {
+    int i;
+    for(i = 0; builtin_list[i].size != 0; ++i)
+    {
 
-		if(strcmp(head->command[0], builtin_list[i].command) == 0) {
-			builtin_list[i].func(head);
-			head->flags = BUILTIN;
-			return i;
-		}
-	}
+        if(strcmp(head->command[0], builtin_list[i].command) == 0)
+        {
+            builtin_list[i].func(head);
+            head->flags = BUILTIN;
+            return i;
+        }
+    }
 
-	return -1;
+    return -1;
 }
 
 void builtin_exit(struct TOKEN *head)
 {
-	struct child *child_ptr = NULL;
-	for(child_ptr = &list_child; child_ptr != NULL;
-			child_ptr = child_ptr->next) {
+    struct child *child_ptr = NULL;
+    for(child_ptr = &list_child; child_ptr != NULL;
+            child_ptr = child_ptr->next)
+    {
 
-		if(child_ptr->pid > 0) {
-			printf("RShell: child process still running...\n");
-			builtin_bg(head);
-			longjmp(prompt_jmp, 0);
-		}
+        if(child_ptr->pid > 0)
+        {
+            printf("RShell: child process still running...\n");
+            builtin_bg(head);
+            longjmp(prompt_jmp, 0);
+        }
 
-	}
-	printf(".·´¯`(>▂<)´¯`·.\n");
+    }
+    printf(".·´¯`(>▂<)´¯`·.\n");
 }
 
 void builtin_fg(struct TOKEN *head)
 {
 
-	pid_t pid;
-	struct child *child_ptr;
+    pid_t pid;
+    struct child *child_ptr;
 
-	child_ptr = &list_child;
+    child_ptr = &list_child;
 
-	if(head->size <= 1) {
-		while(child_ptr != NULL) {
-			if(child_ptr->pid > 0) {
+    if(head->size <= 1)
+    {
+        while(child_ptr != NULL)
+        {
+            if(child_ptr->pid > 0)
+            {
 
-				kill(child_ptr->pid, SIGCONT);
-				return;
-			}
-			child_ptr = child_ptr->next;
-		}
-	}
-	else {
-		pid = atoi(head->command[1]);
-		while(child_ptr != NULL) {
-			if(child_ptr->pid == pid) {
+                kill(child_ptr->pid, SIGCONT);
+                return;
+            }
+            child_ptr = child_ptr->next;
+        }
+    }
+    else
+    {
+        pid = atoi(head->command[1]);
+        while(child_ptr != NULL)
+        {
+            if(child_ptr->pid == pid)
+            {
 
-				kill(pid, SIGCONT);
-				return;
-			}
-			child_ptr = child_ptr->next;
-		}
-	}
+                kill(pid, SIGCONT);
+                return;
+            }
+            child_ptr = child_ptr->next;
+        }
+    }
 }
 
 void builtin_bg(struct TOKEN *head)
 {
 
-	struct child *child_ptr = NULL;
-	child_ptr = &list_child;
+    struct child *child_ptr = NULL;
+    child_ptr = &list_child;
 
-	while(child_ptr != NULL) {
-		if(child_ptr->pid > 0) {
-			printf("[ %s - %d ]\n", child_ptr->name, child_ptr->pid);
-		}
-		child_ptr = child_ptr->next;
-	}
+    while(child_ptr != NULL)
+    {
+        if(child_ptr->pid > 0)
+        {
+            printf("[ %s - %d ]\n", child_ptr->name, child_ptr->pid);
+        }
+        child_ptr = child_ptr->next;
+    }
 }
 
 void builtin_cd(struct TOKEN *head)
 {
-	if(is_file(head->command[1]) != 1) {
-		if(chdir(head->command[1]) != 0)
-		printf("RShell: Directory does not exist\n");
-	}
+    if(is_file(head->command[1]) != 1)
+    {
+        if(chdir(head->command[1]) != 0)
+            printf("RShell: Directory does not exist\n");
+    }
 }
 
 void builtin_pwd(struct TOKEN *head)
 {
-	char buf[MAX_PATH_SIZE] = {0};
-	getcwd(buf, MAX_PATH_SIZE);
+    char buf[MAX_PATH_SIZE] = {0};
+    getcwd(buf, MAX_PATH_SIZE);
 
-	printf("%s\n", buf);
+    printf("%s\n", buf);
 }
 
 void builtin_calc(struct TOKEN *head) // XXX
 {
-	int fd[2];
-	char *tmp_first, *tmp_second;
+    int fd[2];
+    char *tmp_first, *tmp_second;
 
-	char buf[256];
-	char lua[] = "lua";
-	char e[] = "-e";
+    char buf[256];
+    char lua[] = "lua";
+    char e[] = "-e";
 
-	if(head->size <= 1) {
-		printf("RShell: Missing arguments\n");
-		return;
-	}
+    if(head->size <= 1)
+    {
+        printf("RShell: Missing arguments\n");
+        return;
+    }
 
-	strncpy(buf, "print(", 7);
-	strcat(buf, head->command[1]);
-	strncat(buf, ")", 2);
+    strncpy(buf, "print(", 7);
+    strcat(buf, head->command[1]);
+    strncat(buf, ")", 2);
 
-	tmp_first = head->command[0];
-	tmp_second = head->command[1];
+    tmp_first = head->command[0];
+    tmp_second = head->command[1];
 
-	head->command[0] = (char *)&lua;
-	head->command[1] = (char *)&e;
-	head->command[2] = (char *)&buf;
+    head->command[0] = (char *)&lua;
+    head->command[1] = (char *)&e;
+    head->command[2] = (char *)&buf;
 
-	exec_command(head, 0, fd);
+    exec_command(head, 0, fd);
 
-	head->command[0] = tmp_first;
-	head->command[1] = tmp_second;
-	head->command[2] = NULL;
+    head->command[0] = tmp_first;
+    head->command[1] = tmp_second;
+    head->command[2] = NULL;
 
 }
 
 void builtin_rand(struct TOKEN *head)
 {
-	int i, p, x = 0;
-	srand(time(NULL));
+    int i, p, x = 0;
+    srand(time(NULL));
 
-	if(head->size <= 2) {
-		printf("RShell: Missing arguments\n");
-		return;
-	}
+    if(head->size <= 2)
+    {
+        printf("RShell: Missing arguments\n");
+        return;
+    }
 
-	i = atoi(head->command[1]);
-	p = atoi(head->command[2]);
+    i = atoi(head->command[1]);
+    p = atoi(head->command[2]);
 
-	while(1) {
-		x = rand();
-		if(x >= i) {
-			if(x <= p)
-				break;
-		}
-	}
+    while(1)
+    {
+        x = rand();
+        if(x >= i)
+        {
+            if(x <= p)
+                break;
+        }
+    }
 
-	printf("%d <--> %d: %d\n", i, p, x);
+    printf("%d <--> %d: %d\n", i, p, x);
 }
 
 void builtin_clean(struct TOKEN *head)
 {
-	write(STDIN_FILENO, "\033[1J", 5);
-	write(STDIN_FILENO, "\033[1H", 5);
+    write(STDIN_FILENO, "\033[1J", 5);
+    write(STDIN_FILENO, "\033[1H", 5);
 }
 
 void builtin_set_env(struct TOKEN *head)
 {
-	char c, *env;
+    char c, *env;
 
-	if(head->size <= 2) {
-		printf("RShell: Missing arguments\n");
-		return;
-	}
+    if(head->size <= 2)
+    {
+        printf("RShell: Missing arguments\n");
+        return;
+    }
 
-	c = getopt(head->size, head->command, "a:");
+    c = getopt(head->size, head->command, "a:");
 
-	switch(c) {
-		case 'a':
+    switch(c)
+    {
+    case 'a':
 
-			if(head->size != 4) {
-				printf("usage: set -a <ENV> <VALUE>\n");
-				return;
-			}
+        if(head->size != 4)
+        {
+            printf("usage: set -a <ENV> <VALUE>\n");
+            return;
+        }
 
-			env = getenv(head->command[2]);
-			strncat(env, ":", 2);
-			strcat(env, head->command[3]);
+        env = getenv(head->command[2]);
+        strncat(env, ":", 2);
+        strcat(env, head->command[3]);
 
-			setenv(head->command[1], env, 1);
-			break;
-		default:
-			setenv(head->command[1], head->command[2], 1);
-	}
+        setenv(head->command[1], env, 1);
+        break;
+    default:
+        setenv(head->command[1], head->command[2], 1);
+    }
 
 }
 
 void builtin_show_env(struct TOKEN *head)
 {
-	char *env;
+    char *env;
 
-	if(head->size <= 1) {
-		printf("RShell: Missing arguments\n");
-		return;
-	}
+    if(head->size <= 1)
+    {
+        printf("RShell: Missing arguments\n");
+        return;
+    }
 
-	env = getenv(head->command[1]);
+    env = getenv(head->command[1]);
 
-	if(env == NULL)
-		printf("RShell: Enviroment \"%s\" isn't defined.\n", head->command[1]);
-	else
-		printf("%s=%s\n", head->command[1], env);
+    if(env == NULL)
+        printf("RShell: Enviroment \"%s\" isn't defined.\n", head->command[1]);
+    else
+        printf("%s=%s\n", head->command[1], env);
 
 }

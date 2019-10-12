@@ -13,24 +13,26 @@
 #define INPUT_TOKEN_DELIMITER " \t\r\t\b\0"
 #include <stddef.h>
 
-enum TOKEN_FLAGS {
-	PIPE = 1,
-	REDIRECTION = 2,
-	CREAT = 4,
-	APPEND = 8,
-	READ = 16,
-	BUILTIN = 32,
-	CHILD_SIG_STOP = 64,
-	CHILD_BACKGROUND = 128
+enum TOKEN_FLAGS
+{
+    PIPE = 1,
+    REDIRECTION = 2,
+    CREAT = 4,
+    APPEND = 8,
+    READ = 16,
+    BUILTIN = 32,
+    CHILD_SIG_STOP = 64,
+    CHILD_BACKGROUND = 128
 };
 
-struct TOKEN {
-	pid_t pid;
-	int flags;
+struct TOKEN
+{
+    pid_t pid;
+    int flags;
 
-	size_t size;
-	char *command[50];
-	struct TOKEN *next;
+    size_t size;
+    char *command[50];
+    struct TOKEN *next;
 };
 
 struct TOKEN *list_head;
