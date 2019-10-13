@@ -13,7 +13,8 @@
 
 #define DEBUG 1
 
-char *print_prompt(void)
+char *
+print_prompt(void)
 {
     size_t size;
 
@@ -52,10 +53,11 @@ char *print_prompt(void)
     return prompt;
 }
 
-struct TOKEN *parse_input(char *command_string)
+struct TOKEN *
+parse_input(char *command_string)
 {
 
-    unsigned int i = 0, position = 0;
+    unsigned int position = 0;
     char string_literal;
     size_t tmp_size_token;
     size_t count = 0;
@@ -138,24 +140,27 @@ struct TOKEN *parse_input(char *command_string)
 
             while(1)
             {
-                count += strlen(token) + 1;
+                if(token == NULL)
+                {
+                    printf("RShell: missing ending %c\n", string_literal);
+                    tmp_string[strlen(tmp_string) - 1] = '\0';
+
+					break;
+                }
+
+				count += strlen(token) + 1;
 
                 if(count >= tmp_size_token)
                 {
-                    tmp_size_token += strlen(token) + 5;
+                    tmp_size_token = count + strlen(token) + 5;
                     tmp_string = realloc_string(tmp_string,
                                                 tmp_size_token * sizeof(char));
-                }
-
-                if(!token)
-                {
-                    printf("RShell: missing ending %c\n", string_literal);
-                    break;
                 }
 
                 else if(token[strlen(token) - 1] == string_literal)
                 {
 
+					// Remove the " or ' if in start of the token
                     if(*token == string_literal) token++;
 
                     strcat(tmp_string, token);
@@ -164,6 +169,7 @@ struct TOKEN *parse_input(char *command_string)
                     break;
                 }
 
+				// Remove the " or ' in the start of the token
                 if(*token == string_literal) token++;
 
                 strcat(tmp_string, token);
@@ -181,7 +187,7 @@ struct TOKEN *parse_input(char *command_string)
 
             wordexp(token, &parsed_expression, 0);
 
-            for (i = 0; i < parsed_expression.we_wordc; ++i)
+            for (unsigned int i = 0; i < parsed_expression.we_wordc; ++i)
             {
 
                 tmp_size_token = strlen(parsed_expression.we_wordv[i]) + 1;

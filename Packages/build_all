@@ -21,8 +21,8 @@ make
 cp build/rshell ./Packages/build/
 make clear
 cd Packages/build
-tar cfv RShell$VERSION.tar rshell
-tar czfv RShell$VERSION.tar.gz rshell
-zip RShell$VERSION.zip rshell
+tar cfv RShell-$VERSION.tar rshell
+tar czfv RShell-$VERSION.tar.gz rshell
+zip RShell-$VERSION.zip rshell
 rm rshell
 cd ..

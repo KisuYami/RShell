@@ -27,11 +27,11 @@ int main(int argc, char *argv[])
     char *command_string;
     char *prompt;
 
-    prompt			= NULL;
+    prompt		= NULL;
     list_head		= NULL;
     command_string	= NULL;
 
-    list_child.pid		= 0;
+    list_child.pid	= 0;
     running_child.pid	= 0;
 
     using_history();
@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
 
     setpgid(getpid(), tcgetpgrp(STDIN_FILENO));
 
-    signal(SIGINT,	SIG_IGN);
+    signal(SIGINT,  SIG_IGN);
     signal(SIGTTOU, SIG_IGN);
     signal(SIGTSTP, signal_sigtstp);
     signal(SIGCHLD, child_chk);
@@ -60,6 +60,14 @@ PROMPT:
 
         list_head = parse_input(command_string);
 
+		if(list_head == NULL) {
+
+            free(command_string);
+            free(prompt);
+
+			goto PROMPT;
+		}
+
         if(exec_builtin(list_head) == 0)   // if "q" was typed
         {
 
@@ -69,7 +77,7 @@ PROMPT:
             free(command_string);
             free(prompt);
 
-            break;
+			return 0;
         }
 
         if(!(list_head->flags & BUILTIN))
