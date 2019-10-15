@@ -1,17 +1,17 @@
-#include <stdio.h>
+#include <readline/history.h>
+#include <sys/stat.h>
 #include <stdlib.h>
 #include <signal.h>
 #include <unistd.h>
 #include <string.h>
+#include <limits.h>
+#include <stdio.h>
 #include <time.h>
-#include <sys/stat.h>
-#include <readline/history.h>
+
 #include "builtin.h"
 #include "shell.h"
 #include "jobs.h"
 #include "mem.h"
-
-
 
 struct bi_list
 {
@@ -44,8 +44,7 @@ int is_file(char *path)
 
 int exec_builtin(struct TOKEN *head)
 {
-    int i;
-    for(i = 0; builtin_list[i].size != 0; ++i)
+    for(int i = 0; builtin_list[i].size != 0; ++i)
     {
 
         if(strcmp(head->command[0], builtin_list[i].command) == 0)
@@ -141,8 +140,8 @@ void builtin_cd(struct TOKEN *head)
 
 void builtin_pwd(struct TOKEN *head)
 {
-    char buf[MAX_PATH_SIZE] = {0};
-    getcwd(buf, MAX_PATH_SIZE);
+    char buf[PATH_MAX] = {0};
+    getcwd(buf, PATH_MAX);
 
     printf("%s\n", buf);
 }

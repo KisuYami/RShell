@@ -10,8 +10,6 @@
 
 #include "shell.h"
 
-#define MAX_PATH_SIZE 1024
-
 int exec_builtin(struct TOKEN *head);
 int is_file(char *path);
 

@@ -1,11 +1,13 @@
-#include <stdio.h>
+#include <sys/wait.h>
+#include <wordexp.h>
+#include <setjmp.h>
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <limits.h>
+#include <stdio.h>
 #include <fcntl.h>
-#include <wordexp.h>
-#include <sys/wait.h>
-#include <setjmp.h>
+
 #include "shell.h"
 #include "builtin.h"
 #include "jobs.h"
@@ -19,36 +21,27 @@ print_prompt(void)
     size_t size;
 
     char *user		= NULL;
-    char *pwd		= NULL;
+	char *home      = NULL;
     char *prompt	= NULL;
+    char  pwd[PATH_MAX+1];
 
-    size = strlen(getenv("HOME"));
-    pwd = malloc(sizeof(char) * MAX_PATH_SIZE);
-
-    if(pwd == NULL)
-    {
-        printf("RShell: Failed to allocate memory\n");
-        longjmp(prompt_jmp, 1);
-    }
-
-    getcwd(pwd, MAX_PATH_SIZE);
-    if(strncmp(pwd, getenv("HOME"), size) == 0)
-    {
-        pwd += size - 1;
-        pwd[0] = '~';
-    }
+    getcwd(pwd, PATH_MAX+1);
 
     user   = getenv("USER");
-    prompt = malloc(sizeof(char) * (14 + strlen(user) + MAX_PATH_SIZE));
+	home   = getenv("HOME");
+    size   = strlen(home);
+    prompt = malloc(sizeof(char) * PATH_MAX * 2);
 
 #if DEBUG
-    sprintf(prompt, "[ %s - %s ] $ ", user, pwd);
+    if(strncmp(pwd, home, size) == 0)
+		sprintf(prompt, "[ %s - ~%s ] $ ", user, pwd+size);
+
+	else
+		sprintf(prompt, "[ %s - %s ] $ ", user, pwd);
+
 #else
     sprintf(prompt, "[ DEBUG - %s ] $ ", pwd);
 #endif
-
-    pwd -= size - 1;
-    free(pwd);
 
     return prompt;
 }
@@ -57,15 +50,19 @@ struct TOKEN *
 parse_input(char *command_string)
 {
 
-    unsigned int position = 0;
     char string_literal;
-    size_t tmp_size_token;
-    size_t count = 0;
 
-    char *token = NULL, *tmp_string = NULL;
-    struct TOKEN *list_head, *list_ptr;
+    char *token      = NULL;
+	char *tmp_string = NULL;
+
+    size_t count          = 0;
+    size_t position       = 0;
+    size_t tmp_size_token = 0;
 
     wordexp_t parsed_expression;
+
+    struct TOKEN *list_head = NULL;
+	struct TOKEN *list_ptr  = NULL;
 
     list_head	= init_TOKEN_list();
     list_ptr	= list_head;
@@ -79,11 +76,12 @@ parse_input(char *command_string)
         {
         case '|':
 
-            position = 0;
-
             list_ptr->flags |= PIPE;
+
             list_ptr->next	= init_TOKEN_list();
             list_ptr		= list_ptr->next;
+
+            position = 0;
 
             token = strtok(NULL, INPUT_TOKEN_DELIMITER);
 
@@ -96,10 +94,10 @@ parse_input(char *command_string)
             else
                 list_ptr->flags |= CREAT | REDIRECTION;
 
-            position = 0;
-
             list_ptr->next	= init_TOKEN_list();
             list_ptr	    = list_ptr->next;
+
+            position = 0;
 
             token = strtok(NULL, INPUT_TOKEN_DELIMITER);
 
@@ -107,13 +105,13 @@ parse_input(char *command_string)
 
         case '<':
 
-            position = 0;
-
             list_ptr->flags |= REDIRECTION;
             list_ptr->flags |= READ;
 
             list_ptr->next	= init_TOKEN_list();
             list_ptr		= list_ptr->next;
+
+            position = 0;
 
             token = strtok(NULL, INPUT_TOKEN_DELIMITER);
             break;
@@ -128,8 +126,10 @@ parse_input(char *command_string)
         case '\"':
             string_literal = *token;
 
-            tmp_size_token = sizeof(char) * strlen(token) * 2;
-            tmp_string = malloc(tmp_size_token);
+            tmp_size_token = strlen(token);
+            tmp_size_token = tmp_size_token * tmp_size_token + 10; // Elevate by 2
+
+            tmp_string = malloc(sizeof(char) * tmp_size_token);
             memset(tmp_string, 0, tmp_size_token);
 
             if(tmp_string == NULL)
@@ -138,8 +138,14 @@ parse_input(char *command_string)
                 longjmp(prompt_jmp, 1);
             }
 
+			// Remove the " or ' in the start of the first token
+			token++;
+
             while(1)
             {
+
+                strcat(tmp_string, token);
+                token = strtok(NULL, INPUT_TOKEN_DELIMITER);
 
                 if(token == NULL)
                 {
@@ -153,22 +159,17 @@ parse_input(char *command_string)
 					break;
                 }
 
-				count += strlen(token) + 1;
+				strcat(tmp_string, " ");
 
-                if(count >= tmp_size_token)
+				// Reallocation of memory
+				count += strlen(token);
+
+                if(count >= tmp_size_token - 10)
                 {
-                    tmp_size_token = count + strlen(token) + 5;
+                    tmp_size_token = count * count;
                     tmp_string = realloc_string(tmp_string,
                                                 tmp_size_token * sizeof(char));
                 }
-
-				// Remove the " or ' in the start of the token
-                if(*token == string_literal) token++;
-
-                strcat(tmp_string, token);
-                strcat(tmp_string, " ");
-
-                token = strtok(NULL, INPUT_TOKEN_DELIMITER);
 
             }
 
@@ -178,13 +179,22 @@ parse_input(char *command_string)
 
         default:
 
+			if(1); // Work around for the declaration below.
+			char *dot = NULL;
+
+			dot = strrchr(token, '\'');
+			if(dot != NULL) dot[0] = '\0'; // Remove trailing '
+
+			dot = strrchr(token, '\"');
+			if(dot != NULL) dot[0] = '\0'; // Remove trailing "
+
             wordexp(token, &parsed_expression, 0);
 
-            for (unsigned int i = 0; i < parsed_expression.we_wordc; ++i)
+            for (size_t i = 0; i < parsed_expression.we_wordc; ++i)
             {
 
-                tmp_size_token = strlen(parsed_expression.we_wordv[i]) + 1;
-                tmp_string = malloc(sizeof(char) * tmp_size_token);
+                tmp_string = malloc(sizeof(char) * 512);
+
 
                 if(tmp_string == NULL)
                 {
