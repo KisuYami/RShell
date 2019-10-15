@@ -140,10 +140,15 @@ parse_input(char *command_string)
 
             while(1)
             {
+
                 if(token == NULL)
                 {
-                    printf("RShell: missing ending %c\n", string_literal);
-                    tmp_string[strlen(tmp_string) - 1] = '\0';
+					char *dot = strrchr(tmp_string, string_literal);
+
+					if(dot != NULL)
+						dot[0] = '\0'; // Remove trailing string_literal
+					else
+						printf("RShell: missing ending %c\n", string_literal);
 
 					break;
                 }
@@ -155,18 +160,6 @@ parse_input(char *command_string)
                     tmp_size_token = count + strlen(token) + 5;
                     tmp_string = realloc_string(tmp_string,
                                                 tmp_size_token * sizeof(char));
-                }
-
-                else if(token[strlen(token) - 1] == string_literal)
-                {
-
-					// Remove the " or ' if in start of the token
-                    if(*token == string_literal) token++;
-
-                    strcat(tmp_string, token);
-                    tmp_string[strlen(tmp_string) - 1] = '\0';
-
-                    break;
                 }
 
 				// Remove the " or ' in the start of the token
@@ -215,7 +208,8 @@ parse_input(char *command_string)
     return list_head;
 }
 
-void exec_command(struct TOKEN *command, int i, int fd[2])
+void
+exec_command(struct TOKEN *command, int i, int fd[2])
 {
     int status = 0, output_fd = 0;
     pid_t pid = 0;
@@ -324,12 +318,13 @@ void exec_command(struct TOKEN *command, int i, int fd[2])
         exit(1);
 
     default: /* Father */
-        command->pid = pid;
-        running_child.pid = pid;
 
         // When a "normal" command is called
         if(0 == i && !command->next)
         {
+
+			running_child.pid = pid;
+			running_child.state = JOB_RUNNING;
 
             while(!WIFSIGNALED(status))
             {
@@ -338,15 +333,26 @@ void exec_command(struct TOKEN *command, int i, int fd[2])
 
                 if(WIFSTOPPED(status))
                 {
-                    command->flags = CHILD_SIG_STOP;
-                    return;
+                    running_child.state = JOB_STOPPED;
+
+                    command->flags = JOB_STOPPED;
+					command->pid = pid;
+
+					child_add(&list_child, command);
+					break;
                 }
+
                 if(WIFEXITED(status))
                 {
-                    return;
+                    running_child.state = JOB_EXITED;
+					break;
                 }
             }
 
+			running_child.state = 0;
+			running_child.pid = 0;
+			return;
+			   
         }
         break;
     }

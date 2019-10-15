@@ -1,20 +1,22 @@
-#include <stdio.h>
+#include <readline/readline.h>
+#include <readline/history.h>
+#include <sys/file.h>
+#include <setjmp.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include <getopt.h>
 #include <signal.h>
+#include <stdio.h>
 #include <error.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <sys/file.h>
-#include <setjmp.h>
+
 #include "shell.h"
 #include "builtin.h"
 #include "jobs.h"
 #include "mem.h"
 
-#define RSHELL_VERSION "v1.2"
+#define RSHELL_VERSION "v1.5"
+
 void get_user_opts(int argc, char *argv[]);
 
 int main(int argc, char *argv[])
@@ -22,6 +24,7 @@ int main(int argc, char *argv[])
 
     get_user_opts(argc, argv);
 
+	int result = -1;
     int fd[2];
 
     char *command_string;
@@ -31,7 +34,7 @@ int main(int argc, char *argv[])
     list_head		= NULL;
     command_string	= NULL;
 
-    list_child.pid	= 0;
+    list_child.pid	    = 0;
     running_child.pid	= 0;
 
     using_history();
@@ -39,9 +42,9 @@ int main(int argc, char *argv[])
 
     setpgid(getpid(), tcgetpgrp(STDIN_FILENO));
 
-    signal(SIGINT,  SIG_IGN);
+    signal(SIGINT,  signal_handler);
     signal(SIGTTOU, SIG_IGN);
-    signal(SIGTSTP, signal_sigtstp);
+    signal(SIGTSTP, signal_handler);
     signal(SIGCHLD, child_chk);
 
     while(1)
@@ -51,40 +54,16 @@ int main(int argc, char *argv[])
         setjmp(prompt_jmp);
 
         prompt = print_prompt();
-PROMPT:
-        command_string = readline(prompt);
+PROMPT: command_string = readline(prompt);
 
-        if(*command_string)		add_history(command_string);
-        if(!(*command_string))	goto PROMPT;	// Don't do anything
-        // with empty imput
+        if(*command_string)     add_history(command_string);
+        if(!(*command_string))	goto PROMPT; // Don't do anything with empty imput
 
         list_head = parse_input(command_string);
+		result    = exec_builtin(list_head);
 
-		if(list_head == NULL) {
-
-            free(command_string);
-            free(prompt);
-
-			goto PROMPT;
-		}
-
-        if(exec_builtin(list_head) == 0)   // if "q" was typed
-        {
-
-            clean_TOKEN_list(list_head);
-            clean_child_list(&list_child);
-
-            free(command_string);
-            free(prompt);
-
-			return 0;
-        }
-
-        if(!(list_head->flags & BUILTIN))
+        if(0 == (list_head->flags & BUILTIN))
             exec_command(list_head, 0, fd);
-
-        if(list_head->flags	& CHILD_SIG_STOP)
-            child_add(&list_child, list_head);
 
         tcsetpgrp(STDIN_FILENO, getpgrp());
         setpgid(getpid(), tcgetpgrp(STDIN_FILENO));
@@ -92,6 +71,13 @@ PROMPT:
         clean_TOKEN_list(list_head);
         free(command_string);
         free(prompt);
+
+		if(result == 0) // User input was "q"
+        {
+            clean_child_list(&running_child);
+            clean_child_list(&list_child);
+			return 0;
+        }
     }
 
     return 0;

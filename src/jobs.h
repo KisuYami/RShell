@@ -18,16 +18,24 @@
 
 jmp_buf prompt_jmp;
 
+enum JOBS_FLAGS {
+	JOB_RUNNING = 0,
+	JOB_STOPPED = 1,
+	JOB_EXITED  = 2,
+};
+
 struct child
 {
-    char *name;
+	int state;
     pid_t pid;
+    char *name;
+
     struct child *next;
+
 } list_child, running_child;
 
 void child_add(struct child *list_head, struct TOKEN *head);
 void child_chk();
 
-void signal_sigint(int sig);
-void signal_sigtstp(int sig);
+void signal_handler(int sig);
 #endif /* ifndef JOBS_HEADER */

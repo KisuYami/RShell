@@ -9,7 +9,8 @@
 #include "shell.h"
 #include "jobs.h"
 
-void child_add(struct child *list_head, struct TOKEN *head)
+void
+child_add(struct child *list_head, struct TOKEN *head)
 {
 
     struct child *child_ptr = NULL;
@@ -25,46 +26,53 @@ void child_add(struct child *list_head, struct TOKEN *head)
             if(child_ptr->name != NULL)
                 free(child_ptr->name);
 
-            child_ptr->name = malloc(sizeof(char) * command_size + 1);
+			*child_ptr = (struct child) {
+				.name = malloc(sizeof(char) * command_size + 1),
+				.pid = head->pid,
+				.state = head->flags,
+				.next = NULL,
+			};
 
             if(child_ptr->name == NULL)
             {
                 printf("RShell: Failed to allocate memory\n");
+				free(child_ptr->next);
                 longjmp(prompt_jmp, 1);
             }
 
-            memset(child_ptr->name, 0, command_size);
             strncpy(child_ptr->name, head->command[0], command_size + 1);
 
-            child_ptr->pid = head->pid;
-            child_ptr->next = NULL;
-
-            printf("[ Stopped: %s - %d ]\n", child_ptr->name, child_ptr->pid);
+			if(child_ptr->state & JOB_STOPPED)
+				printf("[ Stopped: %s - %d ]\n", child_ptr->name, child_ptr->pid);
 
             return;
 
         }
+
         else if(child_ptr->next == NULL)
         {
 
             child_ptr->next = malloc(sizeof(struct child));
             child_ptr = child_ptr->next;
 
-            child_ptr->name = malloc(sizeof(char) * command_size + 1);
+			*child_ptr = (struct child) {
+				.name = malloc(sizeof(char) * command_size + 1),
+				.pid = head->pid,
+				.state = head->flags,
+				.next = NULL,
+			};
 
             if(child_ptr->name == NULL)
             {
                 printf("RShell: Failed to allocate memory\n");
+				free(child_ptr->next);
                 longjmp(prompt_jmp, 1);
             }
 
-            memset(child_ptr->name, 0, command_size);
             strncpy(child_ptr->name, head->command[0], command_size + 1);
 
-            child_ptr->pid = head->pid;
-            child_ptr->next = NULL;
-
-            printf("[ Stopped: %s - %d ]\n", child_ptr->name, child_ptr->pid);
+			if(child_ptr->state & JOB_STOPPED)
+				printf("[ Stopped: %s - %d ]\n", child_ptr->name, child_ptr->pid);
 
             return;
 
@@ -73,7 +81,8 @@ void child_add(struct child *list_head, struct TOKEN *head)
     }
 }
 
-void child_chk()
+void
+child_chk()
 {
 
     int status = 0;
@@ -121,7 +130,7 @@ void child_chk()
                 {
                     .pid = 0,
                     .name = NULL,
-                    .next = NULL
+                    .next = NULL,
                 };
 
                 tcsetpgrp(STDIN_FILENO, getpgrp());
@@ -133,21 +142,26 @@ void child_chk()
     }
 }
 
-void signal_sigint(int sig)
+void
+signal_handler(int sig)
 {
-    char *prompt = NULL;
 
-    if(running_child.pid > 0)
-        kill(running_child.pid, 9);
+	if (running_child.state & JOB_RUNNING)
+	{
+		switch (sig) {
+		case SIGINT:
 
-    prompt = print_prompt();
-    printf("\n%s", prompt);
+			printf("SIGINT\n");
+			kill(running_child.pid, SIGINT);
+			running_child.pid = 0;
 
-    free(prompt);
-}
+			break;
 
-void signal_sigtstp(int sig)
-{
-    if(running_child.pid > 0)
-        kill(running_child.pid, SIGSTOP);
+		case SIGTSTP:
+
+			printf("SIGTSTP\n");
+			kill(running_child.pid, SIGSTOP);
+			break;
+		}
+	}
 }

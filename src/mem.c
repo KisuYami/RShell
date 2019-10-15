@@ -71,7 +71,8 @@ void clean_child_list(struct child *list_head)
     struct child *list_ptr, *list_tmp;
 
     list_ptr = list_head->next;
-    free(list_head->name);
+	if(list_head->name != NULL)
+		free(list_head->name);
 
     while(list_ptr != NULL)
     {
