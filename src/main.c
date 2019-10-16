@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
     char *command_string;
     char *prompt;
 
-    prompt		= NULL;
+    prompt		    = NULL;
     list_head		= NULL;
     command_string	= NULL;
 
@@ -43,9 +43,9 @@ int main(int argc, char *argv[])
     setpgid(getpid(), tcgetpgrp(STDIN_FILENO));
 
     signal(SIGINT,  signal_handler);
-    signal(SIGTTOU, SIG_IGN);
     signal(SIGTSTP, signal_handler);
-    signal(SIGCHLD, child_chk);
+    signal(SIGCHLD, signal_handler);
+    signal(SIGTTOU, SIG_IGN);
 
     while(1)
     {

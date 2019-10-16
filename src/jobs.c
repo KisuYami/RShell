@@ -96,15 +96,18 @@ child_chk()
         {
 
             waitpid(child_ptr->pid, &status, WCONTINUED | WNOHANG);
+
             if(WIFCONTINUED(status))
             {
 
                 printf("[ Continued: %s - %d ]\n", child_ptr->name,
                        child_ptr->pid);
 
-                tcsetpgrp(STDIN_FILENO, child_ptr->pid);
-
+				/* Setting running_child for signal_handler */
                 running_child = *child_ptr;
+				running_child.state = JOB_STOPPED;
+
+                tcsetpgrp(STDIN_FILENO, child_ptr->pid);
                 waitpid(child_ptr->pid, &status, WUNTRACED);
 
                 while(!WIFSIGNALED(status))
@@ -129,6 +132,7 @@ child_chk()
                 running_child = (struct child)
                 {
                     .pid = 0,
+					.state = 0,
                     .name = NULL,
                     .next = NULL,
                 };
@@ -136,10 +140,12 @@ child_chk()
                 tcsetpgrp(STDIN_FILENO, getpgrp());
                 break;
 
-            }
+            } /* if: WIFCONTINUED(STATUS) */
 
-        }
-    }
+        } /* if: child->pid > 0 */
+
+    } /* for loop */
+
 }
 
 void
@@ -149,18 +155,37 @@ signal_handler(int sig)
 	if (running_child.state & JOB_RUNNING)
 	{
 		switch (sig) {
+
 		case SIGINT:
 
-			printf("SIGINT\n");
 			kill(running_child.pid, SIGINT);
+
+			/* if the running_child was set in child_chk() */
+			if(running_child.state & JOB_STOPPED)
+			{
+				for(struct child *cptr = &list_child; cptr != NULL; cptr = cptr->next)
+				{
+					if(running_child.pid == cptr->pid)
+					{
+						cptr->pid = 0;
+						break;
+					}
+				}
+			}
+
 			running_child.pid = 0;
 
 			break;
 
 		case SIGTSTP:
 
-			printf("SIGTSTP\n");
 			kill(running_child.pid, SIGSTOP);
+
+			break;
+
+		case SIGCHLD:
+			
+			child_chk();
 			break;
 		}
 	}

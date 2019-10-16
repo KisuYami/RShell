@@ -13,21 +13,20 @@
 #include "jobs.h"
 #include "mem.h"
 
-struct bi_list
+struct
 {
     size_t size;
     char *command;
-    void (*func)(struct TOKEN *head);
-};
 
-struct bi_list builtin_list[] =
-{
+    void (*func)(struct TOKEN *head);
+
+} builtin_list[] = {
     {1, "q",     builtin_exit		},
     {2, "cd",    builtin_cd			},
     {2, "bg",    builtin_bg			},
     {2, "fg",    builtin_fg			},
-    {3, "set",   builtin_set_env	},
     {3, "pwd",   builtin_pwd		},
+    {3, "set",   builtin_set_env	},
     {4, "show",  builtin_show_env	},
     {4, "calc",  builtin_calc		},
     {4, "rand",  builtin_rand		},
@@ -61,6 +60,8 @@ int exec_builtin(struct TOKEN *head)
 void builtin_exit(struct TOKEN *head)
 {
     struct child *child_ptr = NULL;
+
+	/* Check for running childs */
     for(child_ptr = &list_child; child_ptr != NULL;
             child_ptr = child_ptr->next)
     {
@@ -122,9 +123,8 @@ void builtin_bg(struct TOKEN *head)
     while(child_ptr != NULL)
     {
         if(child_ptr->pid > 0)
-        {
             printf("[ %s - %d ]\n", child_ptr->name, child_ptr->pid);
-        }
+
         child_ptr = child_ptr->next;
     }
 }
@@ -135,12 +135,14 @@ void builtin_cd(struct TOKEN *head)
     {
         if(chdir(head->command[1]) != 0)
             printf("RShell: Directory does not exist\n");
-    }
+    } else
+		printf("RShell: %s isn't a folder or directory\n", head->command[1]);
+		
 }
 
 void builtin_pwd(struct TOKEN *head)
 {
-    char buf[PATH_MAX] = {0};
+    char buf[PATH_MAX];
     getcwd(buf, PATH_MAX);
 
     printf("%s\n", buf);
@@ -148,51 +150,56 @@ void builtin_pwd(struct TOKEN *head)
 
 void builtin_calc(struct TOKEN *head) // XXX
 {
-    int fd[2];
-    char *tmp_first, *tmp_second;
 
-    char buf[256];
-    char lua[] = "lua";
-    char e[] = "-e";
-
-    if(head->size <= 1)
+    if(head->size < 2)
     {
         printf("RShell: Missing arguments\n");
         return;
     }
 
-    strncpy(buf, "print(", 7);
-    strcat(buf, head->command[1]);
-    strncat(buf, ")", 2);
+	struct TOKEN *calc;
 
-    tmp_first = head->command[0];
-    tmp_second = head->command[1];
+	char buf[256];
+	char lua[] = "lua";
+	char e[]   = "-e";
 
-    head->command[0] = (char *)&lua;
-    head->command[1] = (char *)&e;
-    head->command[2] = (char *)&buf;
+	int fd[2];
 
-    exec_command(head, 0, fd);
+	calc = init_TOKEN_list();
 
-    head->command[0] = tmp_first;
-    head->command[1] = tmp_second;
-    head->command[2] = NULL;
+    calc->command[0] = (char *)&lua;
+    calc->command[1] = (char *)&e;
+    calc->command[2] = (char *)&buf;
 
+	sprintf(buf, "print(%s)", head->command[1]);
+
+    exec_command(calc, 0, fd);
+
+	/* only need to free calc */
+	free(calc);
 }
 
 void builtin_rand(struct TOKEN *head)
 {
-    int i, p, x = 0;
-    srand(time(NULL));
 
-    if(head->size <= 2)
+    if(head->size < 3)
     {
         printf("RShell: Missing arguments\n");
         return;
     }
 
+    int i, p;
+	int x = 0;
+
+    srand(time(NULL));
+
     i = atoi(head->command[1]);
     p = atoi(head->command[2]);
+
+	if (i > p) {
+		printf("RShell: Wrong Range: %d is greater than %d\n", i, p);
+		return;
+	}
 
     while(1)
     {
@@ -209,19 +216,20 @@ void builtin_rand(struct TOKEN *head)
 
 void builtin_clean(struct TOKEN *head)
 {
-    write(STDIN_FILENO, "\033[1J", 5);
-    write(STDIN_FILENO, "\033[1H", 5);
+	printf("\033[1J");
+	printf("\033[1H");
 }
 
 void builtin_set_env(struct TOKEN *head)
 {
-    char c, *env;
 
-    if(head->size <= 2)
+    if(head->size < 3)
     {
         printf("RShell: Missing arguments\n");
         return;
     }
+
+    char c, *env;
 
     c = getopt(head->size, head->command, "a:");
 
@@ -241,6 +249,7 @@ void builtin_set_env(struct TOKEN *head)
 
         setenv(head->command[1], env, 1);
         break;
+
     default:
         setenv(head->command[1], head->command[2], 1);
     }
@@ -249,15 +258,13 @@ void builtin_set_env(struct TOKEN *head)
 
 void builtin_show_env(struct TOKEN *head)
 {
-    char *env;
-
-    if(head->size <= 1)
+    if(head->size < 2)
     {
         printf("RShell: Missing arguments\n");
         return;
     }
 
-    env = getenv(head->command[1]);
+    char *env = getenv(head->command[1]);
 
     if(env == NULL)
         printf("RShell: Enviroment \"%s\" isn't defined.\n", head->command[1]);
