@@ -27,8 +27,8 @@ install: $(BUILD_DIR)/$(TARGET_EXEC)
 	install  -g 0 -o 0 -m 0644 $(BUILD_DIR)/$(TARGET_EXEC) /usr/bin/
 	chmod +x /usr/bin/rshell
 
-	install -g 0 -o 0 -m 0644 man/rshell.1 /usr/share/man/man1/
-	install -g 0 -o 0 -m 0644 man/pt_BR/rshell.1 /usr/share/man/pt_BR/man1/
+	install -g 0 -o 0 -m 0644 ./Packages/man/rshell.1 /usr/share/man/man1/
+	install -g 0 -o 0 -m 0644 ./Packages/man/pt_BR/rshell.1 /usr/share/man/pt_BR/man1/
 
 	gzip -f /usr/share/man/man1/rshell.1
 	gzip -f /usr/share/man/pt_BR/man1/rshell.1

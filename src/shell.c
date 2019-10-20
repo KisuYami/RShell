@@ -13,35 +13,82 @@
 #include "jobs.h"
 #include "mem.h"
 
-#define DEBUG 1
-
 char *
 print_prompt(void)
 {
     size_t size;
 
-    char *user		= NULL;
 	char *home      = NULL;
     char *prompt	= NULL;
+	char *ps1       = NULL;
     char  pwd[PATH_MAX+1];
 
     getcwd(pwd, PATH_MAX+1);
 
-    user   = getenv("USER");
-	home   = getenv("HOME");
-    size   = strlen(home);
+	ps1    = getenv("RSHELL_PROMPT");
     prompt = malloc(sizeof(char) * PATH_MAX * 2);
+	memset(prompt, 0, sizeof(char) * PATH_MAX * 2);
 
-#if DEBUG
-    if(strncmp(pwd, home, size) == 0)
-		sprintf(prompt, "[ %s - ~%s ] $ ", user, pwd+size);
+	/*************************************************************************
 
-	else
-		sprintf(prompt, "[ %s - %s ] $ ", user, pwd);
+    D is debug mode
 
-#else
-    sprintf(prompt, "[ DEBUG - %s ] $ ", pwd);
-#endif
+    u is adds the user name
+    d adds the current path
+
+    ************************************************************************/
+
+	if(ps1 != NULL) {
+
+		for(; *ps1 != '\0'; ps1++) {
+
+			if(*ps1 == '%') {
+				
+				ps1++;
+
+				if(*ps1 == '\0') strcat(prompt, "%");
+
+				else if(*ps1 == ' ') {
+
+				    strcat(prompt, "%");
+					strcat(prompt, " ");
+					
+				}
+
+				else if(*ps1 == 'D') {
+
+					sprintf(prompt, "[ DEBUG ] $ ");
+					break;
+
+				}
+
+				else if(*ps1 == 'u') strcat(prompt, getenv("USER"));
+
+				else if(*ps1 == 'd') {
+
+					home   = getenv("HOME");
+					size   = strlen(home);
+
+					if(strncmp(pwd, home, size) == 0) {
+						
+						strcat(prompt, "~");
+						strcat(prompt, pwd+size);
+
+					} else
+						strcat(prompt, pwd+size);
+					
+				}
+			} else {
+				strncat(prompt, ps1, 1);
+			}
+
+		}
+		
+	} else {
+
+		strcpy(prompt, " % ");
+
+	}
 
     return prompt;
 }
@@ -143,19 +190,21 @@ parse_input(char *command_string)
 
             while(1)
             {
-
                 strcat(tmp_string, token);
+
+				if(*token == string_literal || token[strlen(token) - 1] == string_literal) {
+					
+					char *dot = strchr(tmp_string, string_literal);
+					dot[0] = '\0'; // Remove trailing string_literal
+
+					break;
+				}
+
                 token = strtok(NULL, INPUT_TOKEN_DELIMITER);
 
                 if(token == NULL)
                 {
-					char *dot = strrchr(tmp_string, string_literal);
-
-					if(dot != NULL)
-						dot[0] = '\0'; // Remove trailing string_literal
-					else
-						printf("RShell: missing ending %c\n", string_literal);
-
+					printf("RShell: missing ending %c\n", string_literal);
 					break;
                 }
 
@@ -182,11 +231,28 @@ parse_input(char *command_string)
 			if(1); // Work around for the declaration below.
 			char *dot = NULL;
 
-			dot = strrchr(token, '\'');
-			if(dot != NULL) dot[0] = '\0'; // Remove trailing '
+			/* There is no reason to have more than 2 of those in one token */
 
-			dot = strrchr(token, '\"');
-			if(dot != NULL) dot[0] = '\0'; // Remove trailing "
+			dot = strchr(token, '\'');
+
+			if(dot != NULL) {
+
+				dot[0] = '\0'; // Remove trailing '
+
+				if(dot != NULL) {
+					dot = strchr(token, '\'');
+				}
+			}
+
+			dot = strchr(token, '\"');
+
+			if(dot != NULL) {
+				dot[0] = '\0'; // Remove trailing "
+
+				if(dot != NULL) {
+					dot = strchr(token, '\"');
+				}
+			}
 
             wordexp(token, &parsed_expression, 0);
 

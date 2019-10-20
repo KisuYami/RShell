@@ -1,0 +1,42 @@
+* RShell
+
+This shell aims to be minimal as possible.
+
+** Install
+
+*** From the autobuild system
+
+	You can go on you prefered package system and run make,
+	to use a build system, build tools are needed, e.g, for 
+    rpm you need rpmbuild,  and you need to set enviroment 
+    variable VERSION to the version you want.
+
+#+BEGIN_SRC sh
+set VERSION 2.0 # RShell set enviroment command
+make
+#+END_SRC
+
+*** From Makefile
+
+#+BEGIN_SRC sh
+make
+sudo make install # maybe not, you can get elf from ./build/rshell
+#+END_SRC
+
+** Config
+
+You can set the configuration by using enviroment variables, as the rshell
+don't have a config file, you may set it in .profile.
+
+*** Prompt
+   
+   The prompt is set in the RSHELL_PROMPT enviroment variable.
+
+   Woking tokens:
+   - %D will set debug mode
+   - %d will show the path to the current working dir
+   - %u will show the user name
+
+#+begin_example
+RSHELL_PROMPT='[ %u - %d ] $ '
+#+end_example
