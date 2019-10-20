@@ -1,0 +1,31 @@
+* RShell
+
+This shell aims to be minimal as possible.
+
+** Install
+
+*** From the Open Build Services
+
+
+#+BEGIN_SRC sh
+zypper addrepo https://download.opensuse.org/repositories/home:/kisuyami/openSUSE_Tumbleweed/home:kisuyami.repo
+zypper in RShell
+#+END_SRC
+
+** Config
+
+You can set the configuration by using enviroment variables, as the rshell
+don't have a config file, you may set it in .profile.
+
+*** Prompt
+   
+   The prompt is set in the RSHELL_PROMPT enviroment variable.
+
+   Woking tokens:
+   - %D will set debug mode
+   - %d will show the path to the current working dir
+   - %u will show the user name
+
+#+begin_example
+RSHELL_PROMPT='[ %u - %d ] $ '
+#+end_example

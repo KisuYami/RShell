@@ -1,5 +1,4 @@
 NAME=RShell
-VERSION=1.5
 
 ${NAME}-${VERSION}.deb:
 
