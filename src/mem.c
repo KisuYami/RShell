@@ -1,11 +1,15 @@
-#include <stdio.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
+
 #include "shell.h"
 #include "jobs.h"
 #include "mem.h"
 
-struct TOKEN *init_TOKEN_list()
+struct TOKEN *
+init_TOKEN_list()
 {
     struct TOKEN *list;
 
@@ -28,7 +32,8 @@ struct TOKEN *init_TOKEN_list()
 }
 
 
-void *realloc_string(void *old_ptr, size_t new_size)
+void *
+realloc_string(void *old_ptr, size_t new_size)
 {
     void *new_ptr = NULL;
 
@@ -44,7 +49,8 @@ void *realloc_string(void *old_ptr, size_t new_size)
     return new_ptr;
 }
 
-void clean_TOKEN_list(struct TOKEN *list_head)
+void
+clean_TOKEN_list(struct TOKEN *list_head)
 {
 
     struct TOKEN *list_ptr = NULL, *list_tmp = NULL;
@@ -65,7 +71,8 @@ void clean_TOKEN_list(struct TOKEN *list_head)
     }
 }
 
-void clean_child_list(struct child *list_head)
+void
+clean_child_list(struct child *list_head)
 {
 
     struct child *list_ptr, *list_tmp;
@@ -83,4 +90,14 @@ void clean_child_list(struct child *list_head)
         free(list_tmp->name);
         free(list_tmp);
     }
+}
+
+
+void
+clean_everything(void)
+{
+	clean_child_list(&list_child);
+	clean_child_list(&running_child);
+	write_history(rshell_hist_file);
+	return;
 }

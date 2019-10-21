@@ -10,9 +10,19 @@
 
 #include "jobs.h"
 
-void clean_TOKEN_list(struct TOKEN *list_head);
-void clean_child_list(struct child *list_head);
+void
+clean_TOKEN_list(struct TOKEN *list_head);
 
-void *realloc_string(void *old_ptr, size_t new_size);
-struct TOKEN *init_TOKEN_list();
+void
+clean_child_list(struct child *list_head);
+
+void *
+realloc_string(void *old_ptr, size_t new_size);
+
+struct TOKEN *
+init_TOKEN_list();
+
+void
+clean_everything(void);
+
 #endif

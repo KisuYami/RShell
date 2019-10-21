@@ -2,7 +2,8 @@ TARGET_EXEC = rshell
 
 CC= gcc
 CLIBS= -lreadline -lncurses
-CFLAGS = -O3
+CFLAGS 	= -O3
+DEBUG_CFLAGS = -Wall -Werror -pedantic -ggdb3 -Wno-error=unknown-pragmas
 
 SRC_DIRS = ./src
 BUILD_DIR = ./build
@@ -14,7 +15,11 @@ $(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
 
 $(BUILD_DIR)/%.c.o: %.c
 	mkdir -p $(dir $@)
+ifdef DEBUG
+	$(CC) $(DEBUG_CFLAGS) -c $< -o $@
+else
 	$(CC) $(CFLAGS) -c $< -o $@
+endif
 
 install: $(BUILD_DIR)/$(TARGET_EXEC)
 	mkdir -p ${DESTDIR}/usr/bin/
@@ -22,8 +27,8 @@ install: $(BUILD_DIR)/$(TARGET_EXEC)
 	mkdir -p ${DESTDIR}/usr/share/man/pt_BR/man1/
 
 	cp $(BUILD_DIR)/$(TARGET_EXEC) ${DESTDIR}/usr/bin/
-	cp Packages/man/rshell.1 ${DESTDIR}/usr/share/man/man1/
-	cp Packages/man/pt_BR/rshell.1 ${DESTDIR}/usr/share/man/pt_BR/man1/
+	cp man/rshell.1 ${DESTDIR}/usr/share/man/man1/
+	cp man/pt_BR/rshell.1 ${DESTDIR}/usr/share/man/pt_BR/man1/
 
 clean:
 	$(RM) -r $(BUILD_DIR)

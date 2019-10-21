@@ -1,24 +1,19 @@
 * RShell
-
 This shell aims to be minimal as possible.
 
 ** Install
-
-*** From the Open Build Services
-
+You can find packages in Release or you can compile it yourself
 
 #+BEGIN_SRC sh
-zypper addrepo https://download.opensuse.org/repositories/home:/kisuyami/openSUSE_Tumbleweed/home:kisuyami.repo
-zypper in RShell
+make
+sudo make install
 #+END_SRC
 
 ** Config
-
 You can set the configuration by using enviroment variables, as the rshell
 don't have a config file, you may set it in .profile.
 
 *** Prompt
-   
    The prompt is set in the RSHELL_PROMPT enviroment variable.
 
    Woking tokens:
@@ -29,3 +24,10 @@ don't have a config file, you may set it in .profile.
 #+begin_example
 RSHELL_PROMPT='[ %u - %d ] $ '
 #+end_example
+*** History
+You can set history file with RSHELL_HISTORY_FILE, the default is ~/.local/share/rshell_history.
+
+#+begin_example
+RSHELL_PROMPT='/home/yourname/.rshell_history'
+#+end_example
+

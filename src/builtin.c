@@ -1,4 +1,5 @@
 #include <readline/history.h>
+#include <sys/wait.h>
 #include <sys/stat.h>
 #include <stdlib.h>
 #include <signal.h>
@@ -148,35 +149,24 @@ void builtin_pwd(struct TOKEN *head)
     printf("%s\n", buf);
 }
 
-void builtin_calc(struct TOKEN *head) // XXX
+void builtin_calc(struct TOKEN *head)
 {
-
     if(head->size < 2)
     {
         printf("RShell: Missing arguments\n");
         return;
     }
 
-	struct TOKEN *calc;
-
 	char buf[256];
-	char lua[] = "lua";
-	char e[]   = "-e";
-
-	int fd[2];
-
-	calc = init_TOKEN_list();
-
-    calc->command[0] = (char *)&lua;
-    calc->command[1] = (char *)&e;
-    calc->command[2] = (char *)&buf;
 
 	sprintf(buf, "print(%s)", head->command[1]);
 
-    exec_command(calc, 0, fd);
+	if(fork() == 0)
+	{
+		execlp("lua", "lua", "-e", buf, (char *)NULL);
+	}
 
-	/* only need to free calc */
-	free(calc);
+	wait(NULL);
 }
 
 void builtin_rand(struct TOKEN *head)

@@ -11,7 +11,11 @@
 #define MAX_INPUT_SIZE 50
 #define MAX_TOKEN_NUMBER 10
 #define INPUT_TOKEN_DELIMITER " \t\r\t\b\0"
+
 #include <stddef.h>
+#include <termios.h>
+
+struct termios rshell_term;
 
 enum TOKEN_FLAGS
 {
@@ -36,10 +40,17 @@ struct TOKEN
 };
 
 struct TOKEN *list_head;
-struct TOKEN *parse_input(char *command_string);
+struct TOKEN *parse_input(char *);
 
-char *print_prompt(void);
+void
+set_history_file(void);
 
-void exec_command(struct TOKEN *command, int i, int fd[2]);
-void exec_command_redirection(struct TOKEN *head);
+char *
+print_prompt(void);
+
+void
+exec_command(struct TOKEN *, int, int *);
+
+void
+exec_command_redirection(struct TOKEN *);
 #endif /* SHELL_HEADER */

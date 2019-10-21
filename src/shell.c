@@ -1,4 +1,5 @@
 #include <sys/wait.h>
+#include <termios.h>
 #include <wordexp.h>
 #include <setjmp.h>
 #include <string.h>
@@ -12,6 +13,21 @@
 #include "builtin.h"
 #include "jobs.h"
 #include "mem.h"
+
+void
+set_history_file(void)
+{
+
+	if(getenv("RSHELL_HISTORY_FILE") == NULL)
+	{
+		strcpy(rshell_hist_file, getenv("HOME"));
+		strncat(rshell_hist_file, "/.local/share/rshell_history", 29);
+	}
+	else
+		strcpy(rshell_hist_file, getenv("RSHELL_HISTORY_FILE"));
+
+	return;
+}
 
 char *
 print_prompt(void)
@@ -33,7 +49,7 @@ print_prompt(void)
 
     D is debug mode
 
-    u is adds the user name
+    u adds the user name
     d adds the current path
 
     ************************************************************************/
@@ -75,7 +91,7 @@ print_prompt(void)
 						strcat(prompt, pwd+size);
 
 					} else
-						strcat(prompt, pwd+size);
+						strcat(prompt, pwd);
 					
 				}
 			} else {
@@ -92,198 +108,6 @@ print_prompt(void)
 
     return prompt;
 }
-
-struct TOKEN *
-parse_input(char *command_string)
-{
-
-    char string_literal;
-
-    char *token      = NULL;
-	char *tmp_string = NULL;
-
-    size_t count          = 0;
-    size_t position       = 0;
-    size_t tmp_size_token = 0;
-
-    wordexp_t parsed_expression;
-
-    struct TOKEN *list_head = NULL;
-	struct TOKEN *list_ptr  = NULL;
-
-    list_head	= init_TOKEN_list();
-    list_ptr	= list_head;
-
-    token = strtok(command_string, INPUT_TOKEN_DELIMITER);
-
-    while(token)
-    {
-
-        switch(*token)
-        {
-        case '|':
-
-            list_ptr->flags |= PIPE;
-
-            list_ptr->next	= init_TOKEN_list();
-            list_ptr		= list_ptr->next;
-
-            position = 0;
-
-            token = strtok(NULL, INPUT_TOKEN_DELIMITER);
-
-            break;
-
-        case '>':
-
-            if(strncmp(token, ">>", 2) == 0)
-                list_ptr->flags |= APPEND | REDIRECTION;
-            else
-                list_ptr->flags |= CREAT | REDIRECTION;
-
-            list_ptr->next	= init_TOKEN_list();
-            list_ptr	    = list_ptr->next;
-
-            position = 0;
-
-            token = strtok(NULL, INPUT_TOKEN_DELIMITER);
-
-            break;
-
-        case '<':
-
-            list_ptr->flags |= REDIRECTION;
-            list_ptr->flags |= READ;
-
-            list_ptr->next	= init_TOKEN_list();
-            list_ptr		= list_ptr->next;
-
-            position = 0;
-
-            token = strtok(NULL, INPUT_TOKEN_DELIMITER);
-            break;
-
-        case '&':
-
-            list_ptr->flags |= CHILD_BACKGROUND;
-            token = strtok(NULL, INPUT_TOKEN_DELIMITER);
-            break;
-
-        case '\'':
-        case '\"':
-            string_literal = *token;
-
-            tmp_size_token = strlen(token);
-            tmp_size_token = tmp_size_token * tmp_size_token + 10; // Elevate by 2
-
-            tmp_string = malloc(sizeof(char) * tmp_size_token);
-            memset(tmp_string, 0, tmp_size_token);
-
-            if(tmp_string == NULL)
-            {
-                printf("RShell: Failed to allocate memory\n");
-                longjmp(prompt_jmp, 1);
-            }
-
-			// Remove the " or ' in the start of the first token
-			token++;
-
-            while(1)
-            {
-                strcat(tmp_string, token);
-
-				if(*token == string_literal || token[strlen(token) - 1] == string_literal) {
-					
-					char *dot = strchr(tmp_string, string_literal);
-					dot[0] = '\0'; // Remove trailing string_literal
-
-					break;
-				}
-
-                token = strtok(NULL, INPUT_TOKEN_DELIMITER);
-
-                if(token == NULL)
-                {
-					printf("RShell: missing ending %c\n", string_literal);
-					break;
-                }
-
-				strcat(tmp_string, " ");
-
-				// Reallocation of memory
-				count += strlen(token);
-
-                if(count >= tmp_size_token - 10)
-                {
-                    tmp_size_token = count * count;
-                    tmp_string = realloc_string(tmp_string,
-                                                tmp_size_token * sizeof(char));
-                }
-
-            }
-
-            list_ptr->command[position++] = tmp_string;
-            token = strtok(NULL, INPUT_TOKEN_DELIMITER);
-            break;
-
-        default:
-
-			if(1); // Work around for the declaration below.
-			char *dot = NULL;
-
-			/* There is no reason to have more than 2 of those in one token */
-
-			dot = strchr(token, '\'');
-
-			if(dot != NULL) {
-
-				dot[0] = '\0'; // Remove trailing '
-
-				if(dot != NULL) {
-					dot = strchr(token, '\'');
-				}
-			}
-
-			dot = strchr(token, '\"');
-
-			if(dot != NULL) {
-				dot[0] = '\0'; // Remove trailing "
-
-				if(dot != NULL) {
-					dot = strchr(token, '\"');
-				}
-			}
-
-            wordexp(token, &parsed_expression, 0);
-
-            for (size_t i = 0; i < parsed_expression.we_wordc; ++i)
-            {
-
-                tmp_string = malloc(sizeof(char) * 512);
-
-
-                if(tmp_string == NULL)
-                {
-                    printf("RShell: Failed to allocate memory\n");
-                    longjmp(prompt_jmp, 1);
-                }
-
-                strcpy(tmp_string, parsed_expression.we_wordv[i]);
-                list_ptr->command[position++] = tmp_string;
-            }
-
-            wordfree(&parsed_expression);
-            token = strtok(NULL, INPUT_TOKEN_DELIMITER);
-            break;
-        }
-
-    }
-
-    list_ptr->size = position;
-
-    return list_head;
-}
-
 void
 exec_command(struct TOKEN *command, int i, int fd[2])
 {
@@ -292,7 +116,6 @@ exec_command(struct TOKEN *command, int i, int fd[2])
 
     if(!command)   // Cleaning stuff
     {
-
         close(fd[0]);
         close(fd[1]);
 
@@ -304,14 +127,6 @@ exec_command(struct TOKEN *command, int i, int fd[2])
 
     if(0 == i && command->next)
         pipe(fd);
-
-#if 0
-    if(i > 1)
-    {
-        wait(NULL);
-        i--;
-    }
-#endif
 
     switch(pid = fork())
     {
@@ -327,12 +142,10 @@ exec_command(struct TOKEN *command, int i, int fd[2])
 
             if(command->flags & CHILD_BACKGROUND)
             {
-
                 output_fd = open("/dev/null", O_WRONLY);
                 dup2(output_fd, STDOUT_FILENO);
 
                 close(output_fd);
-
             }
 
             setpgid(getpid(), 0);

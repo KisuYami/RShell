@@ -16,6 +16,7 @@
 
 #define MAX_CHILD_NAME 50
 
+char    rshell_hist_file[1024];
 jmp_buf prompt_jmp;
 
 enum JOBS_FLAGS {
@@ -34,8 +35,12 @@ struct child
 
 } list_child, running_child;
 
-void child_add(struct child *list_head, struct TOKEN *head);
-void child_chk();
+void
+child_add(struct child *, struct TOKEN *);
 
-void signal_handler(int sig);
+void
+child_chk();
+
+void
+signal_handler(int);
 #endif /* ifndef JOBS_HEADER */
