@@ -12,10 +12,10 @@
 #include "jobs.h"
 
 void
-child_add(struct child *list_head, struct TOKEN *head)
+child_add(job_t *list_head, node_t *head)
 {
 
-    struct child *child_ptr = NULL;
+    job_t *child_ptr = NULL;
     size_t command_size = strlen(head->command[0]);
 
     child_ptr = list_head;
@@ -28,7 +28,7 @@ child_add(struct child *list_head, struct TOKEN *head)
             if(child_ptr->name != NULL)
                 free(child_ptr->name);
 
-            *child_ptr = (struct child) {
+            *child_ptr = (job_t) {
                 .name = malloc(sizeof(char) * command_size + 1),
                 .pid = head->pid,
                 .state = head->flags,
@@ -39,7 +39,7 @@ child_add(struct child *list_head, struct TOKEN *head)
             {
                 printf("RShell: Failed to allocate memory\n");
                 free(child_ptr->next);
-                longjmp(prompt_jmp, 1);
+				return;
             }
 
             strncpy(child_ptr->name, head->command[0], command_size + 1);
@@ -54,10 +54,10 @@ child_add(struct child *list_head, struct TOKEN *head)
         else if(child_ptr->next == NULL)
         {
 
-            child_ptr->next = malloc(sizeof(struct child));
+            child_ptr->next = malloc(sizeof(job_t));
             child_ptr = child_ptr->next;
 
-            *child_ptr = (struct child) {
+            *child_ptr = (job_t) {
                 .name = malloc(sizeof(char) * command_size + 1),
                 .pid = head->pid,
                 .state = head->flags,
@@ -68,7 +68,7 @@ child_add(struct child *list_head, struct TOKEN *head)
             {
                 printf("RShell: Failed to allocate memory\n");
                 free(child_ptr->next);
-                longjmp(prompt_jmp, 1);
+				return;
             }
 
             strncpy(child_ptr->name, head->command[0], command_size + 1);
@@ -90,7 +90,7 @@ child_chk()
     int status = 0;
 	int ret = -1;
 
-    struct child *child_ptr = NULL;
+    job_t *child_ptr = NULL;
 
     for(child_ptr = &list_child;
 		child_ptr != NULL;
@@ -134,7 +134,7 @@ child_chk()
                     }
                 }
 
-                running_child = (struct child)
+                running_child = (job_t)
                     {
                         .pid = 0,
                         .state = 0,
@@ -176,7 +176,7 @@ signal_handler(int sig)
             /* if the running_child was set in child_chk() */
             if(running_child.state & JOB_STOPPED)
             {
-                for(struct child *cptr = &list_child; cptr != NULL; cptr = cptr->next)
+                for(job_t *cptr = &list_child; cptr != NULL; cptr = cptr->next)
                 {
                     if(running_child.pid == cptr->pid)
                     {

@@ -1,7 +1,7 @@
 .\" Manpage para RShell
 .\" Me contate em 6reberti6@gmail.com para corrigir erros
 .\" Feito com a ajuda de 初音ミク(Hatsune Mikku)
-.TH man 1 "8 Out 2019" "1.5" "rshell man page"
+.TH man 1 "8 Out 2019" "2.3" "rshell man page"
 .SH NOME
 .B rshell
 - um shell minimalista
@@ -27,24 +27,30 @@ mostra uma mensagen de ajuda inútil
 .TP
 .B -v --version
 mostra a versão do programa
+
 .SH BUILT-IN
 .TP
 .B q
 sair do shell
+
 .TP
 .B cd
 mudar o diretório
+
 .TP
 .B bg
 mostrar processos em background
+
 .TP
 .B fg [pid]
 continuar o processo
 .I pid
 , caso nenhum processo seja especificado, continuar com a primeira child encontrada
+
 .TP
 .B pwd
 mostrar o caminho para o diretório atual
+
 .TP
 .B set [-a] <variável> <valor>
 mudar ou criar uma
@@ -57,18 +63,29 @@ para por o
 .I valor
 no final da
 .I variável
+
 .TP
 .B show <nome>
 mostrar o valor de
 .I nome
+
 .TP
 .B calc <formula>
 mostrar resultado da
 .I formula
 usando lua como interpretador
+
 .TP
 .B rand <minimo> <máximo>
 gera um número aleatório começando em
 .I minimo
 e no
 .I máximo
+
+.TP
+.B :<env_var>
+Aliases podem ser criados como qualquer
+.I variavel ambiental
+, e podem ser chamados usando o prefixo
+.I ':'
+.

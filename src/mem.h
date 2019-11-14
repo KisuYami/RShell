@@ -8,19 +8,20 @@
 * Description:      Handle memory
 *****************************************************************************/
 
+#include "parse.h"
 #include "jobs.h"
-
-void
-clean_TOKEN_list(struct TOKEN *list_head);
-
-void
-clean_child_list(struct child *list_head);
 
 void *
 realloc_string(void *old_ptr, size_t new_size);
 
-struct TOKEN *
-init_TOKEN_list();
+void
+clean_node_list(node_t *list_head);
+
+void
+clean_child_list(job_t *list_head);
+
+node_t *
+init_node_list(void);
 
 void
 clean_everything(void);

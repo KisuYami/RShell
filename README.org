@@ -1,18 +1,14 @@
 * RShell
 This shell aims to be minimal as possible.
-
 ** Install
 You can find packages in Release or you can compile it yourself
-
 #+BEGIN_SRC sh
 make
-sudo make install
+sudo install ./build/rshell /usr/bin/rshell
 #+END_SRC
-
 ** Config
 You can set the configuration by using enviroment variables, as the rshell
 don't have a config file, you may set it in .profile.
-
 *** Prompt
    The prompt is set in the RSHELL_PROMPT enviroment variable.
 
@@ -20,13 +16,21 @@ don't have a config file, you may set it in .profile.
    - %D will set debug mode
    - %d will show the path to the current working dir
    - %u will show the user name
-
 #+begin_example
 RSHELL_PROMPT='[ %u - %d ] $ '
 #+end_example
+*** Aliases
+They can be defined in the .profile file as a normal enviroment variable,
+and are called with the ':' prefix.
+#+BEGIN_SRC emacs-lisp
+export e="emacsclient -nw -c"
+#+END_SRC
+On the shell:
+#+begin_example
+rshell$ :e .profile
+#+end_example
 *** History
 You can set history file with RSHELL_HISTORY_FILE, the default is ~/.local/share/rshell_history.
-
 #+begin_example
 RSHELL_PROMPT='/home/yourname/.rshell_history'
 #+end_example

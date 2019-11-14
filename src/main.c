@@ -1,15 +1,12 @@
 #include <readline/readline.h>
 #include <readline/history.h>
-#include <sys/file.h>
 #include <termios.h>
 #include <setjmp.h>
-#include <stdlib.h>
-#include <string.h>
 #include <unistd.h>
 #include <getopt.h>
 #include <signal.h>
+#include <stdlib.h>
 #include <stdio.h>
-#include <error.h>
 
 #include "builtin.h"
 #include "parse.h"
@@ -19,73 +16,57 @@
 
 #define RSHELL_VERSION "v2.0-3"
 
-void get_user_opts(int argc, char *argv[]);
+void
+get_user_opts(int argc, char *argv[]);
 
-int main(int argc, char *argv[])
+int
+main(int argc, char *argv[])
 {
     get_user_opts(argc, argv);
 
-    int result = -1;
-    int fd[2];
-
-    char *command_string;
-    char *prompt;
-
-    prompt           = NULL;
-    list_head        = NULL;
-    command_string   = NULL;
-
-    list_child.pid      = 0;
-    running_child.pid   = 0;
-
     set_history_file();
+    atexit(clean_everything);
 
-    using_history();
-    stifle_history(1000);
-    read_history(rshell_hist_file);
+    memset(&running_child, 0, sizeof(job_t));
+    memset(&list_child, 0, sizeof(job_t));
 
     signal(SIGINT,  signal_handler);
     signal(SIGTSTP, signal_handler);
     signal(SIGCHLD, signal_handler);
     signal(SIGTTOU, SIG_IGN);
 
-    atexit(clean_everything);
-
     setpgid(getpid(), tcgetpgrp(STDIN_FILENO));
-    tcgetattr(STDIN_FILENO, &rshell_term);
 
     while(1)
     {
         child_chk();
-        setjmp(prompt_jmp);
 
-        prompt = print_prompt();
-PROMPT: command_string = readline(prompt);
+		int   result = -1;
+        char *prompt = print_prompt();
+        char *command_str = readline(prompt);
 
+        if(*command_str)     add_history(command_str);
+        if(!(*command_str))  goto ERROR; // Don't do anything with empty imput
 
-        if(*command_string)     add_history(command_string);
-        if(!(*command_string))  goto PROMPT; // Don't do anything with empty imput
-
-        list_head = parse_input(command_string);
+        list_head = parse_input(command_str);
 
         if(!list_head)
             goto ERROR;
 
-        result    = exec_builtin(list_head);
+        result = exec_builtin(list_head);
 
-        if(0 == (list_head->flags & BUILTIN))
-            exec_command(list_head, 0, fd);
+        if(!(list_head->flags & NODE_BUILTIN))
+            exec_command(list_head, 0, (int[2]){0, 0});
 
         tcsetpgrp(STDIN_FILENO, getpgrp());
         setpgid(getpid(), tcgetpgrp(STDIN_FILENO));
-        tcsetattr(STDIN_FILENO, TCSANOW, &rshell_term);
 
-        clean_TOKEN_list(list_head);
-ERROR:  free(command_string);
+        clean_node_list(list_head);
+ERROR:  free(command_str);
         free(prompt);
 
         if(0 == result) // User input was "q"
-            break;
+            return 0;
     }
 
     return 0;
@@ -93,26 +74,22 @@ ERROR:  free(command_string);
 
 void get_user_opts(int argc, char *argv[])
 {
-    int choice, i, fd[2];
     int option_index = 0;
-
-    char *tmp_string = NULL;
-
-    struct TOKEN *list_head;
 
     while (1)
     {
+
         static struct option long_options[] =
             {
                 {"version", no_argument,        0,  'v'},
                 {"help",    no_argument,        0,  'h'},
                 {"command", required_argument,  0,  'c'},
                 {"dir", required_argument,      0,  'd'},
-                {0,0,0,0}
+                {0,0,0,0},
             };
 
-        choice = getopt_long( argc, argv, "vhc:d:",
-                              long_options, &option_index);
+        int choice = getopt_long(argc, argv, "vhc:d:",
+                                 long_options, &option_index);
 
         if (choice == -1)
             break;
@@ -128,25 +105,25 @@ void get_user_opts(int argc, char *argv[])
             exit(0);
 
         case 'c':
+        {
+            char *tmp_string = calloc(1024, sizeof(char));
 
-            tmp_string = malloc(sizeof(char) * 1024);
-            memset(tmp_string, 0, sizeof(char) * 1024);
-
-            for(i = optind - 1; i < argc; ++i)
+            for(int i = optind - 1; i < argc; ++i)
             {
                 strcat(tmp_string, argv[i]);
                 strcat(tmp_string, " ");
             }
 
-            list_head = parse_input(tmp_string);
+            node_t *list_head = parse_input(tmp_string);
             exec_builtin(list_head);
 
-            if(!(list_head->flags & BUILTIN))
-                exec_command(list_head, 0, fd);
+            if(!(list_head->flags & NODE_BUILTIN))
+                exec_command(list_head, 0, (int[2]){0, 0});
 
-            clean_TOKEN_list(list_head);
+            clean_node_list(list_head);
             free(tmp_string);
             exit(0);
+        }
 
         case 'd':
             chdir(optarg);

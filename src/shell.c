@@ -1,3 +1,5 @@
+#include <readline/readline.h>
+#include <readline/history.h>
 #include <sys/wait.h>
 #include <termios.h>
 #include <wordexp.h>
@@ -17,7 +19,6 @@
 void
 set_history_file(void)
 {
-
 	if(getenv("RSHELL_HISTORY_FILE") == NULL)
 	{
 		strcpy(rshell_hist_file, getenv("HOME"));
@@ -26,7 +27,9 @@ set_history_file(void)
 	else
 		strcpy(rshell_hist_file, getenv("RSHELL_HISTORY_FILE"));
 
-	return;
+    using_history();
+    stifle_history(1000);
+    read_history(rshell_hist_file);
 }
 
 char *
@@ -108,16 +111,16 @@ print_prompt(void)
 
     return prompt;
 }
+
 void
-exec_command(struct TOKEN *command, int i, int fd[2])
+exec_command(node_t *command, int i, int fd[2])
 {
     int status = 0, output_fd = 0;
     pid_t pid = 0;
 
     if(!command)   // Cleaning stuff
     {
-        close(fd[0]);
-        close(fd[1]);
+        close(fd[0]); close(fd[1]);
 
         for(; i >= 0; --i)
             wait(NULL);
@@ -140,7 +143,7 @@ exec_command(struct TOKEN *command, int i, int fd[2])
         if(0 == i && !command->next)
         {
 
-            if(command->flags & CHILD_BACKGROUND)
+            if(command->flags & NODE_ASYNC)
             {
                 output_fd = open("/dev/null", O_WRONLY);
                 dup2(output_fd, STDOUT_FILENO);
@@ -159,10 +162,10 @@ exec_command(struct TOKEN *command, int i, int fd[2])
         }
 
         // When command uses redirect to/from file
-        else if(command->flags & REDIRECTION)
+        else if(command->flags & NODE_REDIRECTION)
         {
 
-            if(command->flags & APPEND || command->flags & CREAT)
+            if(command->flags & NODE_APPEND || command->flags & NODE_CREAT)
             {
 
                 close(fd[1]);
@@ -175,7 +178,7 @@ exec_command(struct TOKEN *command, int i, int fd[2])
             exit(0);
         }
 
-        // First command when using PIPEs
+        // First command when using NODE_PIPEs
         else if(0 == i)
         {
 
@@ -246,30 +249,31 @@ exec_command(struct TOKEN *command, int i, int fd[2])
         break;
     }
 
-    if(!(command->flags & CHILD_BACKGROUND))
+    if(!(command->flags & NODE_ASYNC))
         i++;
 
     exec_command(command->next, i, fd);
 
 }
 
-void exec_command_redirection(struct TOKEN *head)
+void
+exec_command_redirection(node_t *head)
 {
     int file_fd = 0;
-    struct TOKEN *file_name;
+    node_t *file_name;
     mode_t mode;
 
     file_name = head->next;
     mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
 
-    if(head->flags & APPEND) file_fd = open(file_name->command[0], O_WRONLY | O_CREAT | O_APPEND, mode);
-    if(head->flags & CREAT ) file_fd = open(file_name->command[0], O_WRONLY | O_CREAT | O_TRUNC,  mode);
-    if(head->flags & READ  ) file_fd = open(file_name->command[0], O_RDONLY);
+    if(head->flags & NODE_APPEND) file_fd = open(file_name->command[0], O_WRONLY | O_CREAT | O_APPEND, mode);
+    if(head->flags & NODE_CREAT ) file_fd = open(file_name->command[0], O_WRONLY | O_CREAT | O_TRUNC,  mode);
+    if(head->flags & NODE_READ  ) file_fd = open(file_name->command[0], O_RDONLY);
 
-    if((head->flags & APPEND) || (head->flags & CREAT)) // Outputting
+    if((head->flags & NODE_APPEND) || (head->flags & NODE_CREAT)) // Outputting
         dup2(file_fd, STDOUT_FILENO);					// to file
 
-    else if(head->flags & READ)							// Reading
+    else if(head->flags & NODE_READ)							// Reading
         dup2(file_fd, STDIN_FILENO);					// from file
 
     if(execvp(head->command[0], head->command) != 0)

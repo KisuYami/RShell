@@ -10,7 +10,7 @@
 #include <time.h>
 
 #include "builtin.h"
-#include "shell.h"
+#include "parse.h"
 #include "jobs.h"
 #include "mem.h"
 
@@ -19,7 +19,7 @@ struct
     size_t size;
     char *command;
 
-    void (*func)(struct TOKEN *head);
+    void (*func)(node_t *head);
 
 } builtin_list[] = {
     {1, "q",     builtin_exit		},
@@ -42,7 +42,7 @@ int is_file(char *path)
     return S_ISREG(path_to_file.st_mode);
 }
 
-int exec_builtin(struct TOKEN *head)
+int exec_builtin(node_t *head)
 {
     for(int i = 0; builtin_list[i].size != 0; ++i)
     {
@@ -50,7 +50,7 @@ int exec_builtin(struct TOKEN *head)
         if(strcmp(head->command[0], builtin_list[i].command) == 0)
         {
             builtin_list[i].func(head);
-            head->flags = BUILTIN;
+            head->flags = NODE_BUILTIN;
             return i;
         }
     }
@@ -58,9 +58,9 @@ int exec_builtin(struct TOKEN *head)
     return -1;
 }
 
-void builtin_exit(struct TOKEN *head)
+void builtin_exit(node_t *head)
 {
-    struct child *child_ptr = NULL;
+    job_t *child_ptr = NULL;
 
 	/* Check for running childs */
     for(child_ptr = &list_child; child_ptr != NULL;
@@ -71,18 +71,23 @@ void builtin_exit(struct TOKEN *head)
         {
             printf("RShell: child process still running...\n");
             builtin_bg(head);
-            longjmp(prompt_jmp, 0);
+			break;
         }
+		else
+		{
+			clean_everything();
+			printf(".·´¯`(>▂<)´¯`·.\n");
+			exit(0);
+		}
 
     }
-    printf(".·´¯`(>▂<)´¯`·.\n");
 }
 
-void builtin_fg(struct TOKEN *head)
+void builtin_fg(node_t *head)
 {
 
     pid_t pid;
-    struct child *child_ptr;
+    job_t *child_ptr;
 
     child_ptr = &list_child;
 
@@ -115,10 +120,10 @@ void builtin_fg(struct TOKEN *head)
     }
 }
 
-void builtin_bg(struct TOKEN *head)
+void builtin_bg(node_t *head)
 {
 
-    struct child *child_ptr = NULL;
+    job_t *child_ptr = NULL;
     child_ptr = &list_child;
 
     while(child_ptr != NULL)
@@ -130,7 +135,7 @@ void builtin_bg(struct TOKEN *head)
     }
 }
 
-void builtin_cd(struct TOKEN *head)
+void builtin_cd(node_t *head)
 {
     if(is_file(head->command[1]) != 1)
     {
@@ -141,7 +146,7 @@ void builtin_cd(struct TOKEN *head)
 		
 }
 
-void builtin_pwd(struct TOKEN *head)
+void builtin_pwd(node_t *head)
 {
     char buf[PATH_MAX];
     getcwd(buf, PATH_MAX);
@@ -149,7 +154,7 @@ void builtin_pwd(struct TOKEN *head)
     printf("%s\n", buf);
 }
 
-void builtin_calc(struct TOKEN *head)
+void builtin_calc(node_t *head)
 {
     if(head->size < 2)
     {
@@ -169,7 +174,7 @@ void builtin_calc(struct TOKEN *head)
 	wait(NULL);
 }
 
-void builtin_rand(struct TOKEN *head)
+void builtin_rand(node_t *head)
 {
 
     if(head->size < 3)
@@ -204,13 +209,13 @@ void builtin_rand(struct TOKEN *head)
     printf("%d <--> %d: %d\n", i, p, x);
 }
 
-void builtin_clean(struct TOKEN *head)
+void builtin_clean(node_t *head)
 {
 	printf("\033[1J");
 	printf("\033[1H");
 }
 
-void builtin_set_env(struct TOKEN *head)
+void builtin_set_env(node_t *head)
 {
 
     if(head->size < 3)
@@ -246,7 +251,7 @@ void builtin_set_env(struct TOKEN *head)
 
 }
 
-void builtin_show_env(struct TOKEN *head)
+void builtin_show_env(node_t *head)
 {
     if(head->size < 2)
     {
@@ -260,5 +265,4 @@ void builtin_show_env(struct TOKEN *head)
         printf("RShell: Enviroment \"%s\" isn't defined.\n", head->command[1]);
     else
         printf("%s=%s\n", head->command[1], env);
-
 }

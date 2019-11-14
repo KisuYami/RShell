@@ -1,6 +1,6 @@
 .\" Manpage for RShell
 .\" Contact 6reberti6@gmail.com to correct typos and errors
-.TH man 1 "8 out 2019" "1.5" "rshell man page"
+.TH man 1 "8 out 2019" "2.4" "rshell man page"
 .SH NAME
 .B rshell
 - a minimal shell
@@ -26,16 +26,19 @@ show a useless help mensage
 .TP
 .B -v --version
 show the version
+
 .SH BUILT-IN
 .TP
 .B q
 exit shell
+
 .TP
 .B cd
 change dir
 .TP
 .B bg
 show background process
+
 .TP
 .B fg [pid]
 send
@@ -43,6 +46,7 @@ send
 to process
 .I pid
 , if none specified send to the first child found
+
 .TP
 .B pwd
 show current working path
@@ -57,19 +61,30 @@ with
 to append to the
 .I name
 variable
+
 .TP
 .B show <name>
 print the value of
 .I name
 enviroment
+
 .TP
 .B calc <formula>
 evaluates
 .I formula
 , using lua, and prints the result
+
 .TP
 .B rand <from> <to>
 generate random number between
 .I from
 and
 .I to
+
+.TP
+.B :<env_var>
+Aliases can be set as any
+.I enviromental variable
+, and can called with the prefix
+.I ':'
+.

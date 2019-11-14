@@ -11,13 +11,13 @@
 * Description:      Signal and process handling.
 *****************************************************************************/
 
-#include "shell.h"
 #include <setjmp.h>
+
+#include "shell.h"
 
 #define MAX_CHILD_NAME 50
 
-char    rshell_hist_file[1024];
-jmp_buf prompt_jmp;
+char rshell_hist_file[1024];
 
 enum JOBS_FLAGS {
 	JOB_RUNNING = 0,
@@ -35,12 +35,14 @@ struct child
 
 } list_child, running_child;
 
-void
-child_add(struct child *, struct TOKEN *);
+typedef struct child job_t;
 
 void
-child_chk();
+child_add(job_t *, node_t *);
 
 void
-signal_handler(int);
+child_chk(void);
+
+void
+signal_handler(int sig);
 #endif /* ifndef JOBS_HEADER */

@@ -4,29 +4,29 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "shell.h"
+#include "parse.h"
 #include "jobs.h"
 #include "mem.h"
 
-struct TOKEN *
-init_TOKEN_list()
+node_t *
+init_node_list()
 {
-    struct TOKEN *list;
+    node_t *list;
 
-    list = malloc(sizeof(struct TOKEN));
+    list = malloc(sizeof(node_t));
 
     if(!list)
     {
         printf("RShell: Failed to allocate memory\n");
-        longjmp(prompt_jmp, 0);
+        return NULL;
     }
 
-    *list = (struct TOKEN)
-    {
-        .next  = NULL,
-        .size  = 0,
-        .flags = 0,
-    };
+    *list = (node_t)
+        {
+            .next  = NULL,
+            .size  = 0,
+            .flags = 0,
+        };
 
     return list;
 }
@@ -50,10 +50,10 @@ realloc_string(void *old_ptr, size_t new_size)
 }
 
 void
-clean_TOKEN_list(struct TOKEN *list_head)
+clean_node_list(node_t *list_head)
 {
 
-    struct TOKEN *list_ptr = NULL, *list_tmp = NULL;
+    node_t *list_ptr = NULL, *list_tmp = NULL;
     unsigned int i;
 
     list_ptr = list_head;
@@ -72,16 +72,15 @@ clean_TOKEN_list(struct TOKEN *list_head)
 }
 
 void
-clean_child_list(struct child *list_head)
+clean_child_list(job_t *list_head)
 {
-
-    struct child *list_ptr, *list_tmp;
+    job_t *list_ptr, *list_tmp;
 
     list_ptr = list_head->next;
-	if(list_head->name != NULL)
-		free(list_head->name);
+    if(list_head->name)
+        free(list_head->name);
 
-    while(list_ptr != NULL)
+    while(list_ptr)
     {
 
         list_tmp = list_ptr;
@@ -96,8 +95,8 @@ clean_child_list(struct child *list_head)
 void
 clean_everything(void)
 {
-	clean_child_list(&list_child);
-	clean_child_list(&running_child);
-	write_history(rshell_hist_file);
-	return;
+    clean_child_list(&list_child);
+    clean_child_list(&running_child);
+    write_history(rshell_hist_file);
+    return;
 }

@@ -1,5 +1,5 @@
-#ifndef BUILTIN_HEADER
-#define BUILTIN_HEADER
+#ifndef NODE_BUILTIN_HEADER
+#define NODE_BUILTIN_HEADER
 
 /******************************************************************************
 * File:             builtin.h
@@ -8,20 +8,20 @@
 * Description:      Shell built-in commands.
 *****************************************************************************/
 
-#include "shell.h"
+#include "parse.h"
 
-int exec_builtin(struct TOKEN *head);
+int exec_builtin(node_t *head);
 int is_file(char *path);
 
-void builtin_exit(struct TOKEN *head);
-void builtin_bg(struct TOKEN *head);
-void builtin_fg(struct TOKEN *head);
-void builtin_cd(struct TOKEN *head);
-void builtin_ls(struct TOKEN *head);
-void builtin_pwd(struct TOKEN *head);
-void builtin_calc(struct TOKEN *head);
-void builtin_rand(struct TOKEN *head);
-void builtin_clean(struct TOKEN *head);
-void builtin_set_env(struct TOKEN *head);
-void builtin_show_env(struct TOKEN *head);
-#endif // BUILTIN_HEADER //
+void builtin_exit(node_t *head);
+void builtin_bg(node_t *head);
+void builtin_fg(node_t *head);
+void builtin_cd(node_t *head);
+void builtin_ls(node_t *head);
+void builtin_pwd(node_t *head);
+void builtin_calc(node_t *head);
+void builtin_rand(node_t *head);
+void builtin_clean(node_t *head);
+void builtin_set_env(node_t *head);
+void builtin_show_env(node_t *head);
+#endif // NODE_BUILTIN_HEADER //

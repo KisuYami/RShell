@@ -4,181 +4,137 @@
 #include <stdio.h>
 
 #include "parse.h"
-#include "shell.h"
 #include "mem.h"
 
-struct TOKEN *
+node_t *
 parse_input(char *command_string)
 {
-    char *token      = NULL;
-    char *tmp_string = NULL;
 
-    size_t position       = 0;
+    node_t *list_head   = init_node_list();
+    node_t *list_ptr    = list_head;
 
-    wordexp_t parsed_expression;
+	if(!list_head)
+		return NULL;
 
-    struct TOKEN *list_head = NULL;
-    struct TOKEN *list_ptr  = NULL;
+    char *token = strtok(command_string, INPUT_node_t_DELIMITER);
 
-    list_head   = init_TOKEN_list();
-    list_ptr    = list_head;
+    if(*token == ':')
+    {
+        char *tmp_token = getenv(token+1);
 
-    token = strtok(command_string, INPUT_TOKEN_DELIMITER);
+		if(token[1] == '\0')
+		{
+			fprintf(stderr, "RShell: missing variable after \':\'\n");
+			clean_node_list(list_head);
+			return NULL;
+		}
+
+        if(!tmp_token)
+        {
+            fprintf(stderr, "RShell: the \'%s\' alias isn't set, trying command in PATH\n", token+1);
+			token++;
+        }
+        else
+            token = tmp_token;
+    }
 
     while(token)
     {
+        list_ptr->flags = get_type(token);
 
-        switch(*token)
+		char *s = strchr(token, '\'');
+		if(s && s != token && s == strrchr(token, '\''))
+			strcat(token, "\'");
+
+		s = strchr(token, '\"');
+		if(s && s != token && s == strrchr(token, '\"'))
+			strcat(token, "\"");
+
+        if((list_ptr->flags & NODE_ASYNC) && list_ptr->size == 0)
         {
-        case '|':
-
-            list_ptr->flags |= PIPE;
-            break;
-
-        case '>':
-
-            if(strncmp(token, ">>", 2) == 0) list_ptr->flags |= APPEND | REDIRECTION;
-            else                             list_ptr->flags |= CREAT  | REDIRECTION;
-            break;
-
-        case '<':
-
-            list_ptr->flags |= REDIRECTION | READ;
-            break;
-
-        case '&':
-
-            if(position == 0)
-            {
-                clean_TOKEN_list(list_head);
-                return NULL;
-            }
-
-            list_ptr->flags |= CHILD_BACKGROUND;
-            break;
-
-        case '\'':
-        case '\"':
-
-            parse_string(list_ptr, token, &position);
-            token = strtok(NULL, INPUT_TOKEN_DELIMITER);
-            position++;
-            break;
-
-        default:
-        {
-            char *dot = NULL;
-
-            /* There is no reason to have more than 2 of those(',") in one token */
-            dot = strchr(token, '\'');
-
-            // XXX
-            if(dot != NULL && dot != strrchr(token, '\''))
-                for(int i = 0; dot[i+1] != '\0'; dot[i] = dot[i+1], i++);
-
-            else
-            {
-                dot = strchr(token, '\"');
-
-                if(dot != NULL && dot != strrchr(token, '\"'))
-                    for(int i = 0; dot[i+1] != '\0'; dot[i] = dot[i+1], i++);
-            }
-
-            wordexp(token, &parsed_expression, 0);
-
-            for (size_t i = 0; i < parsed_expression.we_wordc; ++i)
-            {
-                tmp_string = malloc(sizeof(char) * strlen(parsed_expression.we_wordv[i]) + 1);
-
-                if(tmp_string == NULL)
-                {
-                    printf("RShell: Failed to allocate memory\n");
-                    longjmp(prompt_jmp, 1);
-                }
-
-                strcpy(tmp_string, parsed_expression.we_wordv[i]);
-                list_ptr->command[position++] = tmp_string;
-            }
-
-            wordfree(&parsed_expression);
-            token = strtok(NULL, INPUT_TOKEN_DELIMITER);
-
-            break;
-        } /* default */
-
-        } /* switch(*token) */
+            clean_node_list(list_head);
+            return NULL;
+        }
 
         if(list_ptr->flags != 0)
         {
-            list_ptr->size = position;
-            list_ptr->next = init_TOKEN_list();
+            list_ptr->next = init_node_list();
             list_ptr       = list_ptr->next;
 
-            position = 0;
+            token = strtok(NULL, INPUT_node_t_DELIMITER);
+        }
 
-            token = strtok(NULL, INPUT_TOKEN_DELIMITER);
+        else // the real parser code
+        {
+            wordexp_t parsed_expression;
+
+            if((token[0] == '\'' || token[0] == '\"') &&
+               (strlen(token) == 1 || token[strlen(token)-1] != token[0]))
+            {
+                char parse[] = {*token , '\0'};
+                char *tmp_string = calloc(1024, sizeof(char));
+
+                strcpy(tmp_string, token);
+                strcat(tmp_string, " ");
+
+                token = strtok(NULL, parse);
+
+                if(!token)
+                {
+                    strcat(tmp_string, &parse[0]);
+                    tmp_string[strlen(tmp_string)] = '\0';
+                }
+
+                else
+                {
+                    strcat(tmp_string, token);
+                    strcat(tmp_string, &parse[0]);
+                    tmp_string[strlen(tmp_string)] = '\0';
+                }
+
+                wordexp(tmp_string, &parsed_expression, 0);
+                free(tmp_string);
+            }
+
+            else
+                wordexp(token, &parsed_expression, 0);
+
+            for (size_t i = 0; i < parsed_expression.we_wordc; ++i)
+            {
+                list_ptr->command[list_ptr->size] = malloc(1024);
+
+                if(list_ptr->command[list_ptr->size] == NULL)
+                {
+                    printf("RShell: Failed to allocate memory\n");
+					clean_node_list(list_head);
+					return NULL;
+                }
+
+                strcpy(list_ptr->command[list_ptr->size++], parsed_expression.we_wordv[i]);
+            }
+
+            wordfree(&parsed_expression);
+            token = strtok(NULL, INPUT_node_t_DELIMITER);
         }
 
     } /* while(token) */
 
-    list_ptr->size = position;
-
     return list_head;
 }
 
-void
-parse_string(struct TOKEN *list_ptr, char *token, size_t *position)
+int
+get_type(char *token)
 {
 
-    size_t  count           =  0;
-    size_t  tmp_size_token  =  64 * 64; // Elevate by 2
-    char   *tmp_string      =  malloc(sizeof(char) * tmp_size_token);
-    char    string_literal  = *token;
-
-    if(tmp_string == NULL)
+    switch(*token)
     {
-        printf("RShell: Failed to allocate memory\n");
-        longjmp(prompt_jmp, 1);
+    case '|': return NODE_PIPE;
+    case '&': return NODE_ASYNC;
+    case '<': return (NODE_REDIRECTION | NODE_READ);
+
+    case '>':
+        if(strncmp(token, ">>", 2) == 0) return (NODE_APPEND | NODE_REDIRECTION);
+        else                             return (NODE_CREAT  | NODE_REDIRECTION);
     }
-
-    // Remove the " or ' in the start of the first token
-    token++;
-    strcpy(tmp_string, token);
-
-    while(1)
-    {
-        if(*token == string_literal || token[strlen(token) - 1] == string_literal) {
-
-            char *dot = strchr(tmp_string, string_literal);
-            dot[0] = '\0'; // Remove trailing string_literal
-
-            break;
-        }
-
-        token = strtok(NULL, INPUT_TOKEN_DELIMITER);
-
-        if(token == NULL)
-        {
-            printf("RShell: missing ending %c\n", string_literal);
-            break;
-        }
-
-        // Reallocation of memory
-        count += strlen(token);
-
-        if(count >= tmp_size_token - 10)
-        {
-            tmp_size_token = count * count;
-            tmp_string = realloc_string(tmp_string,
-                                        tmp_size_token * sizeof(char));
-        }
-
-        strcat(tmp_string, " ");
-        strcat(tmp_string, token);
-
-    } // While loop
-
-    list_ptr->command[*position] = tmp_string;
-
-    return;
+    return NODE_NORMAL;
 }
