@@ -1,11 +1,11 @@
 #include <readline/history.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
-#include <stdlib.h>
 #include <signal.h>
-#include <unistd.h>
-#include <string.h>
 #include <limits.h>
+#include <string.h>
+#include <unistd.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
 
@@ -19,7 +19,7 @@ struct
     size_t size;
     char *command;
 
-    void (*func)(node_t *head);
+    int (*func)(node_t *head);
 
 } builtin_list[] = {
     {1, "q",     builtin_exit		},
@@ -30,7 +30,6 @@ struct
     {3, "set",   builtin_set_env	},
     {4, "show",  builtin_show_env	},
     {4, "calc",  builtin_calc		},
-    {4, "rand",  builtin_rand		},
     {5, "clear", builtin_clean		},
     {0,  NULL,	 NULL}
 };
@@ -46,120 +45,106 @@ int exec_builtin(node_t *head)
 {
     for(int i = 0; builtin_list[i].size != 0; ++i)
     {
-
         if(strcmp(head->command[0], builtin_list[i].command) == 0)
         {
             builtin_list[i].func(head);
-            head->flags = NODE_BUILTIN;
-            return i;
+            return 1;
         }
     }
 
-    return -1;
+    return 0;
 }
 
-void builtin_exit(node_t *head)
+int builtin_exit(node_t *head)
 {
     job_t *child_ptr = NULL;
 
-	/* Check for running childs */
-    for(child_ptr = &list_child; child_ptr != NULL;
-            child_ptr = child_ptr->next)
+	/* Check for running/stopped/waiting childs */
+    for(child_ptr = &list_child; child_ptr != NULL; child_ptr = child_ptr->next)
     {
-
         if(child_ptr->pid > 0)
         {
             printf("RShell: child process still running...\n");
             builtin_bg(head);
 			break;
         }
+
 		else
 		{
-			clean_everything();
+			// Memory is freed with atexit(clean_everything);
+			write_history(rshell_hist_file);
 			printf(".·´¯`(>▂<)´¯`·.\n");
 			exit(0);
 		}
 
     }
+	return 0;
 }
 
-void builtin_fg(node_t *head)
+int
+builtin_fg(node_t *head)
 {
-
-    pid_t pid;
-    job_t *child_ptr;
-
-    child_ptr = &list_child;
-
-    if(head->size <= 1)
+    if(head->size < 2)
     {
-        while(child_ptr != NULL)
+		for(job_t *child_ptr = &list_child; child_ptr != NULL;
+			child_ptr = child_ptr->next)
         {
             if(child_ptr->pid > 0)
-            {
-
-                kill(child_ptr->pid, SIGCONT);
-                return;
-            }
-            child_ptr = child_ptr->next;
+                return kill(child_ptr->pid, SIGCONT);
         }
     }
     else
     {
-        pid = atoi(head->command[1]);
-        while(child_ptr != NULL)
+        pid_t pid = atoi(head->command[1]);
+
+		for(job_t *child_ptr = &list_child; child_ptr != NULL;
+			child_ptr = child_ptr->next)
         {
             if(child_ptr->pid == pid)
-            {
-
-                kill(pid, SIGCONT);
-                return;
-            }
-            child_ptr = child_ptr->next;
+                return kill(pid, SIGCONT);
         }
     }
+	return 0;
 }
 
-void builtin_bg(node_t *head)
+int
+builtin_bg(node_t *head)
 {
-
-    job_t *child_ptr = NULL;
-    child_ptr = &list_child;
-
-    while(child_ptr != NULL)
+	for(job_t *child_ptr = &list_child; child_ptr != NULL;
+			child_ptr = child_ptr->next)
     {
         if(child_ptr->pid > 0)
             printf("[ %s - %d ]\n", child_ptr->name, child_ptr->pid);
-
-        child_ptr = child_ptr->next;
     }
+	return 0;
 }
 
-void builtin_cd(node_t *head)
+int builtin_cd(node_t *head)
 {
-    if(is_file(head->command[1]) != 1)
-    {
-        if(chdir(head->command[1]) != 0)
-            printf("RShell: Directory does not exist\n");
-    } else
+	if (is_file(head->command[1]) != 1 && chdir(head->command[1]) != 0)
+		printf("RShell: Directory does not exist\n");
+
+	else if(is_file(head->command[1]) == 1)
 		printf("RShell: %s isn't a folder or directory\n", head->command[1]);
-		
+
+	return 0;
 }
 
-void builtin_pwd(node_t *head)
+int builtin_pwd(node_t *head)
 {
     char buf[PATH_MAX];
     getcwd(buf, PATH_MAX);
 
     printf("%s\n", buf);
+	return 0;
 }
 
-void builtin_calc(node_t *head)
+int builtin_calc(node_t *head)
 {
     if(head->size < 2)
     {
         printf("RShell: Missing arguments\n");
-        return;
+        return -1;
     }
 
 	char buf[256];
@@ -169,100 +154,47 @@ void builtin_calc(node_t *head)
 	if(fork() == 0)
 	{
 		execlp("lua", "lua", "-e", buf, (char *)NULL);
+		exit(1);
 	}
 
 	wait(NULL);
+	return 0;
 }
 
-void builtin_rand(node_t *head)
-{
-
-    if(head->size < 3)
-    {
-        printf("RShell: Missing arguments\n");
-        return;
-    }
-
-    int i, p;
-	int x = 0;
-
-    srand(time(NULL));
-
-    i = atoi(head->command[1]);
-    p = atoi(head->command[2]);
-
-	if (i > p) {
-		printf("RShell: Wrong Range: %d is greater than %d\n", i, p);
-		return;
-	}
-
-    while(1)
-    {
-        x = rand();
-        if(x >= i)
-        {
-            if(x <= p)
-                break;
-        }
-    }
-
-    printf("%d <--> %d: %d\n", i, p, x);
-}
-
-void builtin_clean(node_t *head)
+int builtin_clean(node_t *head)
 {
 	printf("\033[1J");
 	printf("\033[1H");
+	return 0;
 }
 
-void builtin_set_env(node_t *head)
+int builtin_set_env(node_t *head)
 {
-
     if(head->size < 3)
     {
         printf("RShell: Missing arguments\n");
-        return;
+        return -1;
     }
 
-    char c, *env;
-
-    c = getopt(head->size, head->command, "a:");
-
-    switch(c)
-    {
-    case 'a':
-
-        if(head->size != 4)
-        {
-            printf("usage: set -a <ENV> <VALUE>\n");
-            return;
-        }
-
-        env = getenv(head->command[2]);
-        strncat(env, ":", 2);
-        strcat(env, head->command[3]);
-
-        setenv(head->command[1], env, 1);
-        break;
-
-    default:
-        setenv(head->command[1], head->command[2], 1);
-    }
-
+	setenv(head->command[1], head->command[2], 1);
+	return 0;
 }
 
-void builtin_show_env(node_t *head)
+int builtin_show_env(node_t *head)
 {
     if(head->size < 2)
     {
         printf("RShell: Missing arguments\n");
-        return;
+        return -1;
     }
 
     char *env = getenv(head->command[1]);
 
     if(env == NULL)
         printf("RShell: Enviroment \"%s\" isn't defined.\n", head->command[1]);
+
     else
-        printf("%s=%s\n", head->command[1], env);
+		printf("%s: %s\n", head->command[1], env);
+
+	return 0;
 }

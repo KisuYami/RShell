@@ -29,8 +29,6 @@ struct node
 
 typedef struct node node_t;
 
-node_t * list_head;
-
 node_t *
 parse_input(char *command_string);
 

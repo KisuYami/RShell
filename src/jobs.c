@@ -14,41 +14,23 @@
 void
 child_add(job_t *list_head, node_t *head)
 {
-
-    job_t *child_ptr = NULL;
-    size_t command_size = strlen(head->command[0]);
-
-    child_ptr = list_head;
-
-    while(1)
+	for (job_t *child_ptr = list_head; child_ptr != NULL;
+		 child_ptr = child_ptr->next)
     {
         if(child_ptr->pid == 0)
         {
-
-            if(child_ptr->name != NULL)
-                free(child_ptr->name);
-
             *child_ptr = (job_t) {
-                .name = malloc(sizeof(char) * command_size + 1),
                 .pid = head->pid,
                 .state = head->flags,
                 .next = NULL,
             };
 
-            if(child_ptr->name == NULL)
-            {
-                printf("RShell: Failed to allocate memory\n");
-                free(child_ptr->next);
-				return;
-            }
-
-            strncpy(child_ptr->name, head->command[0], command_size + 1);
+            strcpy(child_ptr->name, head->command[0]);
 
             if(child_ptr->state & JOB_STOPPED)
                 printf("[ Stopped: %s - %d ]\n", child_ptr->name, child_ptr->pid);
 
-            return;
-
+            break;
         }
 
         else if(child_ptr->next == NULL)
@@ -58,53 +40,34 @@ child_add(job_t *list_head, node_t *head)
             child_ptr = child_ptr->next;
 
             *child_ptr = (job_t) {
-                .name = malloc(sizeof(char) * command_size + 1),
                 .pid = head->pid,
                 .state = head->flags,
                 .next = NULL,
             };
 
-            if(child_ptr->name == NULL)
-            {
-                printf("RShell: Failed to allocate memory\n");
-                free(child_ptr->next);
-				return;
-            }
-
-            strncpy(child_ptr->name, head->command[0], command_size + 1);
+            strcpy(child_ptr->name, head->command[0]);
 
             if(child_ptr->state & JOB_STOPPED)
                 printf("[ Stopped: %s - %d ]\n", child_ptr->name, child_ptr->pid);
 
             return;
-
         }
-        child_ptr = child_ptr->next;
     }
 }
 
 void
 child_chk()
 {
-
-    int status = 0;
-	int ret = -1;
-
-    job_t *child_ptr = NULL;
-
-    for(child_ptr = &list_child;
-		child_ptr != NULL;
+    for(job_t *child_ptr = &list_child; child_ptr != NULL;
         child_ptr = child_ptr->next)
     {
-
         if(child_ptr->pid > 0)
         {
-
-            ret = waitpid(child_ptr->pid, &status, WCONTINUED | WNOHANG);
+			int status = 0;
+            int ret = waitpid(child_ptr->pid, &status, WCONTINUED | WNOHANG);
 
             if(WIFCONTINUED(status))
             {
-
                 printf("[ Continued: %s - %d ]\n", child_ptr->name,
                        child_ptr->pid);
 
@@ -134,14 +97,7 @@ child_chk()
                     }
                 }
 
-                running_child = (job_t)
-                    {
-                        .pid = 0,
-                        .state = 0,
-                        .name = NULL,
-                        .next = NULL,
-                    };
-
+				memset(&running_child, 0, sizeof(job_t));
                 tcsetpgrp(STDIN_FILENO, getpgrp());
                 break;
 
@@ -164,14 +120,12 @@ child_chk()
 void
 signal_handler(int sig)
 {
-
     if(running_child.state & JOB_RUNNING)
     {
-        switch (sig) {
+        switch(sig)
+		{
 
         case SIGINT:
-
-            kill(running_child.pid, SIGINT);
 
             /* if the running_child was set in child_chk() */
             if(running_child.state & JOB_STOPPED)
@@ -180,24 +134,23 @@ signal_handler(int sig)
                 {
                     if(running_child.pid == cptr->pid)
                     {
+						kill(cptr->pid, SIGCONT);
                         cptr->pid = 0;
                         break;
                     }
                 }
             }
 
+            kill(running_child.pid, SIGINT);
             running_child.pid = 0;
 
             break;
 
         case SIGTSTP:
-
             kill(running_child.pid, SIGSTOP);
-
             break;
 
         case SIGCHLD:
-
             child_chk();
             break;
         }

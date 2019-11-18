@@ -29,7 +29,7 @@ struct child
 {
 	int state;
     pid_t pid;
-    char *name;
+    char name[50];
 
     struct child *next;
 

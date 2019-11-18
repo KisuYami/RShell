@@ -39,48 +39,43 @@ main(int argc, char *argv[])
 
     while(1)
     {
-        child_chk();
+START:  child_chk();
 
-		int   result = -1;
         char *prompt = print_prompt();
-        char *command_str = readline(prompt);
+		char *command_str = readline(prompt);
 
         if(*command_str)     add_history(command_str);
-        if(!(*command_str))  goto ERROR; // Don't do anything with empty imput
+        if(!(*command_str))  goto START; // Don't do anything with empty imput
 
-        list_head = parse_input(command_str);
+        node_t *list_head = parse_input(command_str);
+
+		free(command_str);
+        free(prompt);
 
         if(!list_head)
-            goto ERROR;
+            goto START;
 
-        result = exec_builtin(list_head);
-
-        if(!(list_head->flags & NODE_BUILTIN))
+        if(exec_builtin(list_head) != 1)
             exec_command(list_head, 0, (int[2]){0, 0});
 
         tcsetpgrp(STDIN_FILENO, getpgrp());
         setpgid(getpid(), tcgetpgrp(STDIN_FILENO));
 
         clean_node_list(list_head);
-ERROR:  free(command_str);
-        free(prompt);
-
-        if(0 == result) // User input was "q"
-            return 0;
     }
 
     return 0;
 }
 
-void get_user_opts(int argc, char *argv[])
+void
+get_user_opts(int argc, char *argv[])
 {
     int option_index = 0;
 
     while (1)
     {
 
-        static struct option long_options[] =
-            {
+        static struct option long_options[] = {
                 {"version", no_argument,        0,  'v'},
                 {"help",    no_argument,        0,  'h'},
                 {"command", required_argument,  0,  'c'},

@@ -77,16 +77,11 @@ clean_child_list(job_t *list_head)
     job_t *list_ptr, *list_tmp;
 
     list_ptr = list_head->next;
-    if(list_head->name)
-        free(list_head->name);
 
     while(list_ptr)
     {
-
         list_tmp = list_ptr;
         list_ptr = list_ptr->next;
-
-        free(list_tmp->name);
         free(list_tmp);
     }
 }
