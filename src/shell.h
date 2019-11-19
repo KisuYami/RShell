@@ -22,9 +22,8 @@ set_history_file(void);
 char *
 print_prompt(void);
 
-
 void
-exec_command(node_t *command, int i, int fd[2]);
+exec_command(node_t *command);
 
 void
 exec_command_redirection(node_t *);

@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <fcntl.h>
 
+#include "parse.h"
 #include "shell.h"
 #include "builtin.h"
 #include "jobs.h"
@@ -57,28 +58,27 @@ print_prompt(void)
 
     ************************************************************************/
 
-	if(ps1 != NULL) {
+	if(ps1 != NULL)
+	{
 
-		for(; *ps1 != '\0'; ps1++) {
-
-			if(*ps1 == '%') {
-				
+		for(; *ps1 != '\0'; ps1++)
+		{
+			if(*ps1 == '%')
+			{
 				ps1++;
 
 				if(*ps1 == '\0') strcat(prompt, "%");
 
-				else if(*ps1 == ' ') {
-
+				else if(*ps1 == ' ')
+				{
 				    strcat(prompt, "%");
 					strcat(prompt, " ");
-					
 				}
 
-				else if(*ps1 == 'D') {
-
+				else if(*ps1 == 'D')
+				{
 					sprintf(prompt, "[ DEBUG ] $ ");
 					break;
-
 				}
 
 				else if(*ps1 == 'u') strcat(prompt, getenv("USER"));
@@ -89,20 +89,20 @@ print_prompt(void)
 					size   = strlen(home);
 
 					if(strncmp(pwd, home, size) == 0) {
-						
+
 						strcat(prompt, "~");
 						strcat(prompt, pwd+size);
 
 					} else
 						strcat(prompt, pwd);
-					
+
 				}
 			} else {
 				strncat(prompt, ps1, 1);
 			}
 
 		}
-		
+
 	} else {
 
 		strcpy(prompt, " % ");
@@ -113,147 +113,135 @@ print_prompt(void)
 }
 
 void
-exec_command(node_t *command, int i, int fd[2])
+exec_command(node_t *command)
 {
-    int status = 0, output_fd = 0;
-    pid_t pid = 0;
+	pid_t pid;
+	int status = 0, output_fd = 0;
+	int t_fd[2], r_fd[2];
 
-    if(!command)   // Cleaning stuff
-    {
-        close(fd[0]); close(fd[1]);
+	for(node_t *cmd = command; cmd; cmd = cmd->next)
+	{
+		if(cmd->next)
+            pipe(t_fd);
 
-        for(; i >= 0; --i)
-            wait(NULL);
+		switch(pid = fork())
+		{
+		case -1:
+			printf("RShell: Failed to create child process\n");
+			break;
 
-        return;
-    }
+		case 0: /* Child */
 
-    if(0 == i && command->next)
-        pipe(fd);
+			if(cmd->flags & NODE_ASYNC)
+			{
+				output_fd = open("/dev/null", O_WRONLY);
+				dup2(output_fd, STDOUT_FILENO);
 
-    switch(pid = fork())
-    {
-    case -1:
-        printf("RShell: Failed to create child process\n");
-        break;
+				close(output_fd);
+			}
 
-    case 0: /* Child */
+			// Readirection for simple commands
+			if(!(command->flags & NODE_PIPE) &&
+			   (cmd->flags & NODE_REDIRECTION))
+			{
 
-        // When a "normal" command is called
-        if(0 == i && !command->next)
-        {
+				if(cmd->flags & NODE_APPEND || cmd->flags & NODE_CREAT)
+				{
+					close(t_fd[1]);
+					dup2(t_fd[0], STDIN_FILENO);
+					close(t_fd[0]);
+				}
 
-            if(command->flags & NODE_ASYNC)
-            {
-                output_fd = open("/dev/null", O_WRONLY);
-                dup2(output_fd, STDOUT_FILENO);
+				exec_command_redirection(cmd);
+				exit(0);
+			}
 
-                close(output_fd);
-            }
+			if(command->flags & NODE_PIPE)
+			{
+				if(cmd != command)
+				{
+					close(r_fd[1]);
+					dup2(r_fd[0], STDIN_FILENO);
+					close(r_fd[0]);
+				}
 
-            setpgid(getpid(), 0);
-            tcsetpgrp(STDIN_FILENO, getpgrp());
+				if(command->next)
+				{
+					close(t_fd[0]);
+					dup2(t_fd[1], STDOUT_FILENO);
+					close(t_fd[1]);
+				}
+			}
 
-            if(execvp(command->command[0], command->command) != 0)
-                printf("RShell: Can't hear you!\n");
+			// Readirection for pipes
+			if(cmd->flags & NODE_REDIRECTION)
+				exec_command_redirection(cmd);
 
-            exit(1);
+			// Prepare command for simple execution
+			if(!command->next)
+			{
+				setpgid(getpid(), 0);
+				tcsetpgrp(STDIN_FILENO, getpgrp());
+			}
 
-        }
+			if(execvp(cmd->command[0], cmd->command) != 0)
+				printf("RShell: Can't hear you!\n");
 
-        // When command uses redirect to/from file
-        else if(command->flags & NODE_REDIRECTION)
-        {
+			exit(1);
 
-            if(command->flags & NODE_APPEND || command->flags & NODE_CREAT)
-            {
+		default: /* Father */
+			if(cmd != command)
+			{
+				close(r_fd[0]);
+				close(r_fd[1]);
+			}
 
-                close(fd[1]);
-                dup2(fd[0], STDIN_FILENO);
-                close(fd[0]);
+			if(command->next)
+			{
+				r_fd[0] = t_fd[0];
+				r_fd[1] = t_fd[1];
+			}
 
-            }
+			// When a "normal" command is called
+			if(!cmd->next && !(command->flags & NODE_ASYNC))
+			{
+				running_child.pid = pid;
+				running_child.state = JOB_RUNNING;
 
-            exec_command_redirection(command);
-            exit(0);
-        }
+				while(!WIFSIGNALED(status))
+				{
+					waitpid(pid, &status, WUNTRACED);
 
-        // First command when using NODE_PIPEs
-        else if(0 == i)
-        {
+					if(WIFSTOPPED(status))
+					{
+						running_child.state = JOB_STOPPED;
 
-            close(fd[0]);
-            dup2(fd[1], STDOUT_FILENO);
-            close(fd[1]);
+						command->flags = JOB_STOPPED;
+						command->pid = pid;
 
-        }
+						child_add(&list_child, command);
+						break;
+					}
 
-        // Rest of the command
-        else
-        {
+					if(WIFEXITED(status))
+					{
+						running_child.state = JOB_EXITED;
+						break;
+					}
+				}
 
-            close(fd[1]);
+				running_child.state = 0;
+				running_child.pid = 0;
+				return;
+			}
+			break;
+		}
+	}
 
-            dup2(fd[0], STDIN_FILENO);
-
-            if(command->next != NULL)
-                dup2(fd[1], STDOUT_FILENO);
-
-            close(fd[1]);
-            close(fd[0]);
-
-        }
-
-        if(execvp(command->command[0], command->command) != 0)
-            printf("RShell: Can't hear you!\n");
-
-        exit(1);
-
-    default: /* Father */
-
-        // When a "normal" command is called
-        if(0 == i && !command->next)
-        {
-
-			running_child.pid = pid;
-			running_child.state = JOB_RUNNING;
-
-            while(!WIFSIGNALED(status))
-            {
-
-                waitpid(pid, &status, WUNTRACED);
-
-                if(WIFSTOPPED(status))
-                {
-                    running_child.state = JOB_STOPPED;
-
-                    command->flags = JOB_STOPPED;
-					command->pid = pid;
-
-					child_add(&list_child, command);
-					break;
-                }
-
-                if(WIFEXITED(status))
-                {
-                    running_child.state = JOB_EXITED;
-					break;
-                }
-            }
-
-			running_child.state = 0;
-			running_child.pid = 0;
-			return;
-			   
-        }
-        break;
-    }
-
-    if(!(command->flags & NODE_ASYNC))
-        i++;
-
-    exec_command(command->next, i, fd);
-
+	close(t_fd[0]);
+	close(t_fd[1]);
+	close(r_fd[0]);
+	close(r_fd[1]);
 }
 
 void
@@ -266,18 +254,26 @@ exec_command_redirection(node_t *head)
     file_name = head->next;
     mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
 
-    if(head->flags & NODE_APPEND) file_fd = open(file_name->command[0], O_WRONLY | O_CREAT | O_APPEND, mode);
-    if(head->flags & NODE_CREAT ) file_fd = open(file_name->command[0], O_WRONLY | O_CREAT | O_TRUNC,  mode);
-    if(head->flags & NODE_READ  ) file_fd = open(file_name->command[0], O_RDONLY);
+    if(head->flags & NODE_APPEND)
+	{
+		file_fd = open(file_name->command[0],
+					   O_WRONLY | O_CREAT | O_APPEND, mode);
+        dup2(file_fd, STDOUT_FILENO);
+	}
 
-    if((head->flags & NODE_APPEND) || (head->flags & NODE_CREAT)) // Outputting
-        dup2(file_fd, STDOUT_FILENO);					// to file
+    else if(head->flags & NODE_CREAT)
+	{
+		file_fd = open(file_name->command[0],
+					   O_WRONLY | O_CREAT | O_TRUNC,  mode);
+        dup2(file_fd, STDOUT_FILENO);
+	}
 
-    else if(head->flags & NODE_READ)							// Reading
-        dup2(file_fd, STDIN_FILENO);					// from file
+    else if(head->flags & NODE_READ)
+	{
+		file_fd = open(file_name->command[0], O_RDONLY);
+        dup2(file_fd, STDIN_FILENO);
+	}
 
-    if(execvp(head->command[0], head->command) != 0)
-        printf("RShell: Can't hear you!\n");
-
-    close(file_fd);
+	if(execvp(head->command[0], head->command) != 0)
+		printf("RShell: Can't hear you!\n");
 }

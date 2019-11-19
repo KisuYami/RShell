@@ -13,6 +13,7 @@
 #include "parse.h"
 #include "jobs.h"
 #include "mem.h"
+#include "shell.h"
 
 struct
 {
@@ -78,7 +79,7 @@ int builtin_exit(node_t *head)
 		}
 
     }
-	return 0;
+	return 1;
 }
 
 int
@@ -104,7 +105,7 @@ builtin_fg(node_t *head)
                 return kill(pid, SIGCONT);
         }
     }
-	return 0;
+	return 1;
 }
 
 int
@@ -116,7 +117,7 @@ builtin_bg(node_t *head)
         if(child_ptr->pid > 0)
             printf("[ %s - %d ]\n", child_ptr->name, child_ptr->pid);
     }
-	return 0;
+	return 1;
 }
 
 int builtin_cd(node_t *head)
@@ -127,7 +128,7 @@ int builtin_cd(node_t *head)
 	else if(is_file(head->command[1]) == 1)
 		printf("RShell: %s isn't a folder or directory\n", head->command[1]);
 
-	return 0;
+	return 1;
 }
 
 int builtin_pwd(node_t *head)
@@ -136,7 +137,7 @@ int builtin_pwd(node_t *head)
     getcwd(buf, PATH_MAX);
 
     printf("%s\n", buf);
-	return 0;
+	return 1;
 }
 
 int builtin_calc(node_t *head)
@@ -158,14 +159,14 @@ int builtin_calc(node_t *head)
 	}
 
 	wait(NULL);
-	return 0;
+	return 1;
 }
 
 int builtin_clean(node_t *head)
 {
 	printf("\033[1J");
 	printf("\033[1H");
-	return 0;
+	return 1;
 }
 
 int builtin_set_env(node_t *head)
@@ -177,7 +178,7 @@ int builtin_set_env(node_t *head)
     }
 
 	setenv(head->command[1], head->command[2], 1);
-	return 0;
+	return 1;
 }
 
 int builtin_show_env(node_t *head)
@@ -196,5 +197,5 @@ int builtin_show_env(node_t *head)
     else
 		printf("%s: %s\n", head->command[1], env);
 
-	return 0;
+	return 1;
 }

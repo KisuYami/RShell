@@ -44,8 +44,8 @@ START:  child_chk();
         char *prompt = print_prompt();
 		char *command_str = readline(prompt);
 
-        if(*command_str)     add_history(command_str);
-        if(!(*command_str))  goto START; // Don't do anything with empty imput
+        if(*command_str) add_history(command_str);
+        else             goto START; // Don't do anything with empty imput
 
         node_t *list_head = parse_input(command_str);
 
@@ -56,7 +56,7 @@ START:  child_chk();
             goto START;
 
         if(exec_builtin(list_head) != 1)
-            exec_command(list_head, 0, (int[2]){0, 0});
+            exec_command(list_head);
 
         tcsetpgrp(STDIN_FILENO, getpgrp());
         setpgid(getpid(), tcgetpgrp(STDIN_FILENO));
@@ -113,7 +113,7 @@ get_user_opts(int argc, char *argv[])
             exec_builtin(list_head);
 
             if(!(list_head->flags & NODE_BUILTIN))
-                exec_command(list_head, 0, (int[2]){0, 0});
+                exec_command(list_head);
 
             clean_node_list(list_head);
             free(tmp_string);
