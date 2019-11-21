@@ -59,8 +59,8 @@ parse_input(char *command_string)
         if(list_ptr->flags != 0)
         {
             list_ptr->next = init_node_list();
-            list_ptr       = list_ptr->next;
 
+            list_ptr = list_ptr->next;
             token = strtok(NULL, INPUT_node_t_DELIMITER);
         }
 
@@ -110,7 +110,8 @@ parse_input(char *command_string)
 					return NULL;
                 }
 
-                strcpy(list_ptr->command[list_ptr->size++], parsed_expression.we_wordv[i]);
+                strcpy(list_ptr->command[list_ptr->size++],
+					   parsed_expression.we_wordv[i]);
             }
 
             wordfree(&parsed_expression);
@@ -133,8 +134,14 @@ get_type(char *token)
     case '<': return (NODE_REDIRECTION | NODE_READ);
 
     case '>':
-        if(strncmp(token, ">>", 2) == 0) return (NODE_APPEND | NODE_REDIRECTION);
-        else                             return (NODE_CREAT  | NODE_REDIRECTION);
+        if(strncmp(token, ">>", 2) == 0)
+			return (NODE_APPEND | NODE_REDIRECTION);
+
+        else if(strncmp(token, ">&", 2) == 0)
+			return (NODE_DUP | NODE_REDIRECTION);
+
+        else
+			return (NODE_CREAT  | NODE_REDIRECTION);
     }
     return NODE_NORMAL;
 }

@@ -132,7 +132,7 @@ exec_command(node_t *command)
 
 		case 0: /* Child */
 
-			if(cmd->flags & NODE_ASYNC)
+			if(cmd->flags & NODE_ASYNC || cmd->flags & NODE_DUP)
 			{
 				output_fd = open("/dev/null", O_WRONLY);
 				dup2(output_fd, STDOUT_FILENO);
@@ -141,21 +141,6 @@ exec_command(node_t *command)
 			}
 
 			// Readirection for simple commands
-			if(!(command->flags & NODE_PIPE) &&
-			   (cmd->flags & NODE_REDIRECTION))
-			{
-
-				if(cmd->flags & NODE_APPEND || cmd->flags & NODE_CREAT)
-				{
-					close(t_fd[1]);
-					dup2(t_fd[0], STDIN_FILENO);
-					close(t_fd[0]);
-				}
-
-				exec_command_redirection(cmd);
-				exit(0);
-			}
-
 			if(command->flags & NODE_PIPE)
 			{
 				if(cmd != command)
@@ -175,7 +160,12 @@ exec_command(node_t *command)
 
 			// Readirection for pipes
 			if(cmd->flags & NODE_REDIRECTION)
+			{
 				exec_command_redirection(cmd);
+
+				if(!(command->flags & NODE_PIPE))
+				   exit(0);
+			}
 
 			// Prepare command for simple execution
 			if(!command->next)
@@ -190,6 +180,7 @@ exec_command(node_t *command)
 			exit(1);
 
 		default: /* Father */
+
 			if(cmd != command)
 			{
 				close(r_fd[0]);
@@ -234,7 +225,9 @@ exec_command(node_t *command)
 				running_child.pid = 0;
 				return;
 			}
-			break;
+
+			if(cmd->flags & NODE_REDIRECTION)
+				return;
 		}
 	}
 
@@ -248,29 +241,26 @@ void
 exec_command_redirection(node_t *head)
 {
     int file_fd = 0;
-    node_t *file_name;
-    mode_t mode;
-
-    file_name = head->next;
-    mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
+    char *file_name = head->next->command[0];
+    mode_t mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
 
     if(head->flags & NODE_APPEND)
 	{
-		file_fd = open(file_name->command[0],
+		file_fd = open(file_name,
 					   O_WRONLY | O_CREAT | O_APPEND, mode);
         dup2(file_fd, STDOUT_FILENO);
 	}
 
     else if(head->flags & NODE_CREAT)
 	{
-		file_fd = open(file_name->command[0],
+		file_fd = open(file_name,
 					   O_WRONLY | O_CREAT | O_TRUNC,  mode);
         dup2(file_fd, STDOUT_FILENO);
 	}
 
     else if(head->flags & NODE_READ)
 	{
-		file_fd = open(file_name->command[0], O_RDONLY);
+		file_fd = open(file_name, O_RDONLY);
         dup2(file_fd, STDIN_FILENO);
 	}
 

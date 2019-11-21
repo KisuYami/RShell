@@ -9,12 +9,13 @@ enum
 {
 	NODE_NORMAL = 0,
     NODE_PIPE = 1,
-    NODE_READ = 2,
-    NODE_CREAT = 4,
-    NODE_ASYNC = 8,
-    NODE_APPEND = 16,
-    NODE_BUILTIN = 32,
-    NODE_REDIRECTION = 64,
+    NODE_DUP = 2,
+    NODE_READ = 4,
+    NODE_CREAT = 8,
+    NODE_ASYNC = 16,
+    NODE_APPEND = 32,
+    NODE_BUILTIN = 64,
+    NODE_REDIRECTION = 128,
 };
 
 struct node
