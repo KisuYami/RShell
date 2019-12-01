@@ -11,9 +11,6 @@
 #include "parse.h"
 #include "jobs.h"
 
-void *
-realloc_string(void *old_ptr, size_t new_size);
-
 void
 clean_node_list(node_t *list_head);
 
@@ -22,6 +19,9 @@ clean_child_list(job_t *list_head);
 
 node_t *
 init_node_list(void);
+
+int
+alloc_node_command(node_t *node, size_t offset, size_t ammount);
 
 void
 clean_everything(void);

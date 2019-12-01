@@ -44,5 +44,8 @@ void
 child_chk(void);
 
 void
+child_running(pid_t pid, node_t *command, job_t *child);
+
+void
 signal_handler(int sig);
 #endif /* ifndef JOBS_HEADER */

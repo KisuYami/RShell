@@ -28,101 +28,81 @@ set_history_file(void)
 	else
 		strcpy(rshell_hist_file, getenv("RSHELL_HISTORY_FILE"));
 
-    using_history();
-    stifle_history(1000);
-    read_history(rshell_hist_file);
+	using_history();
+	stifle_history(1000);
+	read_history(rshell_hist_file);
 }
 
 char *
 print_prompt(void)
 {
-    size_t size;
+	char *ps1    = getenv("RSHELL_PROMPT");
+	char *prompt = malloc(sizeof(char) * PATH_MAX * 2);
+	char  pwd[PATH_MAX+1];
 
-	char *home      = NULL;
-    char *prompt	= NULL;
-	char *ps1       = NULL;
-    char  pwd[PATH_MAX+1];
+	prompt[0] = '\0';
+	getcwd(pwd, PATH_MAX+1);
 
-    getcwd(pwd, PATH_MAX+1);
-
-	ps1    = getenv("RSHELL_PROMPT");
-    prompt = malloc(sizeof(char) * PATH_MAX * 2);
-	memset(prompt, 0, sizeof(char) * PATH_MAX * 2);
-
-	/*************************************************************************
-
-    D is debug mode
-
-    u adds the user name
-    d adds the current path
-
-    ************************************************************************/
-
-	if(ps1 != NULL)
+	if(ps1 == NULL)
 	{
-
-		for(; *ps1 != '\0'; ps1++)
-		{
-			if(*ps1 == '%')
-			{
-				ps1++;
-
-				if(*ps1 == '\0') strcat(prompt, "%");
-
-				else if(*ps1 == ' ')
-				{
-				    strcat(prompt, "%");
-					strcat(prompt, " ");
-				}
-
-				else if(*ps1 == 'D')
-				{
-					sprintf(prompt, "[ DEBUG ] $ ");
-					break;
-				}
-
-				else if(*ps1 == 'u') strcat(prompt, getenv("USER"));
-
-				else if(*ps1 == 'd') {
-
-					home   = getenv("HOME");
-					size   = strlen(home);
-
-					if(strncmp(pwd, home, size) == 0) {
-
-						strcat(prompt, "~");
-						strcat(prompt, pwd+size);
-
-					} else
-						strcat(prompt, pwd);
-
-				}
-			} else {
-				strncat(prompt, ps1, 1);
-			}
-
-		}
-
-	} else {
-
 		strcpy(prompt, " % ");
+		return prompt;
+	}
+
+	for(; *ps1 != '\0'; ps1++)
+	{
+		if(*ps1 == '%')
+		{
+			switch (ps1[1]) {
+			case 'D':
+				sprintf(prompt, "[ DEBUG ] $ ");
+				ps1++;
+				break;
+
+			case 'u':
+				strcat(prompt, getenv("USER"));
+				ps1++;
+				break;
+
+			case 'd':
+			{
+				char  *home = getenv("HOME");
+				size_t size = strlen(home);
+
+				if(strncmp(pwd, home, size) == 0)
+				{
+					strcat(prompt, "~");
+					strcat(prompt, pwd+size);
+				}
+				else
+					strcat(prompt, pwd);
+
+				ps1++;
+				break;
+			}
+			default:
+				strncat(prompt, ps1, 1);
+				break;
+			}
+		}
+		else
+			strncat(prompt, ps1, 1);
 
 	}
 
-    return prompt;
+	return prompt;
 }
 
 void
 exec_command(node_t *command)
 {
-	pid_t pid;
-	int status = 0, output_fd = 0;
+	pid_t pid = 0;
 	int t_fd[2], r_fd[2];
 
 	for(node_t *cmd = command; cmd; cmd = cmd->next)
 	{
 		if(cmd->next)
-            pipe(t_fd);
+			pipe(t_fd);
 
 		switch(pid = fork())
 		{
@@ -132,16 +112,16 @@ exec_command(node_t *command)
 
 		case 0: /* Child */
 
-			if(cmd->flags & NODE_ASYNC || cmd->flags & NODE_DUP)
+			if(cmd->flags & NODE_EXEC_ASYNC || cmd->flags & NODE_REDIRECTION_DUP)
 			{
-				output_fd = open("/dev/null", O_WRONLY);
+				int output_fd = open("/dev/null", O_WRONLY);
 				dup2(output_fd, STDOUT_FILENO);
 
 				close(output_fd);
 			}
 
 			// Readirection for simple commands
-			if(command->flags & NODE_PIPE)
+			if(command->flags & NODE_REDIRECTION_PIPE)
 			{
 				if(cmd != command)
 				{
@@ -160,12 +140,7 @@ exec_command(node_t *command)
 
 			// Readirection for pipes
 			if(cmd->flags & NODE_REDIRECTION)
-			{
 				exec_command_redirection(cmd);
-
-				if(!(command->flags & NODE_PIPE))
-				   exit(0);
-			}
 
 			// Prepare command for simple execution
 			if(!command->next)
@@ -194,35 +169,9 @@ exec_command(node_t *command)
 			}
 
 			// When a "normal" command is called
-			if(!cmd->next && !(command->flags & NODE_ASYNC))
+			if(!cmd->next && !(command->flags & NODE_EXEC_ASYNC))
 			{
-				running_child.pid = pid;
-				running_child.state = JOB_RUNNING;
-
-				while(!WIFSIGNALED(status))
-				{
-					waitpid(pid, &status, WUNTRACED);
-
-					if(WIFSTOPPED(status))
-					{
-						running_child.state = JOB_STOPPED;
-
-						command->flags = JOB_STOPPED;
-						command->pid = pid;
-
-						child_add(&list_child, command);
-						break;
-					}
-
-					if(WIFEXITED(status))
-					{
-						running_child.state = JOB_EXITED;
-						break;
-					}
-				}
-
-				running_child.state = 0;
-				running_child.pid = 0;
+				child_running(pid, command, NULL);
 				return;
 			}
 
@@ -240,30 +189,34 @@ exec_command(node_t *command)
 void
 exec_command_redirection(node_t *head)
 {
-    int file_fd = 0;
-    char *file_name = head->next->command[0];
-    mode_t mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
+	int    file_fd = 0;
+	char  *file_name = head->next->command[0];
+	mode_t mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
 
-    if(head->flags & NODE_APPEND)
+	if(head->flags & NODE_REDIRECTION_APPEND)
 	{
 		file_fd = open(file_name,
-					   O_WRONLY | O_CREAT | O_APPEND, mode);
-        dup2(file_fd, STDOUT_FILENO);
+			       O_WRONLY | O_CREAT | O_APPEND, mode);
+		dup2(file_fd, STDOUT_FILENO);
 	}
 
-    else if(head->flags & NODE_CREAT)
+	else if(head->flags & NODE_REDIRECTION_CREAT)
 	{
 		file_fd = open(file_name,
-					   O_WRONLY | O_CREAT | O_TRUNC,  mode);
-        dup2(file_fd, STDOUT_FILENO);
+			       O_WRONLY | O_CREAT | O_TRUNC,  mode);
+		dup2(file_fd, STDOUT_FILENO);
 	}
 
-    else if(head->flags & NODE_READ)
+	else if(head->flags & NODE_REDIRECTION_READ)
 	{
 		file_fd = open(file_name, O_RDONLY);
-        dup2(file_fd, STDIN_FILENO);
+		dup2(file_fd, STDIN_FILENO);
 	}
+
+	close(file_fd);
 
 	if(execvp(head->command[0], head->command) != 0)
 		printf("RShell: Can't hear you!\n");
+
+	exit(1);
 }

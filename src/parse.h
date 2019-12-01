@@ -8,24 +8,30 @@
 enum
 {
 	NODE_NORMAL = 0,
-    NODE_PIPE = 1,
-    NODE_DUP = 2,
-    NODE_READ = 4,
-    NODE_CREAT = 8,
-    NODE_ASYNC = 16,
-    NODE_APPEND = 32,
-    NODE_BUILTIN = 64,
-    NODE_REDIRECTION = 128,
+
+	NODE_EXEC_LIST    = 1,
+	NODE_EXEC_ASYNC   = 2,
+	NODE_EXEC_BUILTIN = 4,
+
+	NODE_REDIRECTION        = 8,
+	NODE_REDIRECTION_IN     = 16,
+	NODE_REDIRECTION_OUT    = 32,
+	NODE_REDIRECTION_ERR    = 64,
+	NODE_REDIRECTION_DUP    = 128,
+	NODE_REDIRECTION_PIPE   = 256,
+	NODE_REDIRECTION_READ   = 512,
+	NODE_REDIRECTION_CREAT  = 1024,
+	NODE_REDIRECTION_APPEND = 2048,
 };
 
 struct node
 {
-    pid_t pid;
-    int flags;
+	pid_t pid;
+	int flags;
 
-    size_t size;
-    char *command[50];
-    struct node *next;
+	size_t size;
+	char *command[50];
+	struct node *next;
 };
 
 typedef struct node node_t;

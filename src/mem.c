@@ -11,87 +11,66 @@
 node_t *
 init_node_list()
 {
-    node_t *list;
+	node_t *list;
 
-    list = malloc(sizeof(node_t));
+	list = malloc(sizeof(node_t));
 
-    if(!list)
-    {
-        printf("RShell: Failed to allocate memory\n");
-        return NULL;
-    }
+	if(!list)
+	{
+		printf("RShell: Failed to allocate memory\n");
+		return NULL;
+	}
 
-    *list = (node_t)
-        {
-            .next  = NULL,
-            .size  = 0,
-            .flags = 0,
-        };
+	*list = (node_t)
+		{
+			.next  = NULL,
+			.size  = 0,
+			.flags = 0,
+		};
 
-    return list;
-}
-
-
-void *
-realloc_string(void *old_ptr, size_t new_size)
-{
-    void *new_ptr = NULL;
-
-    new_ptr = realloc(old_ptr, new_size);
-
-    if(new_ptr == NULL)
-    {
-        printf("RShell: Failed to allocate memory\n");
-        free(old_ptr);
-        return NULL;
-    }
-
-    return new_ptr;
+	return list;
 }
 
 void
 clean_node_list(node_t *list_head)
 {
+	node_t *list_ptr = NULL, *list_tmp = NULL;
+	unsigned int i;
 
-    node_t *list_ptr = NULL, *list_tmp = NULL;
-    unsigned int i;
+	list_ptr = list_head;
 
-    list_ptr = list_head;
+	while(list_ptr != NULL)
+	{
+		for(i = 0; i <= list_ptr->size; ++i)
+			free(list_ptr->command[i]);
 
-    while(list_ptr != NULL)
-    {
-
-        for(i = 0; i <= list_ptr->size; ++i)
-            free(list_ptr->command[i]);
-
-        list_tmp = list_ptr->next;
-        free(list_ptr);
-        list_ptr = list_tmp;
-
-    }
+		list_tmp = list_ptr->next;
+		free(list_ptr);
+		list_ptr = list_tmp;
+	}
 }
 
 void
 clean_child_list(job_t *list_head)
 {
-    job_t *list_ptr, *list_tmp;
+	job_t *list_ptr, *list_tmp;
 
-    list_ptr = list_head->next;
+	list_ptr = list_head->next;
 
-    while(list_ptr)
-    {
-        list_tmp = list_ptr;
-        list_ptr = list_ptr->next;
-        free(list_tmp);
-    }
+	while(list_ptr)
+	{
+		list_tmp = list_ptr;
+		list_ptr = list_ptr->next;
+		free(list_tmp);
+	}
 }
 
 
 void
 clean_everything(void)
 {
-    clean_child_list(&list_child);
-    clean_child_list(&running_child);
-    write_history(rshell_hist_file);
-    return;
+	clean_child_list(&list_child);
+	clean_child_list(&running_child);
+	write_history(rshell_hist_file);
+	return;
 }
