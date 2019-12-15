@@ -33,7 +33,6 @@ child_add(job_t *list_head, node_t *head)
 
 		else if(child_ptr->next == NULL)
 		{
-
 			child_ptr->next = malloc(sizeof(job_t));
 			child_ptr = child_ptr->next;
 

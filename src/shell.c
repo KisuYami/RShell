@@ -1,3 +1,5 @@
+#include <asm-generic/errno-base.h>
+#include <errno.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <sys/wait.h>
@@ -54,11 +56,14 @@ print_prompt(void)
 		if(*ps1 == '%')
 		{
 			switch (ps1[1]) {
-			case 'D':
-				sprintf(prompt, "[ DEBUG ] $ ");
+			case 'h':
+			{
+				char tmp[1024];
+				gethostname(tmp, 1024);
+				strcat(prompt, tmp);
 				ps1++;
 				break;
-
+			}
 			case 'u':
 				strcat(prompt, getenv("USER"));
 				ps1++;
@@ -76,6 +81,21 @@ print_prompt(void)
 				}
 				else
 					strcat(prompt, pwd);
+
+				ps1++;
+				break;
+			}
+
+			case 'D':
+			{
+				char  *home = getenv("HOME");
+				size_t size = strlen(home);
+
+				if(strncmp(pwd, home, size) == 0 &&
+				   strlen(pwd) == size)
+					strcat(prompt, "~");
+				else
+					strcat(prompt, strrchr(pwd, '/')+1);
 
 				ps1++;
 				break;
@@ -111,6 +131,8 @@ exec_command(node_t *command)
 			break;
 
 		case 0: /* Child */
+
+			errno = 0;
 
 			if(cmd->flags & NODE_EXEC_ASYNC || cmd->flags & NODE_REDIRECTION_DUP)
 			{
@@ -150,7 +172,14 @@ exec_command(node_t *command)
 			}
 
 			if(execvp(cmd->command[0], cmd->command) != 0)
-				printf("RShell: Can't hear you!\n");
+			{
+				if(errno == ENOENT)
+					printf("RShell: Program don't exist\n");
+				else if(errno == EACCES)
+					printf("RShell: Unable to execute file\n");
+				else
+					printf("RShell: Can't hear you!\n");
+			}
 
 			exit(1);
 

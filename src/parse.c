@@ -9,14 +9,12 @@
 node_t *
 parse_input(char *command_string)
 {
+	if(*command_string == '&')
+			return NULL;
 
 	node_t *list_head = init_node_list();
 	node_t *list_ptr  = list_head;
-
-	if(!list_head)
-		return NULL;
-
-	char *token = strtok(command_string, INPUT_node_t_DELIMITER);
+	char   *token     = strtok(command_string, INPUT_node_t_DELIMITER);
 
 	while(token)
 	{
@@ -29,12 +27,6 @@ parse_input(char *command_string)
 		s = strchr(token, '\"');
 		if(s && s != token && s == strrchr(token, '\"'))
 			strcat(token, "\"");
-
-		if((list_ptr->flags & NODE_EXEC_ASYNC) && list_ptr->size == 0)
-		{
-			clean_node_list(list_head);
-			return NULL;
-		}
 
 		if(list_ptr->flags != 0)
 		{
@@ -51,29 +43,21 @@ parse_input(char *command_string)
 			if((token[0] == '\'' || token[0] == '\"') &&
 			   (strlen(token) == 1 || token[strlen(token)-1] != token[0]))
 			{
-				char parse[] = {*token , '\0'};
-				char *tmp_string = calloc(1024, sizeof(char));
+				char parse[] = {*token , '\0'}; // delimiter: "\'\0" or "\"\0"
+				char tmp_string[1024];
 
 				strcpy(tmp_string, token);
 				strcat(tmp_string, " ");
 
 				token = strtok(NULL, parse);
 
-				if(!token)
-				{
-					strcat(tmp_string, &parse[0]);
-					tmp_string[strlen(tmp_string)] = '\0';
-				}
-
-				else
-				{
+				if(token)
 					strcat(tmp_string, token);
-					strcat(tmp_string, &parse[0]);
-					tmp_string[strlen(tmp_string)] = '\0';
-				}
+
+				strcat(tmp_string, &parse[0]);
+				tmp_string[strlen(tmp_string)] = '\0';
 
 				wordexp(tmp_string, &parsed_expression, 0);
-				free(tmp_string);
 			}
 
 			else

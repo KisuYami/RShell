@@ -31,7 +31,7 @@ init_node_list()
 	return list;
 }
 
-void
+void *
 clean_node_list(node_t *list_head)
 {
 	node_t *list_ptr = NULL, *list_tmp = NULL;
@@ -48,6 +48,8 @@ clean_node_list(node_t *list_head)
 		free(list_ptr);
 		list_ptr = list_tmp;
 	}
+
+	return NULL;
 }
 
 void

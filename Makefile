@@ -22,11 +22,7 @@ else
 endif
 
 install: $(BUILD_DIR)/$(TARGET_EXEC)
-	mkdir -p ${DESTDIR}/usr/bin/
-	mkdir -p ${DESTDIR}/usr/share/man/man1/
-	mkdir -p ${DESTDIR}/usr/share/man/pt_BR/man1/
-
-	cp $(BUILD_DIR)/$(TARGET_EXEC) ${DESTDIR}/usr/bin/
+	install $(BUILD_DIR)/$(TARGET_EXEC) ${DESTDIR}/usr/bin/
 	cp man/rshell.1 ${DESTDIR}/usr/share/man/man1/
 	cp man/pt_BR/rshell.1 ${DESTDIR}/usr/share/man/pt_BR/man1/
 

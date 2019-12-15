@@ -11,7 +11,7 @@
 #include "parse.h"
 #include "jobs.h"
 
-void
+void *
 clean_node_list(node_t *list_head);
 
 void
