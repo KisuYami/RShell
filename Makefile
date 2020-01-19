@@ -22,9 +22,16 @@ else
 endif
 
 install: $(BUILD_DIR)/$(TARGET_EXEC)
-	install $(BUILD_DIR)/$(TARGET_EXEC) ${DESTDIR}/usr/bin/
-	cp man/rshell.1 ${DESTDIR}/usr/share/man/man1/
-	cp man/pt_BR/rshell.1 ${DESTDIR}/usr/share/man/pt_BR/man1/
+	install -Dm644 $(BUILD_DIR)/$(TARGET_EXEC) ${DESTDIR}/usr/bin/
+	install -Dm644 man/rshell.1 ${DESTDIR}/usr/share/man/man1/
+	install -Dm644 man/pt_BR/rshell.1 ${DESTDIR}/usr/share/man/pt_BR/man1/
+
+pkg:
+	makepkg
 
 clean:
 	$(RM) -r $(BUILD_DIR)
+	$(RM) -r pkg
+	$(RM) -r RShell
+	$(RM) -r src/RShell
+	$(RM) -r *.pkg.*

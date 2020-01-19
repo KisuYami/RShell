@@ -11,6 +11,10 @@
 #define MAX_INPUT_SIZE 50
 #define MAX_node_t_NUMBER 10
 
+#define MODE_PERMISSIONS S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH
+#define MODE_APPEND O_WRONLY | O_CREAT | O_APPEND
+#define MODE_CREATE O_WRONLY | O_CREAT | O_TRUNC
+
 #include <stddef.h>
 #include <termios.h>
 

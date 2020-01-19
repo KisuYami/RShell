@@ -132,15 +132,8 @@ exec_command(node_t *command)
 
 		case 0: /* Child */
 
+			// Reset so the shell can point the problem
 			errno = 0;
-
-			if(cmd->flags & NODE_EXEC_ASYNC || cmd->flags & NODE_REDIRECTION_DUP)
-			{
-				int output_fd = open("/dev/null", O_WRONLY);
-				dup2(output_fd, STDOUT_FILENO);
-
-				close(output_fd);
-			}
 
 			// Readirection for simple commands
 			if(command->flags & NODE_REDIRECTION_PIPE)
@@ -161,7 +154,7 @@ exec_command(node_t *command)
 			}
 
 			// Readirection for pipes
-			if(cmd->flags & NODE_REDIRECTION)
+			if(cmd->flags & NODE_REDIRECTION || cmd->flags & NODE_EXEC_ASYNC)
 				exec_command_redirection(cmd);
 
 			// Prepare command for simple execution
@@ -171,12 +164,14 @@ exec_command(node_t *command)
 				tcsetpgrp(STDIN_FILENO, getpgrp());
 			}
 
-			if(execvp(cmd->command[0], cmd->command) != 0)
+			execvp(cmd->command[0], cmd->command);
+
+			if(errno != 0)
 			{
 				if(errno == ENOENT)
 					printf("RShell: Program don't exist\n");
 				else if(errno == EACCES)
-					printf("RShell: Unable to execute file\n");
+					printf("RShell: Can't execute command\n");
 				else
 					printf("RShell: Can't hear you!\n");
 			}
@@ -209,6 +204,7 @@ exec_command(node_t *command)
 		}
 	}
 
+	// The only reason the execution gets here is because of a pipeline
 	close(t_fd[0]);
 	close(t_fd[1]);
 	close(r_fd[0]);
@@ -218,21 +214,18 @@ exec_command(node_t *command)
 void
 exec_command_redirection(node_t *head)
 {
-	int    file_fd = 0;
-	char  *file_name = head->next->command[0];
-	mode_t mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
+	int   file_fd = 0;
+	char *file_name = head->next->command[0];
 
 	if(head->flags & NODE_REDIRECTION_APPEND)
 	{
-		file_fd = open(file_name,
-			       O_WRONLY | O_CREAT | O_APPEND, mode);
+		file_fd = open(file_name, MODE_APPEND, MODE_PERMISSIONS);
 		dup2(file_fd, STDOUT_FILENO);
 	}
 
 	else if(head->flags & NODE_REDIRECTION_CREAT)
 	{
-		file_fd = open(file_name,
-			       O_WRONLY | O_CREAT | O_TRUNC,  mode);
+		file_fd = open(file_name, MODE_CREATE, MODE_PERMISSIONS);
 		dup2(file_fd, STDOUT_FILENO);
 	}
 
@@ -242,10 +235,17 @@ exec_command_redirection(node_t *head)
 		dup2(file_fd, STDIN_FILENO);
 	}
 
+	else if(head->flags & NODE_EXEC_ASYNC ||
+		head->flags & NODE_REDIRECTION_DUP)
+	{
+		file_fd = open("/dev/null", O_WRONLY);
+		dup2(file_fd, STDOUT_FILENO);
+	}
+
 	close(file_fd);
 
-	if(execvp(head->command[0], head->command) != 0)
-		printf("RShell: Can't hear you!\n");
+	errno = 0;
 
+	execvp(head->command[0], head->command);
 	exit(1);
 }

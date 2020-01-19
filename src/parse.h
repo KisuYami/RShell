@@ -3,7 +3,7 @@
 
 #include <stddef.h>
 
-#define INPUT_node_t_DELIMITER " \t\r\t\b\0"
+#define INPUT_NODE_T_DELIMITER " \t\r\t\b\0"
 
 enum
 {
@@ -39,10 +39,10 @@ typedef struct node node_t;
 node_t *
 parse_input(char *command_string);
 
-int
-get_type(char *token);
+void
+escape_char(char *string, char escape);
 
 int
-check_string(char *string);
+get_type(char *token);
 
 #endif /* PARSE_H */
