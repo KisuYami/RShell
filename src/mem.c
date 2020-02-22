@@ -11,9 +11,7 @@
 node_t *
 init_node_list()
 {
-	node_t *list;
-
-	list = malloc(sizeof(node_t));
+	node_t *list = malloc(sizeof(node_t));
 
 	if(!list)
 	{
@@ -21,12 +19,11 @@ init_node_list()
 		return NULL;
 	}
 
-	*list = (node_t)
-		{
-			.next  = NULL,
-			.size  = 0,
-			.flags = 0,
-		};
+	*list = (node_t) {
+		.next  = NULL,
+		.size  = 0,
+		.flags = 0,
+	};
 
 	return list;
 }
@@ -41,10 +38,11 @@ clean_node_list(node_t *list_head)
 
 	while(list_ptr != NULL)
 	{
-		for(i = 0; i <= list_ptr->size; ++i)
+		for(i = 0; i < list_ptr->size; ++i)
 			free(list_ptr->command[i]);
 
 		list_tmp = list_ptr->next;
+		free(list_ptr->command);
 		free(list_ptr);
 		list_ptr = list_tmp;
 	}

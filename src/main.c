@@ -101,7 +101,7 @@ get_user_opts(int argc, char *argv[])
 
 		case 'c':
 		{
-			char *tmp_string = calloc(1024, sizeof(char));
+			char *tmp_string = calloc(1024*optind-1, sizeof(char));
 
 			for(int i = optind - 1; i < argc; ++i)
 			{
@@ -110,7 +110,6 @@ get_user_opts(int argc, char *argv[])
 			}
 
 			node_t *list_head = parse_input(tmp_string);
-			exec_builtin(list_head);
 
 			if(exec_builtin(list_head) != 1)
 				exec_command(list_head);

@@ -5,6 +5,7 @@
 
 #include "parse.h"
 #include "mem.h"
+#include "err.h"
 
 node_t *
 parse_input(char *command_string)
@@ -16,12 +17,15 @@ parse_input(char *command_string)
 	node_t	 *list_ptr  = list_head;
 	wordexp_t parsed_expression;
 
-	escape_char(command_string, '|');
-	escape_char(command_string, '>');
-	escape_char(command_string, '<');
-	escape_char(command_string, '&');
+	char *string_buffer = malloc(strlen(command_string) * 2);
+	strcpy(string_buffer, command_string);
 
-	switch(wordexp(command_string, &parsed_expression, 0))
+	escape_char(string_buffer, '|');
+	escape_char(string_buffer, '>');
+	escape_char(string_buffer, '<');
+	escape_char(string_buffer, '&');
+
+	switch(wordexp(string_buffer, &parsed_expression, 0))
 	{
 	case WRDE_BADCHAR:
 		printf("RShell: Illegal occurrence of <, >, (, ), {, }\n");
@@ -35,6 +39,9 @@ parse_input(char *command_string)
 
 	default:
 
+		list_ptr->command = calloc(parsed_expression.we_wordc+1,
+					   sizeof(char **));
+
 		for(size_t i = 0; i < parsed_expression.we_wordc; ++i)
 		{
 			list_ptr->flags = get_type(parsed_expression.we_wordv[i]);
@@ -43,11 +50,16 @@ parse_input(char *command_string)
 			{
 				list_ptr->next = init_node_list();
 				list_ptr = list_ptr->next;
+				list_ptr->command =
+					calloc(parsed_expression.we_wordc,
+					       sizeof(char **));
 			}
 
 			else
 			{
-				list_ptr->command[list_ptr->size] = malloc(1024);
+				list_ptr->command[list_ptr->size] =
+					calloc(1024, sizeof(char));
+
 				strcpy(list_ptr->command[list_ptr->size++],
 				       parsed_expression.we_wordv[i]);
 			}
@@ -55,6 +67,8 @@ parse_input(char *command_string)
 
 		wordfree(&parsed_expression);
 	}
+
+	free(string_buffer);
 
 	return list_head;
 }

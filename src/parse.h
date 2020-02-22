@@ -30,7 +30,7 @@ struct node
 	int flags;
 
 	size_t size;
-	char *command[50];
+	char **command;
 	struct node *next;
 };
 

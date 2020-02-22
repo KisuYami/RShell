@@ -25,6 +25,7 @@ install: $(BUILD_DIR)/$(TARGET_EXEC)
 	install -Dm644 $(BUILD_DIR)/$(TARGET_EXEC) ${DESTDIR}/usr/bin/
 	install -Dm644 man/rshell.1 ${DESTDIR}/usr/share/man/man1/
 	install -Dm644 man/pt_BR/rshell.1 ${DESTDIR}/usr/share/man/pt_BR/man1/
+	chmod +x ${DESTDIR}/usr/bin/${TARGET_EXEC}
 
 pkg:
 	makepkg
