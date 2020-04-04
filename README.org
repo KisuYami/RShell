@@ -1,5 +1,13 @@
 * RShell
 This shell aims to be minimal as possible.
+
+[[https://github.com/KisuYami/rshell/releases/tag/v2.1][https://img.shields.io/badge/version-v2.1-green.svg]]
+[[https://github.com/KisuYami/rshell/issues][https://img.shields.io/github/issues/KisuYami/RShell.svg]]
+[[https://github.com/KisuYami/rshell/graphs/commit-activity][https://img.shields.io/github/commit-activity/m/KisuYami/RShell.svg]]
+[[https://github.com/KisuYami/rshell/graphs/contributors][https://img.shields.io/github/contributors/KisuYami/RShell.svg]]
+[[https://img.shields.io/badge/dependencies-ncurses,readline-blue.svg]]
+[[https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html][https://img.shields.io/badge/license-GPL%20v2-blue.svg]]
+
 ** Install
 *** General approuch
 #+BEGIN_SRC sh
