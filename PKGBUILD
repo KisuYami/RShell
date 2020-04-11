@@ -1,8 +1,8 @@
 # Maintainer: Reberti Carvalho Soares <6reberti6@gmail.com>
 pkgname=RShell
-pkgver=2.0
-pkgrel=4
-epoch=1
+pkgver=git
+pkgrel=1
+#epoch=1
 pkgdesc="KisuYami own shell."
 arch=('i686' 'x86_64')
 url='www.github.com/KisuYami/RShell'

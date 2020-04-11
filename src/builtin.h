@@ -2,16 +2,15 @@
 #define NODE_BUILTIN_HEADER
 
 /******************************************************************************
-* File:             builtin.h
-* Author:           Reberti Carvalho Soares
-* Created:          09/05/19
-* Description:      Shell built-in commands.
-*****************************************************************************/
+ * File:             builtin.h
+ * Author:           Reberti Carvalho Soares
+ * Created:          09/05/19
+ * Description:      Shell built-in commands.
+ *****************************************************************************/
 
 #include "parse.h"
 
 int exec_builtin(node_t *head);
-int is_file(char *path);
 
 int builtin_exit(node_t *head);
 int builtin_bg(node_t *head);

@@ -2,11 +2,11 @@
 #define SHELL_HEADER
 
 /******************************************************************************
-* File:             shell.h
-* Author:           Reberti Carvalho Soares
-* Created:          09/03/19
-* Description:      User input handling.
-*****************************************************************************/
+ * File:             shell.h
+ * Author:           Reberti Carvalho Soares
+ * Created:          09/03/19
+ * Description:      User input handling.
+ *****************************************************************************/
 
 #define MAX_INPUT_SIZE 50
 #define MAX_node_t_NUMBER 10
@@ -20,15 +20,11 @@
 
 #include "parse.h"
 
-void
-set_history_file(void);
+void set_history_file(void);
 
-char *
-print_prompt(void);
+char *print_prompt(void);
 
-void
-exec_command(node_t *command);
+void exec_command(node_t *command);
 
-void
-exec_command_redirection(node_t *);
+void exec_command_redirection(node_t *);
 #endif /* SHELL_HEADER */
