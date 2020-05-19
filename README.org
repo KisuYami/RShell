@@ -1,3 +1,5 @@
+moved to https://gitlab.com/KisuYami/RShell
+
 * RShell
 This shell aims to be minimal as possible.
 
